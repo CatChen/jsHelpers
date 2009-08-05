@@ -1,0 +1,54 @@
+8
+
+dir
+20929
+http://fe.baidu.com/repos/projects/ngjs/samples/mvc
+http://fe.baidu.com/repos
+
+
+
+2009-06-26T03:42:04.491157Z
+18233
+
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+01db0846-df26-4232-8c27-33e78907c97d
+
+01-hello-yourname.html
+file
+
+
+
+
+2009-06-18T09:21:54.000000Z
+fbb28c75d98c8c8ac84ccf324573602a
+2009-06-26T03:42:04.491157Z
+18233
+
+has-props
+
+00-hello-world.html
+file
+
+
+
+
+2009-06-18T09:18:26.000000Z
+488759dd5181ef1648c8665f612044e4
+2009-06-26T03:42:04.491157Z
+18233
+
+has-props
+

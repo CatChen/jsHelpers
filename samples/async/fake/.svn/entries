@@ -1,0 +1,54 @@
+8
+
+dir
+20929
+http://fe.baidu.com/repos/projects/ngjs/samples/async/fake
+http://fe.baidu.com/repos
+
+
+
+2009-06-26T03:42:04.491157Z
+18233
+
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+01db0846-df26-4232-8c27-33e78907c97d
+
+next-json.js
+file
+
+
+
+
+2009-06-12T07:54:36.000000Z
+595c4789e50281e5b839a06d56a64354
+2009-06-26T03:42:04.491157Z
+18233
+
+has-props
+
+json.js
+file
+
+
+
+
+2009-06-12T07:58:41.000000Z
+30f69fd41dbb0ce98a53e07bf39070be
+2009-06-26T03:42:04.491157Z
+18233
+
+has-props
+
