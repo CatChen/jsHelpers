@@ -122,12 +122,12 @@ function testGrandCentral() {
 		expect(2);
 		
 		ok(GrandCentral.Operators[""](
-			{ test: "test string", value: argument },
-			{ test: "test string" }), "eq selected for non-Array");
+			{ test: "test string" },
+			{ test: "test string", value: argument }), "eq selected for non-Array");
 		
 		ok(GrandCentral.Operators[""](
-			{ test: 1, value: argument },
-			{ test: [0, 1, 2] }), "in selected for Array");
+			{ test: [0, 1, 2] },
+			{ test: 1, value: argument }), "in selected for Array");
 		
 	});
 	
@@ -135,205 +135,213 @@ function testGrandCentral() {
 		expect(10);
 		
 		ok(GrandCentral.Operators[""](
-			{ test: "test string", value: argument },
-			{ test$eq: "test string" }), "passed string test");
+			{ test$eq: "test string" },
+			{ test: "test string", value: argument }), "passed string test");
 		ok(!GrandCentral.Operators[""](
-			{ test: "not test string", value: argument },
-			{ test$eq: "test string" }), "passed string test");
+			{ test$eq: "test string" },
+			{ test: "not test string", value: argument }), "passed string test");
 		ok(GrandCentral.Operators[""](
-			{ test: 42, value: argument },
-			{ test$eq: 42 }), "passed number test");
+			{ test$eq: 42 },
+			{ test: 42, value: argument }), "passed number test");
 		ok(!GrandCentral.Operators[""](
-			{ test: 24, value: argument },
-			{ test$eq: 42 }), "passed number test");
+			{ test$eq: 42 },
+			{ test: 24, value: argument }), "passed number test");
 		ok(GrandCentral.Operators[""](
-			{ test: true, value: argument },
-			{ test$eq: true }), "passed boolean test");
+			{ test$eq: true },
+			{ test: true, value: argument }), "passed boolean test");
 		ok(!GrandCentral.Operators[""](
-			{ test: false, value: argument },
-			{ test$eq: true }), "passed boolean test");
+			{ test$eq: true },
+			{ test: false, value: argument }), "passed boolean test");
 		ok(GrandCentral.Operators[""](
-			{ test: ["test string", 42, true], value: argument },
-			{ test$eq: ["test string", 42, true] }), "passed array test");
+			{ test$eq: ["test string", 42, true] },
+			{ test: ["test string", 42, true], value: argument }), "passed array test");
 		ok(!GrandCentral.Operators[""](
-			{ test: ["test string", 42, true], value: argument },
-			{ test$eq: ["test string", 42, false] }), "passed array test");
+			{ test$eq: ["test string", 42, false] },
+			{ test: ["test string", 42, true], value: argument }), "passed array test");
 		ok(GrandCentral.Operators[""](
-			{ test: { test: ["test string", 42, true] }, value: argument },
-			{ test$eq: { test$eq: ["test string", 42, true] } }), "passed object test");
+			{ test$eq: { test$eq: ["test string", 42, true] } },
+			{ test: { test: ["test string", 42, true] }, value: argument }), "passed object test");
 		ok(!GrandCentral.Operators[""](
-			{ test: { test: ["test string", 42, true] }, value: argument },
-			{ test$eq: { test$eq: ["test string", 42, false] } }), "passed object test");
+			{ test$eq: { test$eq: ["test string", 42, false] } },
+			{ test: { test: ["test string", 42, true] }, value: argument }), "passed object test");
 	});
 	
 	test("ne operator", function() {
 		expect(10);
 		
 		ok(!GrandCentral.Operators[""](
-			{ test: "test string", value: argument },
-			{ test$ne: "test string" }), "passed string test");
+			{ test$ne: "test string" },
+			{ test: "test string", value: argument }), "passed string test");
 		ok(GrandCentral.Operators[""](
-			{ test: "not test string", value: argument },
-			{ test$ne: "test string" }), "passed string test");
+			{ test$ne: "test string" },
+			{ test: "not test string", value: argument }), "passed string test");
 		ok(!GrandCentral.Operators[""](
-			{ test: 42, value: argument },
-			{ test$ne: 42 }), "passed number test");
+			{ test$ne: 42 },
+			{ test: 42, value: argument }), "passed number test");
 		ok(GrandCentral.Operators[""](
-			{ test: 24, value: argument },
-			{ test$ne: 42 }), "passed number test");
+			{ test$ne: 42 },
+			{ test: 24, value: argument }), "passed number test");
 		ok(!GrandCentral.Operators[""](
-			{ test: true, value: argument },
-			{ test$ne: true }), "passed boolean test");
+			{ test$ne: true },
+			{ test: true, value: argument }), "passed boolean test");
 		ok(GrandCentral.Operators[""](
-			{ test: false, value: argument },
-			{ test$ne: true }), "passed boolean test");
+			{ test$ne: true },
+			{ test: false, value: argument }), "passed boolean test");
 		ok(!GrandCentral.Operators[""](
-			{ test: ["test string", 42, true], value: argument },
-			{ test$ne: ["test string", 42, true] }), "passed array test");
+			{ test$ne: ["test string", 42, true] },
+			{ test: ["test string", 42, true], value: argument }), "passed array test");
 		ok(GrandCentral.Operators[""](
-			{ test: ["test string", 42, true], value: argument },
-			{ test$ne: ["test string", 42, false] }), "passed array test");
+			{ test$ne: ["test string", 42, false] },
+			{ test: ["test string", 42, true], value: argument }), "passed array test");
 		ok(!GrandCentral.Operators[""](
-			{ test: { test: ["test string", 42, true] }, value: argument },
-			{ test$eq: { test$ne: ["test string", 42, true] } }), "passed object test");
+			{ test$eq: { test$ne: ["test string", 42, true] } },
+			{ test: { test: ["test string", 42, true] }, value: argument }), "passed object test");
 		ok(GrandCentral.Operators[""](
-			{ test: { test: ["test string", 42, true] }, value: argument },
-			{ test$eq: { test$ne: ["test string", 42, false] } }), "passed object test");
+			{ test$eq: { test$ne: ["test string", 42, false] } },
+			{ test: { test: ["test string", 42, true] }, value: argument }), "passed object test");
 	});
 	
 	test("lt operator", function() {
 		expect(3);
 		
 		ok(GrandCentral.Operators[""](
-			{ test: 9.999, value: argument },
-			{ test$lt: 42 }), "passed number test");
+			{ test$lt: 42 },
+			{ test: 9.999, value: argument }), "passed number test");
 		ok(!GrandCentral.Operators[""](
-			{ test: 42, value: argument },
-			{ test$lt: 42 }), "passed number test");
+			{ test$lt: 42 },
+			{ test: 42, value: argument }), "passed number test");
 		ok(!GrandCentral.Operators[""](
-			{ test: 99.99, value: argument },
-			{ test$lt: 42 }), "passed number test");
+			{ test$lt: 42 },
+			{ test: 99.99, value: argument }), "passed number test");
 	});
 	
 	test("lte operator", function() {
 		expect(3);
 		
 		ok(GrandCentral.Operators[""](
-			{ test: 9.999, value: argument },
-			{ test$lte: 42 }), "passed number test");
+			{ test$lte: 42 },
+			{ test: 9.999, value: argument }), "passed number test");
 		ok(GrandCentral.Operators[""](
-			{ test: 42, value: argument },
-			{ test$lte: 42 }), "passed number test");
+			{ test$lte: 42 },
+			{ test: 42, value: argument }), "passed number test");
 		ok(!GrandCentral.Operators[""](
-			{ test: 99.99, value: argument },
-			{ test$lte: 42 }), "passed number test");
+			{ test$lte: 42 },
+			{ test: 99.99, value: argument }), "passed number test");
 	});
 	
 	test("gt operator", function() {
 		expect(3);
 		
 		ok(!GrandCentral.Operators[""](
-			{ test: 9.999, value: argument },
-			{ test$gt: 42 }), "passed number test");
+			{ test$gt: 42 },
+			{ test: 9.999, value: argument }), "passed number test");
 		ok(!GrandCentral.Operators[""](
-			{ test: 42, value: argument },
-			{ test$gt: 42 }), "passed number test");
+			{ test$gt: 42 },
+			{ test: 42, value: argument }), "passed number test");
 		ok(GrandCentral.Operators[""](
-			{ test: 99.99, value: argument },
-			{ test$gt: 42 }), "passed number test");
+			{ test$gt: 42 },
+			{ test: 99.99, value: argument }), "passed number test");
 	});
 	
 	test("gte operator", function() {
 		expect(3);
 		
 		ok(!GrandCentral.Operators[""](
-			{ test: 9.999, value: argument },
-			{ test$gte: 42 }), "passed number test");
+			{ test$gte: 42 },
+			{ test: 9.999, value: argument }), "passed number test");
 		ok(GrandCentral.Operators[""](
-			{ test: 42, value: argument },
-			{ test$gte: 42 }), "passed number test");
+			{ test$gte: 42 },
+			{ test: 42, value: argument }), "passed number test");
 		ok(GrandCentral.Operators[""](
-			{ test: 99.99, value: argument },
-			{ test$gte: 42 }), "passed number test");
+			{ test$gte: 42 },
+			{ test: 99.99, value: argument }), "passed number test");
 	});
 	
 	test("in operator", function() {
 		expect(4);
 		
 		ok(GrandCentral.Operators[""](
-			{ test: "test string", value: argument },
-			{ test$in: ["test string", 42, true] }), "passed array test");
+			{ test$in: ["test string", 42, true] },
+			{ test: "test string", value: argument }), "passed array test");
 		ok(GrandCentral.Operators[""](
-			{ test: 42, value: argument },
-			{ test$in: ["test string", 42, true] }), "passed array test");
+			{ test$in: ["test string", 42, true] },
+			{ test: 42, value: argument }), "passed array test");
 		ok(GrandCentral.Operators[""](
-			{ test: true, value: argument },
-			{ test$in: ["test string", 42, true] }), "passed array test");
+			{ test$in: ["test string", 42, true] },
+			{ test: true, value: argument }), "passed array test");
 		ok(!GrandCentral.Operators[""](
-			{ test: false, value: argument },
-			{ test$in: ["test string", 42, true] }), "passed array test");
+			{ test$in: ["test string", 42, true] },
+			{ test: false, value: argument }), "passed array test");
 	});
 	
 	test("nin operator", function() {
 		expect(4);
 		
 		ok(!GrandCentral.Operators[""](
-			{ test: "test string", value: argument },
-			{ test$nin: ["test string", 42, true] }), "passed array test");
+			{ test$nin: ["test string", 42, true] },
+			{ test: "test string", value: argument }), "passed array test");
 		ok(!GrandCentral.Operators[""](
-			{ test: 42, value: argument },
-			{ test$nin: ["test string", 42, true] }), "passed array test");
+			{ test$nin: ["test string", 42, true] },
+			{ test: 42, value: argument }), "passed array test");
 		ok(!GrandCentral.Operators[""](
-			{ test: true, value: argument },
-			{ test$nin: ["test string", 42, true] }), "passed array test");
+			{ test$nin: ["test string", 42, true] },
+			{ test: true, value: argument }), "passed array test");
 		ok(GrandCentral.Operators[""](
-			{ test: false, value: argument },
-			{ test$nin: ["test string", 42, true] }), "passed array test");
+			{ test$nin: ["test string", 42, true] },
+			{ test: false, value: argument }), "passed array test");
 	});
 	
 	test("all operator", function() {
 		expect(6);
 		
 		ok(GrandCentral.Operators[""](
-			{ test: ["test string", 42, true], value: argument },
-			{ test$all: ["test string", 42, true] }), "passed array test");
+			{ test$all: ["test string", 42, true] },
+			{ test: ["test string", 42, true], value: argument }), "passed array test");
 		ok(GrandCentral.Operators[""](
-			{ test: [true, 42, "test string"], value: argument },
-			{ test$all: ["test string", 42, true] }), "passed array test");
+			{ test$all: ["test string", 42, true] },
+			{ test: [true, 42, "test string"], value: argument }), "passed array test");
 		ok(GrandCentral.Operators[""](
-			{ test: [42, true, "test string"], value: argument },
-			{ test$all: ["test string", 42, true] }), "passed array test");
+			{ test$all: ["test string", 42, true] },
+			{ test: [42, true, "test string"], value: argument }), "passed array test");
 		ok(GrandCentral.Operators[""](
-			{ test: [false, true, "test string", 42], value: argument },
-			{ test$all: ["test string", 42, true] }), "passed array test");
+			{ test$all: ["test string", 42, true] },
+			{ test: [false, true, "test string", 42], value: argument }), "passed array test");
 		ok(!GrandCentral.Operators[""](
-			{ test: ["test string", 42, false], value: argument },
-			{ test$all: ["test string", 42, true] }), "passed array test");
+			{ test$all: ["test string", 42, true] },
+			{ test: ["test string", 42, false], value: argument }), "passed array test");
 		ok(!GrandCentral.Operators[""](
-			{ test: [42, "not test string", true], value: argument },
-			{ test$all: ["test string", 42, true] }), "passed array test");
+			{ test$all: ["test string", 42, true] },
+			{ test: [42, "not test string", true], value: argument }), "passed array test");
 	});
 	
-	test("exists operator", function() {
+	test("ex operator", function() {
 		expect(6);
 		
 		ok(GrandCentral.Operators[""](
-			{ test: "test string", value: argument },
-			{ test$exists: true }), "passed test");
+			{ test$ex: true },
+			{ test: "test string", value: argument }), "passed test");
 		ok(GrandCentral.Operators[""](
-			{ test: null, value: argument },
-			{ test$exists: true }), "passed test");
-		ok(!GrandCentral.Operators[""](
-			{ test: undefined, value: argument },
-			{ test$exists: true }), "passed test");
-		ok(!GrandCentral.Operators[""](
-			{ test: "test string", value: argument },
-			{ test$exists: false }), "passed test");
-		ok(!GrandCentral.Operators[""](
-			{ test: null, value: argument },
-			{ test$exists: false }), "passed test");
+			{ test$ex: true },
+			{ test: null, value: argument }), "passed test");
 		ok(GrandCentral.Operators[""](
-			{ test: undefined, value: argument },
-			{ test$exists: false }), "passed test");
+			{ test$ex: true },
+			{ test: undefined, value: argument }), "passed test");
+		ok(!GrandCentral.Operators[""](
+			{ test$ex: false },
+			{ test: "test string", value: argument }), "passed test");
+		ok(!GrandCentral.Operators[""](
+			{ test$ex: false },
+			{ test: null, value: argument }), "passed test");
+		ok(!GrandCentral.Operators[""](
+			{ test$ex: false },
+			{ test: undefined, value: argument }), "passed test");
+	});
+	
+	test("re operator", function() {
+	    ok(false, "re operator to be tested");
+	});
+	
+	test("ld operator", function() {
+	    ok(false, "ld operator to be tested");
 	});
 }
