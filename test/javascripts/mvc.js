@@ -1,5 +1,5 @@
 function testMVC() {
-	module("mvc");
+	module("mvc core");
 	
 	test("mvc existence", function() {
 		expect(2);
