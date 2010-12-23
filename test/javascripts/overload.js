@@ -11,7 +11,7 @@ function testOverload() {
 		ok(overloaded.select, "overloaded.select exists");
 	});
 	
-	module("overload definition in string")
+	module("overload string definition")
 	
 	test("overload support for no argument", function() {
 		expect(1);
@@ -199,7 +199,7 @@ function testOverload() {
 		equals(overloaded(null, null), "overload-for-one-argument-and-more", 'overloaded(null, null)');
 	});
 	
-	module("overload definition in array")
+	module("overload array definition")
 	
 	test("overload support for no argument", function() {
 		expect(1);

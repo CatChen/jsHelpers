@@ -23,6 +23,8 @@ function testAsync() {
 		ok(Function.prototype.asyncApply, "Function.prototype.asyncApple exists");
 	});
 
+    module("async operation");
+
 	test("async operation callback", function() {
 		expect(6);
 
@@ -186,6 +188,24 @@ function testAsync() {
 		setTimeout(function() {
 			start();
 		}, asyncFunctionDelay * 3)
+	});
+	
+	module("async chain");
+	
+	test("sync chain go only operation", function() {
+		expect(1);
+
+		var syncFunctionDelay = 100;
+
+		stop();
+
+		var chain = Async
+			.go(0);
+			
+		setTimeout(function() {
+			equals(chain.result, 0, "sync chain result")
+			start();
+		}, syncFunctionDelay);
 	});
 	
 	test("sync chain go first operation", function() {
