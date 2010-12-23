@@ -1,5 +1,5 @@
 function testCentral() {
-	module("central");
+	module("central core");
 	
 	var argument = {};
 	
@@ -108,6 +108,19 @@ function testCentral() {
 		Central.call("command-one", argument);
 		Central.call("command-two", argument);
 	});
+	
+	test("empty command", function() {
+		expect(2);
+		
+		Central.listen("", function(e) {
+			ok(true, "listener called");
+			equals(e, argument, "argument");
+		});
+		
+		Central.call("", argument);
+	});
+	
+	module("central extension");
 	
 	test("central extension", function() {
 		expect(2);
