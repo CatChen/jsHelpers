@@ -315,7 +315,7 @@ function testGrandCentral() {
 	});
 	
 	test("ex operator", function() {
-		expect(6);
+		expect(8);
 		
 		ok(GrandCentral.Operators[""](
 			{ test$ex: true },
@@ -326,6 +326,10 @@ function testGrandCentral() {
 		ok(GrandCentral.Operators[""](
 			{ test$ex: true },
 			{ test: undefined, value: argument }), "passed test");
+        ok(!GrandCentral.Operators[""](
+            { test$ex: true },
+            { value: argument }),
+            "passed test");
 		ok(!GrandCentral.Operators[""](
 			{ test$ex: false },
 			{ test: "test string", value: argument }), "passed test");
@@ -335,13 +339,39 @@ function testGrandCentral() {
 		ok(!GrandCentral.Operators[""](
 			{ test$ex: false },
 			{ test: undefined, value: argument }), "passed test");
+        ok(GrandCentral.Operators[""](
+            { test$ex: false },
+            { value: argument }),
+            "passed test");
 	});
 	
 	test("re operator", function() {
-	    ok(false, "re operator to be tested");
+        expect(3);
+        
+        ok(GrandCentral.Operators[""](
+            { test$re: /^A.*/ },
+            { test: "A135", value: argument }),
+            "passed test");
+        ok(!GrandCentral.Operators[""](
+            { test$re: /^A.*/ },
+            { test: "B246", value: argument }),
+            "passed test");
+        ok(!GrandCentral.Operators[""](
+            { test$re: /^A.*/ },
+            { test: undefined, value: argument }),
+            "passed test");
 	});
 	
 	test("ld operator", function() {
-	    ok(false, "ld operator to be tested");
+        expect(2);
+        
+        ok(GrandCentral.Operators[""](
+            { test$ld: function(json) { return Boolean(json); } },
+            { test: true, value: argument }),
+            "passed test");
+        ok(!GrandCentral.Operators[""](
+            { test$ld: function(json) { return Boolean(json); } },
+            { test: false, value: argument }),
+            "passed test");
 	});
 }
