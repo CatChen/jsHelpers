@@ -25,8 +25,32 @@ function testAsync() {
 
     module("async operation");
 
+	test("async operation", function() {
+		expect(3);
+
+		var testValue = "-- this is the callback result --";
+		var asyncFunctionDelay = 200;
+		var syncFunctionDelay = 100;
+		var asyncFunction = function(value) {
+			var operation = new Async.Operation();
+			setTimeout(function() { operation.yield(value); }, asyncFunctionDelay);
+			return operation;
+		};
+
+		stop();
+
+		var operation = asyncFunction(testValue);
+		
+		setTimeout(function() {
+    		equals(operation.result, testValue, "operation.result at the beginning");
+    		equals(operation.state, "completed", "operation.state at the beginning");
+    		equals(operation.completed, true, "operation.completed at the beginning");
+			start();
+		}, asyncFunctionDelay)
+	});
+	
 	test("async operation callback", function() {
-		expect(6);
+		expect(9);
 
 		var testValue = "-- this is the callback result --";
 		var asyncFunctionDelay = 200;
@@ -57,6 +81,9 @@ function testAsync() {
 		}, asyncFunctionDelay * 2)
 
 		setTimeout(function() {
+    		equals(operation.result, testValue, "operation.result at the beginning");
+    		equals(operation.state, "completed", "operation.state at the beginning");
+    		equals(operation.completed, true, "operation.completed at the beginning");
 			start();
 		}, asyncFunctionDelay * 3)
 	});
