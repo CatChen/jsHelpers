@@ -1,0 +1,3 @@
+jsHelpers is a set of tools help you write your AJAX application in a simpler way. It focuses on reducing complexity of JavaScript code, but it has nothing to do with DOM or Array. If you want some basic library helps you with DOM manipulation and JavaScript extension, try jQuery, Prototype, Tangram, etc. jsHelpers works with these libraries but doesn't depend on any of them. 
+
+What does jsHelpers do then? I apologize for not providing more details here. You can find it in docs directory. All docs are in Chinese, and I think sample in docs might help you understand what these helpers do. I will provide docs in other language in the future. 
