@@ -771,7 +771,7 @@ function testAsync() {
 		
 		setTimeout(function() {
 			start();
-		}, asyncFunctionDelay * 3 + syncFunctionDelay);
+		}, asyncFunctionDelay * 4);
 	});
 
 	test("async chain wait operation", function() {
