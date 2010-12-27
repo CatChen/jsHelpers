@@ -29,22 +29,28 @@ JavaScript 辅助模块是一组专门用于构建复杂 Ajax 应用的基础模
 	
 	var plusAsync = function(x, y) {
 		return getAsync("/plus", "x=" + x + "&y=" + y);
-	}
+	};
 	
-	var calculateAsync = function(x, y, operand) {
+	var minusAsync = function(x, y) { /* implementation */ };
+	
+	var multiplyAsync = function(x, y) { /* implementation */ };
+	
+	var divideAsync = function(x, y) { /* implementation */ };
+	
+	var calculateAsync = function(operand, x, y) {
 		switch operand {
 			case "+":
 				return plusAsync(x, y);
 			case "-":
-				/* TODO: return minusAsync(x, y); */
+				return minusAsync(x, y);
 			case "*":
-				/* TODO: return multiplyAsync(x, y); */
+				return multiplyAsync(x, y);
 			case "/":
-				/* TODO: return divideAsync(x, y); */
+				return divideAsync(x, y);
 		}
 	}
 	
-	calculateAsync(99, 1, "+")
+	calculateAsync("+", 99, 1)
 		.addCallback(function(result) { alert(result); });
 
 ## Overload
@@ -72,6 +78,59 @@ JavaScript 辅助模块是一组专门用于构建复杂 Ajax 应用的基础模
 * <a href="central/introduction.html">快速入门</a>
 * <a href="central/features.html">接口文档</a>
 * <a href="central/secrets.html">实现文档</a>
+
+如果你的应用程序由多个不同的模块组成，并且你希望减少这些模块之间的相互依赖关系，一个很简单的解决方案就是把模块之间的方法调用改写为事件派发，并且把事件监听和派发工作都交由中央事件派发器去做。
+
+例如说，原本 A 模块需要调用 B 模块，那么就存在 A 对 B 的单向依赖；如果改写为 A 派发事件， B 监听事件，则可以去掉 A 对 B 的单向依赖，但会增加 B 对 A 的单向依赖。为了解决这个问题，我们可以使用中央事件派发器 Central ， A 通过 Central 派发事件， B 通过 Central 监听 A 可能派发的事件，这时候 A 和 B 之间就不存在任何的依赖关系了，它们都单向依赖于 Central 。
+
+Central 通过字符串形式的事件名称区分不同的事件。无论由哪个模块调用 Central 进行派发，使用同一个名称的事件应该总是代表同一个语义。
+
+    /* jQuery required for this sample */
+    
+    var mapController = new (function() {
+        var mapOffset = { x: 0, y: 0 };
+        var redrawMap = function() { /* implementation */ };
+        
+        Central.listen("mapmove", function(event) {
+            mapOffset.x += event.x;
+            mapOffset.y += event.y;
+            redrawMap();
+        });
+    })();
+    
+    var keyboardListener = new (function() {
+        var LEFT_ARROW = 37,
+            RIGHT_ARROW = 39,
+            UP_ARROW = 38,
+            DOWN_ARROW = 40;
+        
+        $(document).keypress(function(event) {
+            switch (event.which) {
+                case LEFT_ARROW:
+                    Central.call("mapmove", { x: -10, y: 0 });
+                    break;
+                case RIGHT_ARROW:
+                    Central.call("mapmove", { x: 10, y: 0 });
+                    break;
+                case UP_ARROW:
+                    Central.call("mapmove", { x: 0, y: 10 });
+                    break;
+                case DOWN_ARROW:
+                    Central.call("mapmove", { x: 0, y: -10 });
+                    break;
+            }
+        });
+    })();
+    
+    var mouseListener = new (function() {
+        /* monitor mouse events and dispatch move event in Central */
+        /* this module won't be loaded on touch screen devices */
+    })();
+    
+    var touchListener = new (function() {
+        /* monitor touch events and dispatch move event in Central */
+        /* this module will be loaded on touch screen devices */
+    })();
 
 ## GrandCentral
 
