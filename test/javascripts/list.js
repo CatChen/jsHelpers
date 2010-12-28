@@ -2,13 +2,43 @@ function testList() {
     module("list core");
 
     test("list existence", function() {
-        expect(3);
+        expect(30);
         
         ok(List, "List exists");
         
         var list = new List(1, 2, 3, 4, 5, 6);
         ok(list.each, "list.each exists");
-        ok(list.toArray, "list.each exists");
+        ok(list.toArray, "list.toArray exists");
+        ok(list.at, "list.at exists");
+        
+        ok(list.reverse, "list.reverse exists");
+        ok(list.map, "list.map exists");
+        ok(list.filter, "list.filter exists");
+        ok(list.fold, "list.fold exists");
+        ok(list.scan, "list.scan exists");
+        ok(list.takeWhile, "list.takeWhile exists");
+        ok(list.take, "list.take exists");
+        ok(list.dropWhile, "list.dropWhile exists");
+        ok(list.drop, "list.drop exists");
+        ok(list.cycle, "list.cycle exists");
+        
+        ok(List.iterate, "List.iterate exists");
+        ok(List.count, "List.count exists");
+        ok(List.repeat, "List.repeat exists");
+        ok(List.concatenate, "List.concatenate exists");
+        ok(List.zip, "List.zip exists");
+        
+        ok(list.all, "list.all exists");
+        ok(list.any, "list.any exists");
+        ok(list.length, "list.length exists");
+        ok(list.sum, "list.sum exists");
+        ok(list.average, "list.average exists");
+        ok(list.maximum, "list.maximum exists");
+        ok(list.minimum, "list.minimum exists");
+        ok(list.head, "list.head exists");
+        ok(list.tail, "list.tail exists");
+        ok(list.init, "list.init exists");
+        ok(list.last, "list.last exists");
     });
     
     test("list constructor", function() {
@@ -50,6 +80,23 @@ function testList() {
         var list = new List(1, 2, 3, 4, 5, 6);
         
         same(list.toArray(), [1, 2, 3, 4, 5, 6], "toArray result correct");
+    });
+    
+    test("list at method", function() {
+        expect(8);
+        
+        var list1 = new List(1, 2, 3, 4, 5, 6);
+        var list2 = list1.drop(2).takeWhile(function() { return this < 5; }).reverse();
+        
+        equals(list1.at(0), 1);
+        equals(list1.at(1), 2);
+        equals(list1.at(2), 3);
+        equals(list1.at(3), 4);
+        equals(list1.at(4), 5);
+        equals(list1.at(5), 6);
+        
+        equals(list2.at(0), 4);
+        equals(list2.at(1), 3);
     });
     
     module("list methods");
@@ -361,4 +408,50 @@ function testList() {
         
         equals(result, 6, "last result correct");
     });
+    
+    module("list ecmascript 5 array extension");
+    
+    test("ecmascript 5 array existence", function() {
+        expect(10);
+        
+        ok(ES5Array, "ES5Array exists");
+        
+        var array = new ES5Array(1, 2, 3, 4, 5, 6);
+        ok(array.indexOf, "array.indexOf exists");
+        ok(array.lastIndexOf, "array.lastIndexOf exists");
+        ok(array.every, "array.every exists");
+        ok(array.some, "array.some exists");
+        ok(array.forEach, "array.forEach exists");
+        ok(array.map, "array.map exists");
+        ok(array.filter, "array.filter exists");
+        ok(array.reduce, "array.reduce exists");
+        ok(array.reduceRight, "array.reduceRight exists");
+    });
+    
+    test("ecmascript 5 array indexOf method", function() {
+        expect(6);
+        
+        var array = new ES5Array(1, 2, 3, 4, 5, 4, 3, 2, 1, 0);
+        
+        equals(array.indexOf(1), 0, "indexOf result correct");
+        equals(array.indexOf(2), 1, "indexOf result correct");
+        equals(array.indexOf(6), -1, "indexOf result correct");
+        equals(array.indexOf(1, 1), 8, "indexOf result correct");
+        equals(array.indexOf(2, 1), 1, "indexOf result correct");
+        equals(array.indexOf(5, 5), -1, "indexOf result correct");
+    });
+        
+    test("ecmascript 5 array lastIndexOf method", function() {
+        expect(6);
+        
+        var array = new ES5Array(1, 2, 3, 4, 5, 4, 3, 2, 1, 0);
+        
+        equals(array.lastIndexOf(1), 8, "lastIndexOf result correct");
+        equals(array.lastIndexOf(2), 7, "lastIndexOf result correct");
+        equals(array.lastIndexOf(6), -1, "lastIndexOf result correct");
+        equals(array.lastIndexOf(1, 8), 0, "lastIndexOf result correct");
+        equals(array.lastIndexOf(2, 8), 7, "lastIndexOf result correct");
+        equals(array.lastIndexOf(5, 4), -1, "lastIndexOf result correct");
+    });
+        
 }
