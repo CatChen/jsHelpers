@@ -73,6 +73,22 @@
             return result;
         };
         
+        this.at = function(index) {
+            if (index < 0) {
+                throw "incorrect index";
+            }
+            enumerator.reset();
+            while (enumerator.next()) {
+                if (index == 0) {
+                    var item = enumerator.item();
+                    return item;
+                } else {
+                    index--;
+                }
+            }
+            throw "incorrect index";
+        };
+        
         this.enumerator = function() {
             return enumerator;
         };
@@ -512,146 +528,231 @@
         
         return new List(enumerator);
     };
+    
+    List.prototype.all = function(predicate) {
+        return this.fold(function(accumulation, object) {
+            return accumulation && predicate.call(object, object);
+        }, true);
+    };
+
+    List.prototype.any = function(predicate) {
+        return this.fold(function(accumulation, object) {
+            return accumulation || predicate.call(object, object);
+        }, false);
+    };
+
+    List.prototype.length = function() {
+        return this.fold(function(accumulation, object) {
+            return accumulation + 1;
+        }, 0);
+    };
+
+    List.prototype.sum = function() {
+        return this.fold(function(accumulation, object) {
+            return accumulation + object;
+        }, 0);
+    };
+
+    List.prototype.average = function() {
+        var accumulation = this.fold(function(accumulation, object) {
+            return [accumulation[0] + object, accumulation[1] + 1];
+        }, [0, 0]);
+        return accumulation[0] / accumulation[1];
+    };
+
+    List.prototype.maximum = function() {
+        var first = this.take(1).toArray()[0];
+        if (first) {
+            return this.drop(1).fold(function(accumulation, object) {
+                return accumulation > object ? accumulation : object;
+            }, first);
+        } else {
+            throw "cannot process empty list"
+        }
+    };
+
+    List.prototype.minimum = function() {
+        var first = this.take(1).toArray()[0];
+        if (first) {
+            return this.drop(1).fold(function(accumulation, object) {
+                return accumulation < object ? accumulation : object;
+            }, first);
+        } else {
+            throw "cannot process empty list"
+        }
+    };
+
+    List.prototype.head = function() {
+        if (this.take(1).length() < 1) {
+            throw "cannot process empty list";
+        } else {
+            return this.take(1).toArray()[0];
+        }
+    };
+
+    List.prototype.tail = function() {
+        if (this.take(1).length() < 1) {
+            throw "cannot process empty list";
+        } else {
+            return this.drop(1);
+        }
+    };
+
+    List.prototype.init = function() {
+        if (this.take(1).length() < 1) {
+            throw "cannot process empty list";
+        } else {
+            var BEFORE = 0, RUNNING = 1, AFTER = 2;
+            var self = this;
+            var innerEnumerator = self.enumerator();
+            var state = BEFORE;
+            var last;
+
+            var enumerator = {
+                "item": innerEnumerator.item,
+                "next": innerEnumerator.next,
+                "reset": innerEnumerator.reset
+            };
+
+            enumerator.item = function() {
+                switch (state) {
+                    case BEFORE:
+                        throw "incorrect index";
+                    case RUNNING:
+                        return last;
+                    case AFTER:
+                        throw "incorrect index";
+                }
+            };
+
+            enumerator.next = function() {
+                var count = 0;
+                var active = true;
+                switch (state) {
+                    case BEFORE:
+                        innerEnumerator.next();
+                        last = innerEnumerator.item();
+                        active = innerEnumerator.next();
+                        if (active) {
+                            state = RUNNING;
+                        } else {
+                            state = AFTER;
+                        }
+                        break;
+                    case RUNNING:
+                        last = innerEnumerator.item();
+                        active = innerEnumerator.next();
+                        if (!active) {
+                            state = AFTER;
+                        }
+                        break;
+                    case AFTER:
+                        break;
+                }
+                return (state != AFTER);
+            };
+
+            enumerator.reset = function() {
+                state = BEFORE;
+                innerEnumerator.reset();
+            };
+
+            return new List(enumerator);
+        }
+    };
+
+    List.prototype.last = function() {
+        if (this.take(1).length() < 1) {
+            throw "cannot process empty list";
+        } else {
+            return this.fold(function(accumulation, object) {
+                return object;
+            });
+        }
+    };
+
 })();
 
-List.prototype.all = function(predicate) {
-    return this.fold(function(accumulation, object) {
-        return accumulation && predicate(object);
-    }, true);
-};
-
-List.prototype.any = function(predicate) {
-    return this.fold(function(accumulation, object) {
-        return accumulation || predicate(object);
-    }, false);
-};
-
-List.prototype.length = function() {
-    return this.fold(function(accumulation, object) {
-        return accumulation + 1;
-    }, 0);
-};
-
-List.prototype.sum = function() {
-    return this.fold(function(accumulation, object) {
-        return accumulation + object;
-    }, 0);
-};
-
-List.prototype.average = function() {
-    var accumulation = this.fold(function(accumulation, object) {
-        return [accumulation[0] + object, accumulation[1] + 1];
-    }, [0, 0]);
-    return accumulation[0] / accumulation[1];
-};
-
-List.prototype.maximum = function() {
-    var first = this.take(1).toArray()[0];
-    if (first) {
-        return this.drop(1).fold(function(accumulation, object) {
-            return accumulation > object ? accumulation : object;
-        }, first);
-    } else {
-        throw "cannot process empty list"
-    }
-};
-
-List.prototype.minimum = function() {
-    var first = this.take(1).toArray()[0];
-    if (first) {
-        return this.drop(1).fold(function(accumulation, object) {
-            return accumulation < object ? accumulation : object;
-        }, first);
-    } else {
-        throw "cannot process empty list"
-    }
-};
-
-List.prototype.head = function() {
-    if (this.take(1).length() < 1) {
-        throw "cannot process empty list";
-    } else {
-        return this.take(1).toArray()[0];
-    }
-};
-
-List.prototype.tail = function() {
-    if (this.take(1).length() < 1) {
-        throw "cannot process empty list";
-    } else {
-        return this.drop(1);
-    }
-};
-
-List.prototype.init = function() {
-    if (this.take(1).length() < 1) {
-        throw "cannot process empty list";
-    } else {
-        var BEFORE = 0, RUNNING = 1, AFTER = 2;
-        var self = this;
-        var innerEnumerator = self.enumerator();
-        var state = BEFORE;
-        var last;
+(function() {
+    var ES5Array = window.ES5Array = function(source) {
+        List.apply(this, arguments);
         
-        var enumerator = {
-            "item": innerEnumerator.item,
-            "next": innerEnumerator.next,
-            "reset": innerEnumerator.reset
-        };
-        
-        enumerator.item = function() {
-            switch (state) {
-                case BEFORE:
-                    throw "incorrect index";
-                case RUNNING:
-                    return last;
-                case AFTER:
-                    throw "incorrect index";
+        this.indexOf = function(searchElement, fromIndex) {
+            fromIndex = fromIndex || 0;
+            var index = fromIndex;
+            var tailList = this.drop(fromIndex).dropWhile(function(object) {
+                if (searchElement !== object) {
+                    index++;
+                    return true;
+                } else {
+                    return false;
+                }
+            });
+            if (tailList.take(1).length() > 0) {
+                return index;
+            } else {
+                return -1;
             }
         };
-        
-        enumerator.next = function() {
-            var count = 0;
-            var active = true;
-            switch (state) {
-                case BEFORE:
-                    innerEnumerator.next();
-                    last = innerEnumerator.item();
-                    active = innerEnumerator.next();
-                    if (active) {
-                        state = RUNNING;
-                    } else {
-                        state = AFTER;
-                    }
-                    break;
-                case RUNNING:
-                    last = innerEnumerator.item();
-                    active = innerEnumerator.next();
-                    if (!active) {
-                        state = AFTER;
-                    }
-                    break;
-                case AFTER:
-                    break;
-            }
-            return (state != AFTER);
-        };
-        
-        enumerator.reset = function() {
-            state = BEFORE;
-            innerEnumerator.reset();
-        };
-        
-        return new List(enumerator);
-    }
-};
 
-List.prototype.last = function() {
-    if (this.take(1).length() < 1) {
-        throw "cannot process empty list";
-    } else {
-        return this.fold(function(accumulation, object) {
-            return object;
-        });
-    }
-};
+        this.lastIndexOf = function(searchElement, fromIndex) {
+            fromIndex = fromIndex || this.length();
+            var headList = this.take(fromIndex);
+            var reversedHeadList = headList.reverse();
+            var reversedIndex = this.indexOf.call(reversedHeadList, searchElement);
+            if (reversedIndex >= 0) {
+                return headList.length() - 1 - reversedIndex;
+            } else {
+                return -1;
+            }
+        };
+
+        this.every = function(callbackfn, thisArg) {
+            return this.all(function(object) {
+                return callbackfn.call(thisArg, object);
+            });
+        };
+
+        this.some = function(callbackfn, thisArg) {
+            return this.any(function(object) {
+                return callbackfn.call(thisArg, object);
+            });
+        };
+
+        this.forEach = function(callbackfn, thisArg) {
+            this.each(function(object) {
+                callbackfn.call(thisArg, object);
+            });
+        };
+
+        this.map = function(callbackfn, thisArg) {
+            return ES5Array.prototype.map.call(this, function(object) {
+                return callbackfn.call(thisArg, object);
+            });
+        };
+
+        this.filter = function(callbackfn, thisArg) {
+            return ES5Array.prototype.filter.call(this, function(object) {
+                return callbackfn.call(thisArg, object);
+            });
+        };
+
+        this.reduce = function(callbackfn, initialValue) {
+            if (arguments.length > 1) {
+                return this.fold(function(accumulation, object) {
+                    return callbackfn.call(undefined, accumulation, object);
+                }, initialValue);
+            } else {
+                return reduce.call(this.drop(1), callbackfn, this.at(0));
+            }
+        };
+
+        this.reduceRight = function(callbackfn, initialValue) {
+            return reduce.apply(this.reverse(), arguments);
+        };
+    };
+    
+    ES5Array.prototype = new List();
+    
+    var reduce = new ES5Array(0).reduce;    
+})();
