@@ -55,10 +55,10 @@ function testList() {
             "reset": function() { count = 0; }
         });
         
-        same(list1.toArray(), [], "empty constructor works correctly");
-        same(list2.toArray(), [1, 2, 3, 4, 5, 6], "arguments constructor works correctly");
-        same(list3.toArray(), [1, 2, 3, 4, 5, 6], "array constructor works correctly");
-        same(list4.drop(2).take(4).toArray(), [3, 4, 5, 6], "enumerator constructor works correctly");
+        same(list1.toArray(), [], "empty constructor worksly");
+        same(list2.toArray(), [1, 2, 3, 4, 5, 6], "arguments constructor worksly");
+        same(list3.toArray(), [1, 2, 3, 4, 5, 6], "array constructor worksly");
+        same(list4.drop(2).take(4).toArray(), [3, 4, 5, 6], "enumerator constructor worksly");
     });
     
     test("list each method", function() {
@@ -68,8 +68,8 @@ function testList() {
         var i = 0;
         
         list.each(function(object) {
-            equals(this, i + 1, "this value correct");
-            equals(object, i + 1, "object value correct");
+            equals(this, i + 1, "this value");
+            equals(object, i + 1, "object value");
             i++;
         });
     });
@@ -79,7 +79,7 @@ function testList() {
         
         var list = new List(1, 2, 3, 4, 5, 6);
         
-        same(list.toArray(), [1, 2, 3, 4, 5, 6], "toArray result correct");
+        same(list.toArray(), [1, 2, 3, 4, 5, 6], "toArray result");
     });
     
     test("list at method", function() {
@@ -131,7 +131,7 @@ function testList() {
             .reverse();
         list.toArray();
         
-        same(list.toArray(), [6, 5, 4, 3, 2, 1], "reverse result correct");
+        same(list.toArray(), [6, 5, 4, 3, 2, 1], "reverse result");
     });
     
     test("list map method", function() {
@@ -141,7 +141,7 @@ function testList() {
             .map(function() { return this * 2; });
         list.toArray();
         
-        same(list.toArray(), [2, 4, 6, 8, 10, 12], "map result correct");
+        same(list.toArray(), [2, 4, 6, 8, 10, 12], "map result");
     });
     
     test("list filter method", function() {
@@ -151,7 +151,7 @@ function testList() {
             .filter(function() { return this > 2 && this % 2; });
         list.toArray();
         
-        same(list.toArray(), [3, 5], "filter result correct");
+        same(list.toArray(), [3, 5], "filter result");
     });
     
     test("list fold method", function() {
@@ -160,7 +160,7 @@ function testList() {
         var product = new List(1, 2, 3, 4, 5, 6)
             .fold(function(accumulation, i) { return accumulation * i; }, 1);
         
-        equals(product, 720, "fold result correct");
+        equals(product, 720, "fold result");
     });
     
     test("list scan method", function() {
@@ -170,7 +170,7 @@ function testList() {
             .scan(function(accumulation, i) { return accumulation * i; }, 1);
         list.toArray();
         
-        same(list.toArray(), [1, 1, 2, 6, 24, 120, 720], "scan result correct");
+        same(list.toArray(), [1, 1, 2, 6, 24, 120, 720], "scan result");
     });
     
     test("list takeWhile method", function() {
@@ -180,7 +180,7 @@ function testList() {
             .takeWhile(function() { return this < 4; });
         list.toArray();
         
-        same(list.toArray(), [1, 2, 3], "takeWhile result correct");
+        same(list.toArray(), [1, 2, 3], "takeWhile result");
     });
     
     test("list take method", function() {
@@ -190,7 +190,7 @@ function testList() {
             .take(2);
         list.toArray();
         
-        same(list.toArray(), [1, 2], "take result correct");
+        same(list.toArray(), [1, 2], "take result");
     });
     
     test("list dropWhile method", function() {
@@ -200,7 +200,7 @@ function testList() {
             .dropWhile(function() { return this < 4; });
         list.toArray();
         
-        same(list.toArray(), [4, 5, 6], "dropWhile result correct");
+        same(list.toArray(), [4, 5, 6], "dropWhile result");
     });
     
     test("list drop method", function() {
@@ -210,7 +210,7 @@ function testList() {
             .drop(2);
         list.toArray();
         
-        same(list.toArray(), [3, 4, 5, 6], "drop result correct");
+        same(list.toArray(), [3, 4, 5, 6], "drop result");
     });
     
     test("list cycle method", function() {
@@ -221,7 +221,7 @@ function testList() {
             .take(20);
         list.toArray();
         
-        same(list.toArray(), [1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2], "cycle result correct");
+        same(list.toArray(), [1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2], "cycle result");
     });
     
     test("list iterate method", function() {
@@ -232,7 +232,7 @@ function testList() {
             .take(10);
         list.toArray();
         
-        same(list.toArray(), [1, 2, 4, 8, 16, 32, 64, 128, 256, 512], "iterate result correct");
+        same(list.toArray(), [1, 2, 4, 8, 16, 32, 64, 128, 256, 512], "iterate result");
     });
     
     test("list count method", function() {
@@ -250,8 +250,8 @@ function testList() {
             .take(10);
         list2.toArray();
         
-        same(list1.toArray(), [10, 11, 12, 13, 14, 15, 16, 17, 18, 19], "count result correct");
-        same(list2.toArray(), [130, 133, 136, 139, 142, 145, 148, 151, 154, 157], "count result correct");
+        same(list1.toArray(), [10, 11, 12, 13, 14, 15, 16, 17, 18, 19], "count result");
+        same(list2.toArray(), [130, 133, 136, 139, 142, 145, 148, 151, 154, 157], "count result");
     });
     
     test("list repeat method", function() {
@@ -263,7 +263,7 @@ function testList() {
             .take(10);
         list.toArray();
         
-        same(list.toArray(), [42, 42, 42, 42, 42, 42, 42, 42, 42, 42], "repeat result correct");
+        same(list.toArray(), [42, 42, 42, 42, 42, 42, 42, 42, 42, 42], "repeat result");
     });
     
     test("list concatenate method", function() {
@@ -277,7 +277,7 @@ function testList() {
             new List(13, 14, 15, 16, 17, 18));
         list.toArray();
         
-        same(list.toArray(), [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18], "concatenate result correct");
+        same(list.toArray(), [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18], "concatenate result");
     });
     
     test("list concatenate method", function() {
@@ -301,29 +301,29 @@ function testList() {
             { "x": 2, "y": 8, "z": 12 },
             { "x": 3, "y": 9, "z": 13 },
             { "x": 4, "y": 10, "z": 14 }
-        ], "zip result correct");
+        ], "zip result");
     });
     
     test("list all method", function() {
         expect(2);
         
         var list = new List(1, 2, 3, 4, 5, 6);
-        var result1 = list.all(function(object) { return object > 0; });
-        var result2 = list.all(function(object) { return object > 1; });
+        var result1 = list.all(function() { return this > 0; });
+        var result2 = list.all(function() { return this > 1; });
         
-        equals(result1, true, "all result correct");
-        equals(result2, false, "all result correct");
+        equals(result1, true, "all result");
+        equals(result2, false, "all result");
     });
     
     test("list any method", function() {
         expect(2);
         
         var list = new List(1, 2, 3, 4, 5, 6);
-        var result1 = list.any(function(object) { return object < 1; });
-        var result2 = list.any(function(object) { return object < 2; });
+        var result1 = list.any(function() { return this < 1; });
+        var result2 = list.any(function() { return this < 2; });
         
-        equals(result1, false, "any result correct");
-        equals(result2, true, "any result correct");
+        equals(result1, false, "any result");
+        equals(result2, true, "any result");
     });
     
     test("list length method", function() {
@@ -332,7 +332,7 @@ function testList() {
         var list = new List(1, 2, 3, 4, 5, 6);
         var result = list.length();
         
-        equals(result, 6, "length result correct");
+        equals(result, 6, "length result");
     });
     
     test("list sum method", function() {
@@ -341,7 +341,7 @@ function testList() {
         var list = new List(1, 2, 3, 4, 5, 6);
         var result = list.sum();
         
-        equals(result, 21, "sum result correct");
+        equals(result, 21, "sum result");
     });
     
     test("list average method", function() {
@@ -350,7 +350,7 @@ function testList() {
         var list = new List(1, 2, 3, 4, 5, 6);
         var result = list.average();
         
-        equals(result, 3.5, "average result correct");
+        equals(result, 3.5, "average result");
     });
     
     test("list maximum method", function() {
@@ -359,7 +359,7 @@ function testList() {
         var list = new List(1, 3, 5, 2, 4);
         var result = list.maximum();
         
-        equals(result, 5, "maximum result correct");
+        equals(result, 5, "maximum result");
     });
     
     test("list minimum method", function() {
@@ -368,7 +368,7 @@ function testList() {
         var list = new List(1, 3, 5, 2, 4);
         var result = list.minimum();
         
-        equals(result, 1, "minimum result correct");
+        equals(result, 1, "minimum result");
     });
     
     test("list head method", function() {
@@ -377,7 +377,7 @@ function testList() {
         var list = new List(1, 2, 3, 4, 5, 6);
         var result = list.head();
         
-        equals(result, 1, "head result correct");
+        equals(result, 1, "head result");
     });
     
     test("list tail method", function() {
@@ -387,7 +387,7 @@ function testList() {
             .tail();
         list.toArray();
         
-        same(list.toArray(), [2, 3, 4, 5, 6], "tail result correct");
+        same(list.toArray(), [2, 3, 4, 5, 6], "tail result");
     });
     
     test("list init method", function() {
@@ -397,7 +397,7 @@ function testList() {
             .init();
         list.toArray();
         
-        same(list.toArray(), [1, 2, 3, 4, 5], "init result correct");
+        same(list.toArray(), [1, 2, 3, 4, 5], "init result");
     });
     
     test("list last method", function() {
@@ -406,7 +406,7 @@ function testList() {
         var list = new List(1, 2, 3, 4, 5, 6);
         var result = list.last();
         
-        equals(result, 6, "last result correct");
+        equals(result, 6, "last result");
     });
     
     module("list ecmascript 5 array extension");
@@ -433,12 +433,12 @@ function testList() {
         
         var array = new ES5Array(1, 2, 3, 4, 5, 4, 3, 2, 1, 0);
         
-        equals(array.indexOf(1), 0, "indexOf result correct");
-        equals(array.indexOf(2), 1, "indexOf result correct");
-        equals(array.indexOf(6), -1, "indexOf result correct");
-        equals(array.indexOf(1, 1), 8, "indexOf result correct");
-        equals(array.indexOf(2, 1), 1, "indexOf result correct");
-        equals(array.indexOf(5, 5), -1, "indexOf result correct");
+        equals(array.indexOf(1), 0, "indexOf result");
+        equals(array.indexOf(2), 1, "indexOf result");
+        equals(array.indexOf(6), -1, "indexOf result");
+        equals(array.indexOf(1, 1), 8, "indexOf result");
+        equals(array.indexOf(2, 1), 1, "indexOf result");
+        equals(array.indexOf(5, 5), -1, "indexOf result");
     });
         
     test("ecmascript 5 array lastIndexOf method", function() {
@@ -446,12 +446,93 @@ function testList() {
         
         var array = new ES5Array(1, 2, 3, 4, 5, 4, 3, 2, 1, 0);
         
-        equals(array.lastIndexOf(1), 8, "lastIndexOf result correct");
-        equals(array.lastIndexOf(2), 7, "lastIndexOf result correct");
-        equals(array.lastIndexOf(6), -1, "lastIndexOf result correct");
-        equals(array.lastIndexOf(1, 8), 0, "lastIndexOf result correct");
-        equals(array.lastIndexOf(2, 8), 7, "lastIndexOf result correct");
-        equals(array.lastIndexOf(5, 4), -1, "lastIndexOf result correct");
+        equals(array.lastIndexOf(1), 8, "lastIndexOf result");
+        equals(array.lastIndexOf(2), 7, "lastIndexOf result");
+        equals(array.lastIndexOf(6), -1, "lastIndexOf result");
+        equals(array.lastIndexOf(1, 8), 0, "lastIndexOf result");
+        equals(array.lastIndexOf(2, 8), 7, "lastIndexOf result");
+        equals(array.lastIndexOf(5, 4), -1, "lastIndexOf result");
     });
+    
+    test("ecmascript 5 array every method", function() {
+        expect(6 + 1 + 1 + 1);
         
+        var testObject = {};
+        var array = new ES5Array(1, 2, 3, 4, 5, 6);
+        var result1 = array.every(function(object) { equals(this, testObject, "thisArg"); return object > 0; }, testObject);
+        var result2 = array.every(function(object) { equals(this, testObject, "thisArg"); return object > 1; }, testObject);
+        
+        equals(result1, true, "every result");
+        equals(result2, false, "every result");
+    });
+    
+    test("ecmascript 5 array some method", function() {
+        expect(6 + 1 + 1 + 1);
+        
+        var testObject = {};
+        var array = new ES5Array(1, 2, 3, 4, 5, 6);
+        var result1 = array.some(function(object) { equals(this, testObject, "thisArg"); return object < 1; }, testObject);
+        var result2 = array.some(function(object) { equals(this, testObject, "thisArg"); return object < 2; }, testObject);
+        
+        equals(result1, false, "some result");
+        equals(result2, true, "some result");
+    });
+    
+    test("ecmascript 5 array forEach method", function() {
+        expect(12);
+        
+        var testObject = {};
+        var array = new ES5Array(1, 2, 3, 4, 5, 6);
+        var i = 0;
+        
+        array.forEach(function(object) {
+            equals(this, testObject, "thisArg");
+            equals(object, i + 1, "object value");
+            i++;
+        }, testObject);
+    });
+    
+    test("ecmascript 5 array map method", function() {
+        expect(7);
+        
+        var testObject = {};
+        var array = new ES5Array(1, 2, 3, 4, 5, 6)
+            .map(function(object) { equals(this, testObject, "thisArg"); return object * 2; }, testObject);
+        
+        same(array.toArray(), [2, 4, 6, 8, 10, 12], "map result");
+    });
+    
+    test("ecmascript 5 array filter method", function() {
+        expect(7);
+        
+        var testObject = {};
+        var array = new ES5Array(1, 2, 3, 4, 5, 6)
+            .filter(function(object) { equals(this, testObject, "thisArg"); return object > 2 && object % 2; }, testObject);
+        
+        same(array.toArray(), [3, 5], "filter result");
+    });
+    
+    test("ecmascript 5 array reduce method", function() {
+        expect(2);
+        
+        var product1 = new ES5Array(1, 2, 3, 4, 5, 6)
+            .reduce(function(accumulation, i) { return accumulation * i; }, 1);
+        var product2 = new ES5Array(1, 2, 3, 4, 5, 6)
+            .reduce(function(accumulation, i) { return accumulation * i; });
+        
+            equals(product1, 720, "reduce result");
+            equals(product2, 720, "reduce result");
+    });
+    
+    test("ecmascript 5 array reduceRight method", function() {
+        expect(2);
+        
+        var product1 = new ES5Array(1, 2, 3, 4, 5, 6)
+            .reduceRight(function(accumulation, i) { return accumulation * i; }, 1);
+        var product2 = new ES5Array(1, 2, 3, 4, 5, 6)
+            .reduceRight(function(accumulation, i) { return accumulation * i; });
+        
+        equals(product1, 720, "reduceRight result");
+        equals(product2, 720, "reduceRight result");
+    });        
 }

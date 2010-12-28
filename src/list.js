@@ -531,13 +531,13 @@
     
     List.prototype.all = function(predicate) {
         return this.fold(function(accumulation, object) {
-            return accumulation && predicate(object);
+            return accumulation && predicate.call(object, object);
         }, true);
     };
 
     List.prototype.any = function(predicate) {
         return this.fold(function(accumulation, object) {
-            return accumulation || predicate(object);
+            return accumulation || predicate.call(object, object);
         }, false);
     };
 
@@ -738,19 +738,21 @@
         };
 
         this.reduce = function(callbackfn, initialValue) {
-            if (initialValue) {
+            if (arguments.length > 1) {
                 return this.fold(function(accumulation, object) {
                     return callbackfn.call(undefined, accumulation, object);
                 }, initialValue);
             } else {
-                return this.drop(1).reduce(callbackfn, this.at(0));
+                return reduce.call(this.drop(1), callbackfn, this.at(0));
             }
         };
 
         this.reduceRight = function(callbackfn, initialValue) {
-            return this.reverse().reduce(callbackfn, initialValue);
+            return reduce.apply(this.reverse(), arguments);
         };
     };
     
     ES5Array.prototype = new List();
+    
+    var reduce = new ES5Array(0).reduce;    
 })();
