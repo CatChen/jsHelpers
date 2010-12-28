@@ -662,60 +662,82 @@ List.prototype.at = function(index) {
 
 (function() {
     var ES5Array = window.ES5Array = function(source) {
-        List(source);
+        List.call(this, source);
+        
+        this.indexOf = function(searchElement, fromIndex) {
+            fromIndex = fromIndex || 0;
+            var index = fromIndex;
+            var tailList = this.drop(fromIndex).dropWhile(function(object) {
+                if (searchElement !== object) {
+                    index++;
+                    return true;
+                } else {
+                    return false;
+                }
+            });
+            if (tailList.take(1).length() > 0) {
+                return index;
+            } else {
+                return -1;
+            }
+        };
+
+        this.lastIndexOf = function(searchElement, fromIndex) {
+            fromIndex = fromIndex || this.length() - 1;
+            var headList = this.take(fromIndex + 1);
+            var reversedHeadList = headList.reverse();
+            var reversedIndex = this.indexOf.call(reversedHeadList, searchElement);
+            if (reversedIndex >= 0) {
+                return headList.length() - 1 - reversedIndex;
+            } else {
+                return -1;
+            }
+        };
+
+        this.every = function(callbackfn, thisArg) {
+            return this.all(function(object) {
+                return callbackfn.call(thisArg, object);
+            });
+        };
+
+        this.some = function(callbackfn, thisArg) {
+            return this.any(function(object) {
+                return callbackfn.call(thisArg, object);
+            });
+        };
+
+        this.forEach = function(callbackfn, thisArg) {
+            this.each(function(object) {
+                callbackfn.call(thisArg, object);
+            });
+        };
+
+        this.map = function(callbackfn, thisArg) {
+            return ES5Array.prototype.map.call(this, function(object) {
+                return callbackfn.call(thisArg, object);
+            });
+        };
+
+        this.filter = function(callbackfn, thisArg) {
+            return ES5Array.prototype.filter.call(this, function(object) {
+                return callbackfn.call(thisArg, object);
+            });
+        };
+
+        this.reduce = function(callbackfn, initialValue) {
+            if (initialValue) {
+                return this.fold(function(accumulation, object) {
+                    return callbackfn.call(undefined, accumulation, object);
+                }, initialValue);
+            } else {
+                return this.drop(1).reduce(callbackfn, this.at(0));
+            }
+        };
+
+        this.reduceRight = function(callbackfn, initialValue) {
+            return this.reverse().reduce(callbackfn, initialValue);
+        };
     };
+    
+    ES5Array.prototype = new List();
 })();
-
-ES5Array.prototype.indexOf = function(searchElement, fromIndex) {
-    fromIndex = fromIndex || 0;
-    
-};
-
-ES5Array.prototype.lastIndexOf = function(searchElement, fromIndex) {
-    fromIndex = fromIndex || 0;
-    
-};
-
-ES5Array.prototype.every = function(callbackfn, thisArg) {
-    return this.all(function(object) {
-        return callbackfn.call(thisArg, object);
-    });
-};
-
-ES5Array.prototype.some = function(callbackfn, thisArg) {
-    return this.any(function(object) {
-        return callbackfn.call(thisArg, object);
-    });
-};
-
-ES5Array.prototype.forEach = function(callbackfn, thisArg) {
-    this.each(function(object) {
-        callbackfn.call(thisArg, object);
-    });
-};
-
-ES5Array.prototype.map = function(callbackfn, thisArg) {
-    return this.map(function(object) {
-        return callbackfn.call(thisArg, object);
-    });
-};
-
-ES5Array.prototype.filter = function(callbackfn, thisArg) {
-    return this.filter(function(object) {
-        return callbackfn.call(thisArg, object);
-    });
-};
-
-ES5Array.prototype.reduce = function(callbackfn, initialValue) {
-    if (initialValue) {
-        return this.fold(function(accumulation, object) {
-            return callbackfn.call(undefined, accumulation, object);
-        }, initialValue);
-    } else {
-        return this.drop(1).reduce(callbackfn, this.at(0));
-    }
-};
-
-ES5Array.prototype.reduceRight = function(callbackfn, initialValue) {
-    return this.reverse().reduce(callbackfn, initialValue);
-};
