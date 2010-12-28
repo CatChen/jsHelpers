@@ -655,3 +655,67 @@ List.prototype.last = function() {
         });
     }
 };
+
+List.prototype.at = function(index) {
+    return this.drop(index).head();
+};
+
+(function() {
+    var ES5Array = window.ES5Array = function(source) {
+        List(source);
+    };
+})();
+
+ES5Array.prototype.indexOf = function(searchElement, fromIndex) {
+    fromIndex = fromIndex || 0;
+    
+};
+
+ES5Array.prototype.lastIndexOf = function(searchElement, fromIndex) {
+    fromIndex = fromIndex || 0;
+    
+};
+
+ES5Array.prototype.every = function(callbackfn, thisArg) {
+    return this.all(function(object) {
+        return callbackfn.call(thisArg, object);
+    });
+};
+
+ES5Array.prototype.some = function(callbackfn, thisArg) {
+    return this.any(function(object) {
+        return callbackfn.call(thisArg, object);
+    });
+};
+
+ES5Array.prototype.forEach = function(callbackfn, thisArg) {
+    this.each(function(object) {
+        callbackfn.call(thisArg, object);
+    });
+};
+
+ES5Array.prototype.map = function(callbackfn, thisArg) {
+    return this.map(function(object) {
+        return callbackfn.call(thisArg, object);
+    });
+};
+
+ES5Array.prototype.filter = function(callbackfn, thisArg) {
+    return this.filter(function(object) {
+        return callbackfn.call(thisArg, object);
+    });
+};
+
+ES5Array.prototype.reduce = function(callbackfn, initialValue) {
+    if (initialValue) {
+        return this.fold(function(accumulation, object) {
+            return callbackfn.call(undefined, accumulation, object);
+        }, initialValue);
+    } else {
+        return this.drop(1).reduce(callbackfn, this.at(0));
+    }
+};
+
+ES5Array.prototype.reduceRight = function(callbackfn, initialValue) {
+    return this.reverse().reduce(callbackfn, initialValue);
+};
