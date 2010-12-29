@@ -91,6 +91,8 @@
                     cacheIndex++;
                 }
             }
+            
+            lengthCache = cacheIndex;
             throw "incorrect index";
         };
         
@@ -105,20 +107,40 @@
             return lengthCache;
         };
         
-        this.each = function(iterator) {
+        this.each = function(iterator) {            
             enumerator.reset();
-            while (enumerator.next()) {
-                iterator.call(enumerator.item(), enumerator.item());
+            for (var index = 0; index < arrayCache.length; index++) {
+                enumerator.next();
+                iterator.call(arrayCache[index], arrayCache[index]);
             }
+            
+            var cacheIndex = arrayCache.length;
+            while (enumerator.next()) {
+                arrayCache[cacheIndex] = enumerator.item();
+                iterator.call(arrayCache[cacheIndex], arrayCache[cacheIndex]);
+                cacheIndex++;
+            }
+            
+            lengthCache = cacheIndex;
         };
         
         this.toArray = function() {
-            var result = [];
-            enumerator.reset();
-            while (enumerator.next()) {
-                result.push(enumerator.item());
+            if (lengthCache < 0 || arrayCache.length < lengthCache) {
+                enumerator.reset();
+                for (var index = 0; index < arrayCache.length; index++) {
+                    enumerator.next();
+                }
+
+                var cacheIndex = arrayCache.length;
+                while (enumerator.next()) {
+                    arrayCache[cacheIndex] = enumerator.item();
+                    cacheIndex++;
+                }
+
+                lengthCache = cacheIndex;
             }
-            return result;
+            
+            return [].slice.call(arrayCache, 0);
         };
         
         this.enumerator = function() {
@@ -587,7 +609,7 @@
     };
 
     List.prototype.maximum = function() {
-        var first = this.take(1).toArray()[0];
+        var first = this.at(0);
         if (first) {
             return this.drop(1).fold(function(accumulation, object) {
                 return accumulation > object ? accumulation : object;
@@ -598,7 +620,7 @@
     };
 
     List.prototype.minimum = function() {
-        var first = this.take(1).toArray()[0];
+        var first = this.at(0);
         if (first) {
             return this.drop(1).fold(function(accumulation, object) {
                 return accumulation < object ? accumulation : object;
