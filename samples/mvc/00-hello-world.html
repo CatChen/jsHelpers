@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+	<title>Hello World</title>
+	
+	<script type="text/javascript" src="../../jquery-1.4.1.js"></script>
+	<script type="text/javascript" src="../../src/mvc.js"></script>
+	
+	<script type="text/javascript">
+	(function() {
+		var Application = window.Application = function() {};
+		
+		var Controllers = Application.Controllers = function() {};
+
+		Application.Controllers["home"] = function(options) {
+			this["index"] = function() {
+				return this.Result.html("index");
+			};
+		};
+		Application.Controllers["home"].prototype = MVC.Controller;
+	})();
+	
+	$().ready(function() { MVC.startup(); });
+	MVC.ready(function() { $("#home").html(MVC.go("home", "index")) });
+	</script>
+	
+	<script id="index" type="text/html">
+	Hello, world!
+	</script>
+</head>
+
+<body>
+	
+	<div id="home">loading...</div>
+	
+</body>
+</html>
