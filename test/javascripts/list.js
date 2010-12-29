@@ -77,7 +77,7 @@ function testList() {
     module("list methods");
     
     test("list methods existence", function() {
-        expect(25);
+        expect(26);
         
         var list = new List(1, 2, 3, 4, 5, 6);
         
@@ -92,6 +92,7 @@ function testList() {
         ok(list.drop, "list.drop exists");
         ok(list.cycle, "list.cycle exists");
         
+        ok(List.generate, "List.generate exists");
         ok(List.iterate, "List.iterate exists");
         ok(List.count, "List.count exists");
         ok(List.repeat, "List.repeat exists");
@@ -211,7 +212,38 @@ function testList() {
         same(list.toArray(), [1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2], "cycle result");
     });
     
-    test("list iterate method", function() {
+    test("list generate method", function() {
+        expect(4);
+        
+        var a = 0, b = 1;
+        var list1 = List
+            .generate(function(proxy) {
+                proxy.yield(a);
+                var aNext = b;
+                var bNext = a + b;
+                a = aNext;
+                b = bNext;
+            })
+            .take(10)
+        
+        var i = 5;
+        var list2 = List
+            .generate(function(proxy) {
+                if (i <= 0) {
+                    proxy.end();
+                }
+                proxy.yield(i);
+                i--;
+            })
+            .take(10)
+
+        same(list1.toArray(), [0, 1, 1, 2, 3, 5, 8, 13, 21, 34], "generate result");
+        same(list1.toArray(), [0, 1, 1, 2, 3, 5, 8, 13, 21, 34], "generate result");
+        same(list2.toArray(), [5, 4, 3, 2, 1], "generate result");
+        same(list2.toArray(), [5, 4, 3, 2, 1], "generate result");
+    });
+    
+    test("list iterate static method", function() {
         expect(2);
         
         var list = List
@@ -222,7 +254,7 @@ function testList() {
         same(list.toArray(), [1, 2, 4, 8, 16, 32, 64, 128, 256, 512], "iterate result");
     });
     
-    test("list count method", function() {
+    test("list count static method", function() {
         expect(4);
         
         var list1 = List
@@ -241,7 +273,7 @@ function testList() {
         same(list2.toArray(), [130, 133, 136, 139, 142, 145, 148, 151, 154, 157], "count result");
     });
     
-    test("list repeat method", function() {
+    test("list repeat static method", function() {
         expect(2);
         
         var list = List
@@ -253,7 +285,7 @@ function testList() {
         same(list.toArray(), [42, 42, 42, 42, 42, 42, 42, 42, 42, 42], "repeat result");
     });
     
-    test("list concatenate method", function() {
+    test("list concatenate static method", function() {
         expect(2);
         
         var list = List.concatenate(
@@ -267,7 +299,7 @@ function testList() {
         same(list.toArray(), [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18], "concatenate result");
     });
     
-    test("list zip method", function() {
+    test("list zip static method", function() {
         expect(2);
         
         var list = List.zip(
