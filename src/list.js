@@ -527,9 +527,6 @@
             },
 
             next: function() {
-                if (index > 20) {
-                    return false;
-                }
                 switch (state) {
                     case BEFORE:
                     case RUNNING:
