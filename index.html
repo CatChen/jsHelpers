@@ -196,7 +196,25 @@ Central 通过字符串形式的事件名称区分不同的事件。无论由哪
 
 如果你的应用程序需要处理数组形式的数据，然而你觉得 Array 内置的功能并不够用，并且希望能够使用 Haskell 风格的 List 处理形式，那么你可以使用 List 组件。 List 组件能够封装 Array 操作，提供 Haskell 命令风格的方法，简化列表形式数据的操作。
 
+    var list1 = new List(1, 2, 3, 4, 5, 4, 3, 2, 1, 0);
     
+    var list2 = list1.filter(function(i) { return i > 2; });
+    assert(list2.toArray() == [3, 4, 5, 4, 3]);
+    
+    var list3 = list2.map(function(i) { return i * i; });
+    assert(list3.toArray() == [9, 16, 25, 16, 9]);
+    
+    var list4 = List.iterate(function(i) { return i * 2; }, 1);
+    
+    var list5 = list4.take(10);
+    assert(list5.toArray() == [1, 2, 4, 8, 16, 32, 64, 128, 256, 512]);
+    
+    var list6 = list4
+        .map(function(i) { return i - 1; })
+        .dropWhile(function(i) { return i < 100; })
+        .takeWhile(function(i) { return i < 1000; });
+    assert(list6.toArray() == [127, 255, 511]);
+
         </script>
         <script type="text/javascript">
 window.onload = function() {
