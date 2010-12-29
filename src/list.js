@@ -1,61 +1,109 @@
 (function() {
-    var List = window.List = function(source) {
-        var arrayEnumerator = function(array) {
-            var BEFORE = 0, RUNNING = 1, AFTER = 2;
-            var state = BEFORE;
-            var array = array;
-            var index = 0;
-            
-            this.item = function() {
-                if (state == RUNNING) {
-                    return array[index];
-                } else if (state == BEFORE) {
-                    throw "incorrect index";
-                } else if (state == AFTER) {
-                    throw "incorrect index";
-                }
-            };
-
-            this.next = function() {
-                switch (state) {
-                    case BEFORE:
-                        if (array.length == 0) {
-                            state = AFTER;
-                        } else {
-                            state = RUNNING;
-                        }
-                        break;
-                    case RUNNING:
-                        index++;
-                        if (index >= array.length) {
-                            state = AFTER;
-                        }
-                        break;
-                    case AFTER:
-                        break;
-                }
-                return (state != AFTER);
-            };
-
-            this.reset = function() {
-                state = BEFORE;
-                index = 0;
-            };
-        };
+    var arrayEnumerator = function(array) {
+        var BEFORE = 0, RUNNING = 1, AFTER = 2;
+        var state = BEFORE;
+        var array = array;
+        var index = 0;
         
+        this.item = function() {
+            if (state == RUNNING) {
+                return array[index];
+            } else if (state == BEFORE) {
+                throw "incorrect index";
+            } else if (state == AFTER) {
+                throw "incorrect index";
+            }
+        };
+
+        this.next = function() {
+            switch (state) {
+                case BEFORE:
+                    if (array.length == 0) {
+                        state = AFTER;
+                    } else {
+                        state = RUNNING;
+                    }
+                    break;
+                case RUNNING:
+                    index++;
+                    if (index >= array.length) {
+                        state = AFTER;
+                    }
+                    break;
+                case AFTER:
+                    break;
+            }
+            return (state != AFTER);
+        };
+
+        this.reset = function() {
+            state = BEFORE;
+            index = 0;
+        };
+    };
+    
+    var List = window.List = function(source) {
         var enumerator;
+        var arrayCache = [];
+        var lengthCache = -1;
         
         if (!source) {
             enumerator = new arrayEnumerator([]);
+            arrayCache = [];
+            lengthCache = 0;
         } else if (arguments.length > 1) {
             enumerator = new arrayEnumerator([].slice.call(arguments, 0));
+            arrayCache = [].slice.call(arguments, 0);
+            lengthCache = arrayCache.length;
         } else if (source instanceof Array) {
-            enumerator = new arrayEnumerator(source);
+            enumerator = new arrayEnumerator([].slice.call(source, 0));
+            arrayCache = [].slice.call(source, 0);
+            lengthCache = arrayCache.length;
         } else if (source.item instanceof Function && source.next instanceof Function && source.reset instanceof Function) {
             enumerator = source;
         } else {
             throw "source should be an array";
         }
+        
+        this.cache = function() { return arrayCache; };
+        
+        this.at = function(index) {
+            var cacheIndex = 0;
+            
+            if (index < 0) {
+                throw "incorrect index";
+            }
+            
+            if (arrayCache.length > index) {
+                return arrayCache[index];
+            } else if (lengthCache >= 0 && index >= lengthCache) {
+                throw "incorrect index";
+            }
+            
+            enumerator.reset();
+            while (enumerator.next()) {
+                arrayCache[cacheIndex] = enumerator.item();
+                if (index == 0) {
+                    var item = arrayCache[cacheIndex];
+                    return item;
+                } else {
+                    index--;
+                    cacheIndex++;
+                }
+            }
+            throw "incorrect index";
+        };
+        
+        this.length = function() {
+            if (lengthCache < 0) {
+                enumerator.reset();
+                lengthCache = 0;
+                while (enumerator.next()) {
+                    lengthCache++;
+                }
+            }
+            return lengthCache;
+        };
         
         this.each = function(iterator) {
             enumerator.reset();
@@ -71,22 +119,6 @@
                 result.push(enumerator.item());
             }
             return result;
-        };
-        
-        this.at = function(index) {
-            if (index < 0) {
-                throw "incorrect index";
-            }
-            enumerator.reset();
-            while (enumerator.next()) {
-                if (index == 0) {
-                    var item = enumerator.item();
-                    return item;
-                } else {
-                    index--;
-                }
-            }
-            throw "incorrect index";
         };
         
         this.enumerator = function() {
@@ -539,12 +571,6 @@
         return this.fold(function(accumulation, object) {
             return accumulation || predicate.call(object, object);
         }, false);
-    };
-
-    List.prototype.length = function() {
-        return this.fold(function(accumulation, object) {
-            return accumulation + 1;
-        }, 0);
     };
 
     List.prototype.sum = function() {

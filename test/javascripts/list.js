@@ -7,9 +7,10 @@ function testList() {
         ok(List, "List exists");
         
         var list = new List(1, 2, 3, 4, 5, 6);
+        ok(list.at, "list.at exists");
+        ok(list.length, "list.length exists");
         ok(list.each, "list.each exists");
         ok(list.toArray, "list.toArray exists");
-        ok(list.at, "list.at exists");
         
         ok(list.reverse, "list.reverse exists");
         ok(list.map, "list.map exists");
@@ -30,7 +31,6 @@ function testList() {
         
         ok(list.all, "list.all exists");
         ok(list.any, "list.any exists");
-        ok(list.length, "list.length exists");
         ok(list.sum, "list.sum exists");
         ok(list.average, "list.average exists");
         ok(list.maximum, "list.maximum exists");
@@ -61,6 +61,32 @@ function testList() {
         same(list4.drop(2).take(4).toArray(), [3, 4, 5, 6], "enumerator constructor worksly");
     });
     
+    test("list at method", function() {
+        expect(8);
+        
+        var list1 = new List(1, 2, 3, 4, 5, 6);
+        var list2 = list1.drop(2).takeWhile(function() { return this < 5; }).reverse();
+        
+        equals(list1.at(0), 1);
+        equals(list1.at(1), 2);
+        equals(list1.at(2), 3);
+        equals(list1.at(3), 4);
+        equals(list1.at(4), 5);
+        equals(list1.at(5), 6);
+        
+        equals(list2.at(0), 4);
+        equals(list2.at(1), 3);
+    });
+    
+    test("list length method", function() {
+        expect(1);
+        
+        var list = new List(1, 2, 3, 4, 5, 6);
+        var result = list.length();
+        
+        equals(result, 6, "length result");
+    });
+    
     test("list each method", function() {
         expect(12);
         
@@ -80,23 +106,6 @@ function testList() {
         var list = new List(1, 2, 3, 4, 5, 6);
         
         same(list.toArray(), [1, 2, 3, 4, 5, 6], "toArray result");
-    });
-    
-    test("list at method", function() {
-        expect(8);
-        
-        var list1 = new List(1, 2, 3, 4, 5, 6);
-        var list2 = list1.drop(2).takeWhile(function() { return this < 5; }).reverse();
-        
-        equals(list1.at(0), 1);
-        equals(list1.at(1), 2);
-        equals(list1.at(2), 3);
-        equals(list1.at(3), 4);
-        equals(list1.at(4), 5);
-        equals(list1.at(5), 6);
-        
-        equals(list2.at(0), 4);
-        equals(list2.at(1), 3);
     });
     
     module("list methods");
@@ -324,15 +333,6 @@ function testList() {
         
         equals(result1, false, "any result");
         equals(result2, true, "any result");
-    });
-    
-    test("list length method", function() {
-        expect(1);
-        
-        var list = new List(1, 2, 3, 4, 5, 6);
-        var result = list.length();
-        
-        equals(result, 6, "length result");
     });
     
     test("list sum method", function() {
