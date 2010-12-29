@@ -120,6 +120,20 @@
     
     stackedEnumerator.prototype = new abstractEnumerator();
     
+    var generatorProxy = function(handlers) {
+        this.yield = function(object) {
+            if (handlers.yield) {
+                handlers.yield(object);
+            }
+        };
+        
+        this.end = function() {
+            if (handlers.end) {
+                handlers.end();
+            }
+        };
+    };
+    
     var List = window.List = function(source) {
         var enumerator;
         var arrayCache = [];
@@ -198,6 +212,7 @@
             }
             
             lengthCache = cacheIndex;
+            return this;
         };
         
         this.toArray = function() {
@@ -481,7 +496,65 @@
         return new List(new cachedEnumerator(enumerator));
     };
     
-    List.iterate = function(predicate, start) {
+    List.generate = function(generator, start) {
+        var BEFORE = 0, RUNNING = 1, AFTER = 2;
+        var current;
+        var state = BEFORE;
+        var yieldState = RUNNING;
+        var arrayCache = [];
+        var index = NaN;
+        
+        var proxy = new generatorProxy({
+            yield: function(object) {
+                if (yieldState != AFTER) {
+                    arrayCache[arrayCache.length] = object;
+                }
+            },
+            end: function() {
+                yieldState = AFTER;
+            }
+        });
+        
+        var enumerator = new baseEnumerator({
+            item: function() {
+                switch (state) {
+                    case BEFORE:
+                        throw "incorrect index";
+                    case RUNNING:
+                        return arrayCache[index];
+                    case AFTER:
+                        throw "incorrect index";
+                }
+            },
+
+            next: function() {
+                switch (state) {
+                    case BEFORE:
+                    case RUNNING:
+                        index++;
+                        if (yieldState != AFTER) {
+                            while (index >= arrayCache.length && yieldState != AFTER) {
+                                generator.call(proxy, proxy);
+                            }
+                        }
+                        state = yieldState;
+                        break;
+                    case AFTER:
+                        break;
+                }
+                return (state != AFTER);
+            },
+
+            reset: function() {
+                index = -1;
+                state = BEFORE;
+            }
+        });
+        
+        return new List(new cachedEnumerator(enumerator));
+    };
+    
+    List.iterate = function(generator, start) {
         var BEFORE = 0, RUNNING = 1;
         var current;
         var state = BEFORE;
@@ -493,7 +566,6 @@
                         throw "incorrect index";
                     case RUNNING:
                         return current;
-                        break;
                 }
             },
 
@@ -504,7 +576,7 @@
                         state = RUNNING;
                         break;
                     case RUNNING:
-                        current = predicate.call(current, current);
+                        current = generator.call(current, current);
                         break;
                 }
                 return true;
@@ -675,7 +747,7 @@
         if (this.take(1).length() < 1) {
             throw "cannot process empty list";
         } else {
-            return this.take(1).toArray()[0];
+            return this.at(0);
         }
     };
 
@@ -748,16 +820,14 @@
         if (this.take(1).length() < 1) {
             throw "cannot process empty list";
         } else {
-            return this.fold(function(accumulation, object) {
-                return object;
-            });
+            return this.at(this.length() - 1);
         }
     };
 
 })();
 
 (function() {
-    var ES5Array = window.ES5Array = function(source) {
+    var ES5Array = window.List.ES5Array = function(source) {
         List.apply(this, arguments);
         
         this.indexOf = function(searchElement, fromIndex) {
