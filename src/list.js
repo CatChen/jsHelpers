@@ -746,7 +746,7 @@
         if (this.take(1).length() < 1) {
             throw "cannot process empty list";
         } else {
-            return this.take(1).toArray()[0];
+            return this.at(0);
         }
     };
 
@@ -819,16 +819,14 @@
         if (this.take(1).length() < 1) {
             throw "cannot process empty list";
         } else {
-            return this.fold(function(accumulation, object) {
-                return object;
-            });
+            return this.at(this.length() - 1);
         }
     };
 
 })();
 
 (function() {
-    var ES5Array = window.ES5Array = function(source) {
+    var ES5Array = window.List.ES5Array = function(source) {
         List.apply(this, arguments);
         
         this.indexOf = function(searchElement, fromIndex) {

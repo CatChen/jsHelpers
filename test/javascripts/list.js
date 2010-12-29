@@ -439,9 +439,9 @@ function testList() {
     test("ecmascript 5 array existence", function() {
         expect(10);
         
-        ok(ES5Array, "ES5Array exists");
+        ok(List.ES5Array, "List.ES5Array exists");
         
-        var array = new ES5Array(1, 2, 3, 4, 5, 6);
+        var array = new List.ES5Array(1, 2, 3, 4, 5, 6);
         ok(array.indexOf, "array.indexOf exists");
         ok(array.lastIndexOf, "array.lastIndexOf exists");
         ok(array.every, "array.every exists");
@@ -456,7 +456,7 @@ function testList() {
     test("ecmascript 5 array indexOf method", function() {
         expect(6);
         
-        var array = new ES5Array(1, 2, 3, 4, 5, 4, 3, 2, 1, 0);
+        var array = new List.ES5Array(1, 2, 3, 4, 5, 4, 3, 2, 1, 0);
         
         equals(array.indexOf(1), 0, "indexOf result");
         equals(array.indexOf(2), 1, "indexOf result");
@@ -469,7 +469,7 @@ function testList() {
     test("ecmascript 5 array lastIndexOf method", function() {
         expect(6);
         
-        var array = new ES5Array(1, 2, 3, 4, 5, 4, 3, 2, 1, 0);
+        var array = new List.ES5Array(1, 2, 3, 4, 5, 4, 3, 2, 1, 0);
         
         equals(array.lastIndexOf(1), 8, "lastIndexOf result");
         equals(array.lastIndexOf(2), 7, "lastIndexOf result");
@@ -483,7 +483,7 @@ function testList() {
         expect(6 + 1 + 1 + 1);
         
         var testObject = {};
-        var array = new ES5Array(1, 2, 3, 4, 5, 6);
+        var array = new List.ES5Array(1, 2, 3, 4, 5, 6);
         var result1 = array.every(function(object) { equals(this, testObject, "thisArg"); return object > 0; }, testObject);
         var result2 = array.every(function(object) { equals(this, testObject, "thisArg"); return object > 1; }, testObject);
         
@@ -495,7 +495,7 @@ function testList() {
         expect(6 + 1 + 1 + 1);
         
         var testObject = {};
-        var array = new ES5Array(1, 2, 3, 4, 5, 6);
+        var array = new List.ES5Array(1, 2, 3, 4, 5, 6);
         var result1 = array.some(function(object) { equals(this, testObject, "thisArg"); return object < 1; }, testObject);
         var result2 = array.some(function(object) { equals(this, testObject, "thisArg"); return object < 2; }, testObject);
         
@@ -507,7 +507,7 @@ function testList() {
         expect(12);
         
         var testObject = {};
-        var array = new ES5Array(1, 2, 3, 4, 5, 6);
+        var array = new List.ES5Array(1, 2, 3, 4, 5, 6);
         var i = 0;
         
         array.forEach(function(object) {
@@ -521,7 +521,7 @@ function testList() {
         expect(7);
         
         var testObject = {};
-        var array = new ES5Array(1, 2, 3, 4, 5, 6)
+        var array = new List.ES5Array(1, 2, 3, 4, 5, 6)
             .map(function(object) { equals(this, testObject, "thisArg"); return object * 2; }, testObject);
         
         same(array.toArray(), [2, 4, 6, 8, 10, 12], "map result");
@@ -531,7 +531,7 @@ function testList() {
         expect(7);
         
         var testObject = {};
-        var array = new ES5Array(1, 2, 3, 4, 5, 6)
+        var array = new List.ES5Array(1, 2, 3, 4, 5, 6)
             .filter(function(object) { equals(this, testObject, "thisArg"); return object > 2 && object % 2; }, testObject);
         
         same(array.toArray(), [3, 5], "filter result");
@@ -540,9 +540,9 @@ function testList() {
     test("ecmascript 5 array reduce method", function() {
         expect(2);
         
-        var product1 = new ES5Array(1, 2, 3, 4, 5, 6)
+        var product1 = new List.ES5Array(1, 2, 3, 4, 5, 6)
             .reduce(function(accumulation, i) { return accumulation * i; }, 1);
-        var product2 = new ES5Array(1, 2, 3, 4, 5, 6)
+        var product2 = new List.ES5Array(1, 2, 3, 4, 5, 6)
             .reduce(function(accumulation, i) { return accumulation * i; });
         
             equals(product1, 720, "reduce result");
@@ -552,9 +552,9 @@ function testList() {
     test("ecmascript 5 array reduceRight method", function() {
         expect(2);
         
-        var product1 = new ES5Array(1, 2, 3, 4, 5, 6)
+        var product1 = new List.ES5Array(1, 2, 3, 4, 5, 6)
             .reduceRight(function(accumulation, i) { return accumulation * i; }, 1);
-        var product2 = new ES5Array(1, 2, 3, 4, 5, 6)
+        var product2 = new List.ES5Array(1, 2, 3, 4, 5, 6)
             .reduceRight(function(accumulation, i) { return accumulation * i; });
         
         equals(product1, 720, "reduceRight result");
