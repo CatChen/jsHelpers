@@ -14,23 +14,17 @@ function testList() {
     });
     
     test("list constructor", function() {
-        expect(4);
+        expect(3);
         
         var count = 0;
         
         var list1 = new List();
         var list2 = new List(1, 2, 3, 4, 5, 6);
         var list3 = new List([1, 2, 3, 4, 5, 6]);
-        var list4 = new List({
-            "item": function() { return count; },
-            "next": function() { return !!(count += 1); },
-            "reset": function() { count = 0; }
-        });
         
         same(list1.toArray(), [], "empty constructor worksly");
         same(list2.toArray(), [1, 2, 3, 4, 5, 6], "arguments constructor worksly");
         same(list3.toArray(), [1, 2, 3, 4, 5, 6], "array constructor worksly");
-        same(list4.drop(2).take(4).toArray(), [3, 4, 5, 6], "enumerator constructor worksly");
     });
     
     test("list at method", function() {
@@ -535,4 +529,3 @@ function testList() {
         equals(product2, 720, "reduceRight result");
     });        
 }
-same(list.toArray(), [4, 5, 6], "dropWhile result");
