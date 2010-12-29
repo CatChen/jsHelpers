@@ -212,6 +212,7 @@
             }
             
             lengthCache = cacheIndex;
+            return this;
         };
         
         this.toArray = function() {
