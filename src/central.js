@@ -6,21 +6,26 @@
 
         target.listen = function(command, handler) {
             listeners[command] = listeners[command] || [];
-            var i = 0;
-            while (i < listeners[command].length && listeners[command][i] != handler) {
-                i++;
+            var i = 0, 
+                handlers = listeners[command],
+                length = handlers.length;
+            while (i < length && handlers[i] != handler) {
+                i ++;
             }
-            if (i == listeners[command].length) {
-                listeners[command].push(handler);
+            if (i == length) {
+                handlers.push(handler);
             }
             return target;
         };
 
         target.call = function(command, argument) {
             if (listeners[command]) {
-                for (var i = 0; i < listeners[command].length; i++) {
+                var i = 0, 
+                    handlers = listeners[command], 
+                    length = handlers.length; 
+                for (; i < length; i ++) {
                     try {
-                        listeners[command][i](argument);
+                        handlers[i](argument);
                     } catch (error) {}
                 }
             }
@@ -29,7 +34,7 @@
     };
     
     Central.extend = function(target) {
-        new centralService(target);
+        centralService(target);
         return target;
     };
     
