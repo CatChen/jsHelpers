@@ -202,14 +202,18 @@ function testList() {
     });
     
     test("list cycle method", function() {
-        expect(2);
+        expect(4);
         
-        var list = new List(1, 2, 3, 4, 5, 6)
+        var list1 = new List(1, 2, 3, 4, 5, 6)
             .cycle()
             .take(20);
+        var list2 = new List()
+            .cycle();
         
-        same(list.toArray(), [1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2], "cycle result");
-        same(list.toArray(), [1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2], "cycle result");
+        same(list1.toArray(), [1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2], "cycle result");
+        same(list1.toArray(), [1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2], "cycle result");
+        equals(list2.length(), 0, "cycle empty list length");
+        equals(list2.length(), 0, "cycle empty list length");
     });
     
     test("list generate method", function() {
