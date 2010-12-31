@@ -487,7 +487,8 @@
                     if (innerEnumerator.next()) {
                         return true;
                     } else {
-                        throw "cannot cycle empty list";
+                        /* empty list produces empty list after cycling */
+                        return false;
                     }
                 }
             }
