@@ -126,7 +126,7 @@ __Sample__
     * start
 * output: result
 
-对列表进行聚合操作，返回运算结果。
+对列表进行归并运算，返回运算结果。
 
 __Sample__
 
@@ -216,21 +216,35 @@ __Sample__
 * input: none
 * output: list : List
 
+返回一个列表，该列表是原列表的无穷次循环结果。
+
 __Sample__
 
-    
+    var list = new List(1, 2, 3, 4, 5);
+    var cycledList = list.cycle();
+    alert(cycledList.take(20).toArray().join(', '));
 
 ### List.generate()
 
 * type: static
 * input:
     * generator : Function
-    * start
 * output: list : List
+
+使用类似 Python Generator 的方式生成一个列表。 generator 函数可以获取到一个 proxy 对象，通过调用该对象的 yield 方法生成下一个项，或通过 end 方法表示列表结束。 generator 函数会被不断调用，直到获取到足够的项或 end 方法被调用为止。
 
 __Sample__
 
-    
+    var a = 0, b = 1;
+    var fibonacci = List
+        .generate(function(proxy) {
+            proxy.yield(a);
+            var aNext = b;
+            var bNext = a + b;
+            a = aNext;
+            b = bNext;
+        });
+    alert(fibonacci.take(20).toArray().join(', '));
 
 ### List.iterate()
 
@@ -240,21 +254,28 @@ __Sample__
     * start
 * output: list : List
 
+将 start 作为列表的第一项，并且使用 generator 及列表的第 n 项生成第 n + 1 项，返回所生成无穷列表。
+
 __Sample__
 
-    
+    var list = List
+        .iterate(function() { return this * 2; }, 1);
+    alert(list.take(20).toArray().join(', '));
 
 ### List.count()
 
 * type: static
 * input:
     * start = 0 (optional)
-    * step = 0 (optional)
+    * step = 1 (optional)
 * output: list : List
+
+生成无穷列表，其第一项为 start （默认值为 0 ），然后每一项都比前一项增加 step （默认值为 1 ），返回所生成的无穷列表。
 
 __Sample__
 
-    
+    var list = List.count();
+    alert(list.take(20).toArray().join(', '));
 
 ### List.repeat()
 
@@ -263,9 +284,12 @@ __Sample__
     * object
 * output: list : List
 
+生成无穷列表，其中的每一项都是参数 object 指定的值，返回所生成的无穷列表。
+
 __Sample__
 
-    
+    var list = List.repeat(42);
+    alert(list.take(20).toArray().join(', '));
 
 ### List.concatenate()
 
@@ -274,9 +298,14 @@ __Sample__
     * lists : arguments
 * output: list : List
 
+串联多个列表，返回串联的结果。
+
 __Sample__
 
-    
+    var list1 = new List(1, 2, 3, 4, 5);
+    var list2 = new List(6, 7, 8, 9, 10);
+    var concatenatedList = List.concatenate(list1, list2);
+    alert(concatenatedList.toArray().join(', '));
 
 ### List.zip()
 
@@ -286,9 +315,14 @@ __Sample__
     * lists : arguments
 * output: list : List
 
+使用 predicate 参数指定的函数做归并，并联多个列表，返回并联结果。
+
 __Sample__
 
-    
+    var list1 = new List(1, 2, 3, 4, 5);
+    var list2 = new List(6, 7, 8, 9, 10);
+    var zippedList = List.zip(function(x, y) { return { x: x, y: y }; }, list1, list2);
+    alert(zippedList.toArray().join(', '));
 
 ### List.all()
 
@@ -297,9 +331,12 @@ __Sample__
     * predicate : Function
 * output: result : Boolean
 
+检测列表是否每一项都满足特定条件。
+
 __Sample__
 
-    
+    var list = new List(1, 2, 3, 4, 5);
+    alert(list.all(function(i) { return i > 0; });
 
 ### List.any()
 
@@ -308,9 +345,12 @@ __Sample__
     * predicate : Function
 * output: result : Boolean
 
+检测列表是否至少有一项都满足特定条件。
+
 __Sample__
 
-    
+    var list = new List(1, 2, 3, 4, 5);
+    alert(list.any(function(i) { return i > 0; });
 
 ### List.sum()
 
@@ -318,9 +358,12 @@ __Sample__
 * input: none
 * output: result : Number
 
+计算列表项的总和。
+
 __Sample__
 
-    
+    var list = new List(1, 2, 3, 4, 5);
+    alert(list.sum());
 
 ### List.average()
 
@@ -328,9 +371,12 @@ __Sample__
 * input: none
 * output: result : Number
 
+计算列表项的平均值。
+
 __Sample__
 
-    
+    var list = new List(1, 2, 3, 4, 5);
+    alert(list.sum());
 
 ### List.maximum()
 
@@ -338,9 +384,12 @@ __Sample__
 * input: none
 * output: result : Number
 
+搜索列表项的最大值。
+
 __Sample__
 
-    
+    var list = new List(1, 2, 3, 4, 5);
+    alert(list.maximum());
 
 ### List.minimum()
 
@@ -348,9 +397,12 @@ __Sample__
 * input: none
 * output: result : Number
 
+搜索列表项的最小值。
+
 __Sample__
 
-    
+    var list = new List(1, 2, 3, 4, 5);
+    alert(list.minimum());
 
 ### List.head()
 
@@ -358,9 +410,12 @@ __Sample__
 * input: none
 * output: item
 
+返回列表的首项。
+
 __Sample__
 
-    
+    var list = new List(1, 2, 3, 4, 5);
+    alert(list.head());
 
 ### List.tail()
 
@@ -368,9 +423,13 @@ __Sample__
 * input: none
 * output: list : List
 
+返回列表除去首项以外的子列表。
+
 __Sample__
 
-    
+    var list = new List(1, 2, 3, 4, 5);
+    var tailList = list.tail();
+    alert(tailList.toArray().join(', '));
 
 ### List.init()
 
@@ -378,9 +437,13 @@ __Sample__
 * input: none
 * output: list : List
 
+返回列表除去末项以外的子列表。
+
 __Sample__
 
-    
+    var list = new List(1, 2, 3, 4, 5);
+    var initList = list.init();
+    alert(initList.toArray().join(', '));
 
 ### List.last()
 
@@ -388,11 +451,12 @@ __Sample__
 * input: none
 * output: item
 
+返回列表的末项。
+
 __Sample__
 
-    
-    
-
+    var list = new List(1, 2, 3, 4, 5);
+    alert(list.last());
         </script>
         <script type="text/javascript">
 window.onload = function() {
