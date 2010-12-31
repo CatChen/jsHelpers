@@ -2,15 +2,37 @@
     var Overload = window.Overload = {};
 
     var copySignature = function(signature) {
-        var copy = [];
-        for (var i = 0; i < signature.length; i++) {
-            copy.push(signature[i]);
-        }
-        if (signature.arguments) {
-            copy.arguments = true;
+        var copy = signature.slice(0);
+        if (signature.more) {
+            copy.more = true;
         }
         return copy;
     };
+
+	var parseSignature = function(signature) {
+		if (signature.replace(/(^\s+|\s+$)/ig, "") == "") {
+			signature = [];
+		} else {
+			signature = signature.split(",");
+			for (var i = 0; i < signature.length; i++) {
+				var typeExpression = signature[i].replace(/(^\s+|\s+$)/ig, "");
+				var type = null;
+				if (typeExpression == "*") {
+					type = Overload.Any;
+				} else if (typeExpression == "...") {
+					type = Overload.More;
+				} else {
+					try {
+						type = eval("(" + typeExpression + ")");
+					} catch (error) {
+						throw "type expression cannot be evaluated: " + typeExpression;
+					}
+				}
+				signature[i] = type;
+			}
+		}
+		return signature;
+	};
     
     var inheritanceComparator = function(type1, type2) {
         if (type1 == type2) {
@@ -139,27 +161,7 @@
             if (signature instanceof Array) {
                 signature = copySignature(signature);
             } else if (signature.constructor == String) {
-                if (signature.replace(/(^\s+|\s+$)/ig, "") == "") {
-                    signature = [];
-                } else {
-                    signature = signature.split(",");
-                    for (var i = 0; i < signature.length; i++) {
-                        var typeExpression = signature[i].replace(/(^\s+|\s+$)/ig, "");
-                        var type = null;
-                        if (typeExpression == "*") {
-                            type = Overload.Any;
-                        } else if (typeExpression == "...") {
-                            type = Overload.More;
-                        } else {
-                            try {
-                                type = eval("(" + typeExpression + ")");
-                            } catch (error) {
-                                throw "type expression cannot be evaluated: " + typeExpression;
-                            }
-                        }
-                        signature[i] = type;
-                    }
-                }
+				signature = parseSignature(signature);
             } else {
                 throw "signature is neither a string nor an array";
             }
