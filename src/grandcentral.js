@@ -26,10 +26,7 @@
             case String:
             case Number:
             case Boolean:
-                if (testValue.constructor != value.constructor) {
-                    return false;
-                }
-                return value == testValue && value.constructor == testValue.constructor;
+                return testValue.constructor == value.constructor && testValue == value;
             default:
                 if (testValue instanceof Array) {
                     if (!(value instanceof Array)) {
@@ -82,7 +79,7 @@
         }
     };
     
-    operators["ne"] = function(testValue, value) { return arguments.length == 2 && !operators["eq"](testValue, value); };
+    operators["ne"] = function(testValue, value) { return !operators["eq"](testValue, value); };
     operators["lt"] = function(testValue, value) { return arguments.length == 2 && value < testValue; };
     operators["lte"] = function(testValue, value) { return arguments.length == 2 && value <= testValue; };
     operators["gt"] = function(testValue, value) { return arguments.length == 2 && value > testValue; };
@@ -136,7 +133,7 @@
     
     operators["re"] = function(testValue, value) { return arguments.length == 2 && value && value.match && value.match(testValue); };
     
-    operators["ld"] = function(testValue, value) { return testValue.call(value, value); };
+    operators["f"] = function(testValue, value) { return testValue.call(value, value); };
     
     var createFilter = function(condition) {
         return function(json) {
@@ -148,7 +145,7 @@
         };
     };
 
-    var grandCentralService = function(target) {
+    var initiateGrandCentralService = function(target) {
         var filterHandlerBundles = [];
 
         target.listen = function(filter, handler) {
@@ -173,7 +170,7 @@
     };
     
     GrandCentral.extend = function(target) {
-        new grandCentralService(target);
+        initiateGrandCentralService(target);
         return target;
     };
     
