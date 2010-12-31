@@ -497,7 +497,7 @@
         return new List(new cachedEnumerator(enumerator));
     };
     
-    List.generate = function(generator, start) {
+    List.generate = function(generator) {
         var BEFORE = 0, RUNNING = 1, AFTER = 2;
         var current;
         var state = BEFORE;
