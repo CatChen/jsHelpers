@@ -487,7 +487,8 @@
                     if (innerEnumerator.next()) {
                         return true;
                     } else {
-                        throw "cannot cycle empty list";
+                        /* empty list produces empty list after cycling */
+                        return false;
                     }
                 }
             }
@@ -496,7 +497,7 @@
         return new List(new cachedEnumerator(enumerator));
     };
     
-    List.generate = function(generator, start) {
+    List.generate = function(generator) {
         var BEFORE = 0, RUNNING = 1, AFTER = 2;
         var current;
         var state = BEFORE;
