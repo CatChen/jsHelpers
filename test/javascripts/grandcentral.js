@@ -556,15 +556,15 @@ function testGrandCentral() {
             "passed test");
 	});
 	
-	test("ld operator", function() {
+	test("f operator", function() {
         expect(2);
         
         ok(GrandCentral.Operators[""](
-            { test$ld: function(json) { return Boolean(json); } },
+            { test$f: function(json) { return Boolean(json); } },
             { test: true, value: argument }),
             "passed test");
         ok(!GrandCentral.Operators[""](
-            { test$ld: function(json) { return Boolean(json); } },
+            { test$f: function(json) { return Boolean(json); } },
             { test: false, value: argument }),
             "passed test");
 	});
