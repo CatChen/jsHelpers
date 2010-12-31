@@ -1,29 +1,27 @@
 (function() {
     var Central = window.Central = {};
     
-    var centralService = function(target) {
+    var initiateCentralService = function(target) {
         var listeners = {};
 
         target.listen = function(command, handler) {
             listeners[command] = listeners[command] || [];
-            var i = 0, 
-                handlers = listeners[command],
-                length = handlers.length;
-            while (i < length && handlers[i] != handler) {
-                i ++;
+            var i = 0;
+            var handlers = listeners[command];
+            while (i < handlers.length && handlers[i] != handlers.length) {
+                i++;
             }
-            if (i == length) {
-                handlers.push(handler);
+            if (i == handlers.length) {
+                handlers[handlers.length] = handler;
             }
             return target;
         };
 
         target.call = function(command, argument) {
             if (listeners[command]) {
-                var i = 0, 
-                    handlers = listeners[command], 
-                    length = handlers.length; 
-                for (; i < length; i ++) {
+                var i;
+                var handlers = listeners[command];
+                for (i = 0; i < handlers.length; i++) {
                     try {
                         handlers[i](argument);
                     } catch (error) {}
@@ -34,7 +32,7 @@
     };
     
     Central.extend = function(target) {
-        centralService(target);
+        initiateCentralService(target);
         return target;
     };
     
