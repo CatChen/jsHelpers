@@ -2,12 +2,9 @@
     var Overload = window.Overload = {};
 
     var copySignature = function(signature) {
-        var copy = [];
-        for (var i = 0; i < signature.length; i++) {
-            copy.push(signature[i]);
-        }
-        if (signature.arguments) {
-            copy.arguments = true;
+        var copy = [].slice.call(signature, 0);
+        if (signature.more) {
+            copy.more = true;
         }
         return copy;
     };
