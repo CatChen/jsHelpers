@@ -1,3 +1,6 @@
+/* TODO: user definable signature parser should be added */
+/* TODO: user definable type evaluator should be added */
+
 (function() {
     var Overload = window.Overload = {};
 
