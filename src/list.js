@@ -1,3 +1,46 @@
+/* TODO: add elem */
+/* TODO: add elemIndex */
+/* TODO: add elemIndices */
+/* TODO: add find */
+/* TODO: add findIndex */
+/* TODO: add findIndices */
+/* TODO: rename concatenate to concat */
+/* TODO: add replicate */
+/* TODO: add unfold */
+/* TODO: remove average */
+/* TODO: add product */
+/* TODO: list comprehension to be added */
+
+/*
+list comprehension should be like:
+
+    List.in(listX)
+        .as(function(x) { return x * 2; });
+    
+    List.in(listX)
+        .in(listY)
+        .on(function(x, y) { return x < y; })
+        .as(function(x, y) { return [x, y]; });
+    
+    var source = new List(new List(1, 2, 3), new List(4, 5, 6), new List(7, 8, 9));
+    List.in(List.count().take(3))
+        .as(function(index) {
+            return List
+                .in(source)
+                .as(function(list) {
+                    return list
+                        .at(index);
+                });
+        })
+        .toArray() == [[1, 4, 7], [2, 5, 8], [3, 6, 9]];
+
+only one method needs to be added in order to support list comprehension: combine
+
+    List
+        .combine(new List(0, 1), new List("X", "Y"))
+        .toArray() == [[0, "X"], [1, "X"], [0, "Y"], [1, "Y"]];
+*/
+
 (function() {
     var AbstractEnumerator = function() {
     };
