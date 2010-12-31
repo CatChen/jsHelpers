@@ -26,10 +26,7 @@
             case String:
             case Number:
             case Boolean:
-                if (testValue.constructor != value.constructor) {
-                    return false;
-                }
-                return value == testValue;
+                return testValue.constructor == value.constructor && testValue == value;
             default:
                 if (testValue instanceof Array) {
                     if (!(value instanceof Array)) {
@@ -148,7 +145,7 @@
         };
     };
 
-    var grandCentralService = function(target) {
+    var initiateGrandCentralService = function(target) {
         var filterHandlerBundles = [];
 
         target.listen = function(filter, handler) {
@@ -173,7 +170,7 @@
     };
     
     GrandCentral.extend = function(target) {
-        grandCentralService(target);
+        initiateGrandCentralService(target);
         return target;
     };
     
