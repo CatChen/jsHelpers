@@ -1,4 +1,8 @@
 body {
+    _text-align: center;
+}
+#container {
     width: 800px;
     margin: auto;
+    _text-align: left;
 }
