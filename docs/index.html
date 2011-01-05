@@ -3,8 +3,14 @@
     <head>
         <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
         <title>JavaScript 辅助模块</title>
+        <link rel="stylesheet" href="stylesheets/default.css" type="text/css" />
+        <link rel="stylesheet" href="stylesheets/shCore.css" type="text/css" />
+        <link rel="stylesheet" href="stylesheets/shThemeDefault.css" type="text/css" />
         <script src="javascripts/showdown.js" type="text/javascript"></script>
-        <script id="content" type="text/x-markdown">
+        <script src="javascripts/xregexp.js" type="text/javascript"></script>
+        <script src="javascripts/shCore.js" type="text/javascript"></script>
+        <script src="javascripts/shBrushJScript.js" type="text/javascript"></script>
+                <script id="content" type="text/x-markdown">
 # JavaScript 辅助模块
 
 JavaScript 辅助模块是一组专门用于构建复杂 Ajax 应用的基础模块。这些模块有一个共同点，就是它们都让你更多地用声明式语言描述问题，更少地用命令式语言解决问题。从本质上来说，它们相当于在 JavaScript 之上建立了各自问题领域的 Internal DSL (Domain Specific Language) ，并且鼓励你使用这些 Internal DSL 描述该领域的问题，然后模块内部的逻辑会为你求解这些问题，你也就无需编写控制求解过程的命令。
@@ -216,13 +222,10 @@ Central 通过字符串形式的事件名称区分不同的事件。无论由哪
     assert(list6.toArray() == [127, 255, 511]);
 
         </script>
-        <script type="text/javascript">
-window.onload = function() {
-    converter = new Showdown.converter();
-    document.body.innerHTML = converter.makeHtml(document.getElementById('content').innerHTML);
-};
-        </script>
     </head>
     <body>
+        <div id="container">
+        </div>
+        <script type="text/javascript" src="javascripts/page.js"></script>
     </body>
 </html>

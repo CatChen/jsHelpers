@@ -2,9 +2,15 @@
 <html>
     <head>
         <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-        <title>Overload 快速入门</title>
+        <title>Async 功能列表</title>
+        <link rel="stylesheet" href="../stylesheets/default.css" type="text/css" />
+        <link rel="stylesheet" href="../stylesheets/shCore.css" type="text/css" />
+        <link rel="stylesheet" href="../stylesheets/shThemeDefault.css" type="text/css" />
         <script src="../javascripts/showdown.js" type="text/javascript"></script>
-        <script id="content" type="text/x-markdown">
+        <script src="../javascripts/xregexp.js" type="text/javascript"></script>
+        <script src="../javascripts/shCore.js" type="text/javascript"></script>
+        <script src="../javascripts/shBrushJScript.js" type="text/javascript"></script>
+                <script id="content" type="text/x-markdown">
 # Overload 快速入门
 
 使用 Overload.add ，我们可以创建一个支持重载的函数，并添加第一个重载。
@@ -34,13 +40,10 @@
 
 对于函数的调用者而言，这一切都是透明的。同时， Overload 也为组织函数逻辑带来了极大的方便。
         </script>
-        <script type="text/javascript">
-window.onload = function() {
-    converter = new Showdown.converter();
-    document.body.innerHTML = converter.makeHtml(document.getElementById('content').innerHTML);
-};
-        </script>
     </head>
     <body>
+        <div id="container">
+        </div>
+        <script type="text/javascript" src="../javascripts/page.js"></script>
     </body>
 </html>
