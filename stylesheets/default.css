@@ -16,14 +16,15 @@ body {
     padding: 20px;
     border: 1px solid #999;
     background-color: #fff;
+    opacity: 0.9;
 }
-#tree:hover ul ul {
+#tree #toggle {
     display: block;
+    text-align: right;
 }
-#tree ul {
-    padding-left: 20px;
-    margin: 0px;
-}
-#tree ul ul {
+#tree.collapsed ul {
     display: none;
+}
+#tree.expanded ul {
+    display: block;
 }
