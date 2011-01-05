@@ -49,7 +49,18 @@ var buildHeadingTree = function(stack) {
 };
 var treeHTML = buildHeadingTree(headingStack);
 
-document.getElementById('container').innerHTML = '<div id="tree">' + treeHTML + '</div>' + html;
+var toggleTreeVisibility = function() {
+    var treeElement = document.getElementById('tree');
+    var toggleElement = document.getElementById('toggle');
+    if (treeElement.className == 'collapsed') {
+        treeElement.className = 'expanded';
+        toggleElement.innerHTML = 'Hide Index';
+    } else {
+        treeElement.className = 'collapsed';
+        toggleElement.innerHTML = 'Show Index';
+    }
+};
+document.getElementById('container').innerHTML = '<div id="tree" class="collapsed"><a id="toggle" href="###" onclick="window.toggleTreeVisibility()">Show Index</a>' + treeHTML + '</div>' + html;
 
 var codes = document.getElementsByTagName('code');
 for (var i = 0; i < codes.length; i++) {
@@ -57,3 +68,4 @@ for (var i = 0; i < codes.length; i++) {
 }
 SyntaxHighlighter.config.tagName = 'code';
 SyntaxHighlighter.all()
+

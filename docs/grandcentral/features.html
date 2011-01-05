@@ -19,8 +19,6 @@ GrandCentral 是一个用于在 JavaScript 环境中快速创建 JSON 派发者�
 
 用于匹配 JSON 和派发 JSON 的静态类。
 
-__Sample__
-
 	GrandCentral.listen({
 		status: 200,
 		command: "friendstatus"
@@ -53,8 +51,6 @@ __Sample__
 
 使用函数过滤 JSON 或使用模式匹配 JSON ，并使用处理函数处理符合条件的 JSON 。
 
-__Sample__
-
 	GrandCentral.listen(function(json) {
 		return (json.status == 200 && json.command == "friendstatus")
 	}, function(json) {
@@ -72,8 +68,6 @@ __Sample__
 
 如果不使用任何的 Operator ，则视为 Default Operator 。如果值是 Array ，按照 in Operator 处理；如果值是 RegExp ，按照 re Operator 处理；如果值是 Function ，按照 ld Operator 处理；否则，按照 eq Operator 处理。
 
-__Sample__
-
 	GrandCentral.listen({
 		value1: 42,
 		value2: ["hello", "world"]
@@ -90,8 +84,6 @@ __Sample__
 #### eq Operator
 
 eq Operator 用于比较两个值是否相等。对于 String 、 Number 、 Boolean ，比较值是否全等；对于 Array ，对 Array 中的每一个元素使用 eq Operator 进行比较；对于 Object ，对 Object 中的每一个元素使用 Default Operator 进行比较。对于 null 和 undefined ，比较值是否全等。
-
-__Sample__
 
 	GrandCentral.listen({
 		value1$eq: "hello world",
@@ -123,8 +115,6 @@ __Sample__
 
 ne Operator 用于比较两个值是否不等。其比较结果相当于对 eq Operator 比较结果取反。
 
-__Sample__
-
 	GrandCentral.listen({
 		value1$ne: "hello world",
 		value2$ne: 42
@@ -142,8 +132,6 @@ __Sample__
 
 lt Operator 用于比较数值是否小于某个给定值。
 
-__Sample__
-
 	GrandCentral.listen({
 		value1$lt: 0
 	}, function(json) {
@@ -158,8 +146,6 @@ __Sample__
 #### lte Operator
 
 lte Operator 用于比较数值是否小于或等于某个给定值。
-
-__Sample__
 
 	GrandCentral.listen({
 		value1$lte: 0,
@@ -178,8 +164,6 @@ __Sample__
 
 gt Operator 用于比较数值是否小于某个给定值。
 
-__Sample__
-
 	GrandCentral.listen({
 		value1$gt: 0
 	}, function(json) {
@@ -194,8 +178,6 @@ __Sample__
 #### gte Operator
 
 gte Operator 用于比较数值是否小于或等于某个给定值。
-
-__Sample__
 
 	GrandCentral.listen({
 		value1$gte: 0,
@@ -213,8 +195,6 @@ __Sample__
 #### in Operator
 
 in Operator 用于检测值是否等于 Array 中的任一值。其中等于指的是 eq Operator 。
-
-__Sample__
 
 	GrandCentral.listen({
 		value1$in: ["hello", "world"],
@@ -240,8 +220,6 @@ __Sample__
 
 nin Operator 用于检测是否不等于 Array 中的任一值。相对于对 in Operator 结果取反。
 
-__Sample__
-
 	GrandCentral.listen({
 		value1$nin: ["hello", "world"],
 		value2$nin: [{
@@ -266,8 +244,6 @@ __Sample__
 
 all Operator 用于检查 Array 中的值是否都属于某个给定的 Array 。其中属于指的是 in Operator 。
 
-__Sample__
-
 	GrandCentral.listen({
 		value1$all: ["hello", "world"]
 	}, function(json) {
@@ -282,8 +258,6 @@ __Sample__
 #### ex Operator
 
 ex Operator 用于检测某个值是否存在，或者是某个值是否不存在。
-
-__Sample__
 
 	GrandCentral.listen({
 		value1$ex: true,
@@ -301,8 +275,6 @@ __Sample__
 
 re Operator 用于检测 String 是否匹配给定的 RegExp 。
 
-__Sample__
-
 	GrandCentral.listen({
 		value1$re: /^A.*/
 	}, function(json) {
@@ -317,8 +289,6 @@ __Sample__
 #### f Operator
 
 f Operator 用于检测值是否能够通过给定的函数表达式。
-
-__Sample__
 
 	GrandCentral.listen({
 		value1$ld: function(json) { return json.x > json.y; },
@@ -344,8 +314,6 @@ __Sample__
 * output: Central
 
 派发 JSON 。
-
-__Sample__
 
 	GrandCentral.call({
 		status: 200,
@@ -380,8 +348,6 @@ __Sample__
 
 使用函数过滤 JSON 或使用模式匹配 JSON ，并使用处理函数处理符合条件的 JSON 。
 
-__Sample__
-
 	var controller = new Controller();
 	
 	GrandCentral.extend(controller);
@@ -400,8 +366,6 @@ __Sample__
 * output: this
 
 派发指定名称的 JSON 。
-
-__Sample__
 
 	var controller = new Controller();
 	
