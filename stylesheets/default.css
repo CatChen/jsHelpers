@@ -2,7 +2,28 @@ body {
     _text-align: center;
 }
 #container {
+    position: relative;
     width: 800px;
     margin: auto;
     _text-align: left;
+}
+#tree {
+    position: fixed;
+    _position: absolute;
+    z-index: 999;
+    top: 20px;
+    right: 20px;
+    padding: 20px;
+    border: 1px solid #999;
+    background-color: #fff;
+}
+#tree:hover ul ul {
+    display: block;
+}
+#tree ul {
+    padding-left: 20px;
+    margin: 0px;
+}
+#tree ul ul {
+    display: none;
 }

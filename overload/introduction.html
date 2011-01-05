@@ -44,15 +44,6 @@
     <body>
         <div id="container">
         </div>
-        <script type="text/javascript">
-var converter = new Showdown.converter();
-document.getElementById('container').innerHTML = converter.makeHtml(document.getElementById('content').innerHTML);
-var codes = document.getElementsByTagName('code');
-for (var i = 0; i < codes.length; i++) {
-    codes[i].className = 'brush: js';
-}
-SyntaxHighlighter.config.tagName = 'code';
-SyntaxHighlighter.all()
-        </script>
+        <script type="text/javascript" src="../javascripts/page.js"></script>
     </body>
 </html>
