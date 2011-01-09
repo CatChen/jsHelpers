@@ -1,0 +1,5 @@
+jsHelpers is a set of tools help you write your AJAX application in a simpler way. It focuses on reducing complexity of JavaScript code, but it has nothing to do with DOM or Array. If you want some basic library helps you with DOM manipulation and JavaScript extension, try [http://jquery.com](jQuery), [http://www.prototypejs.org](Prototype), [http://tangram.baidu.com](Tangram), etc. jsHelpers works with these libraries but doesn't depend on any of them. 
+
+What does jsHelpers do then? I apologize for not providing more details here. You can find it in [http://catchen.github.com/jsHelpers/](documentation). All documentation is in Chinese, and I think samples in it might help you understand what these helpers do. I will provide documentation in other languages in the future. 
+
+The latest release is [https://github.com/CatChen/jsHelpers/tree/0.9.8](0.9.8). In this release, all source code and unit tests are ready. I'm working on documentation now. I will release 1.0 when there is a stable version with complete docs. 
