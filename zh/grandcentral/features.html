@@ -291,8 +291,8 @@ re Operator 用于检测 String 是否匹配给定的 RegExp 。
 f Operator 用于检测值是否能够通过给定的函数表达式。
 
 	GrandCentral.listen({
-		value1$ld: function(json) { return json.x > json.y; },
-		value2$ld: function(json) { return !json; }
+		value1$f: function(json) { return json.x > json.y; },
+		value2$f: function(json) { return !json; }
 	}, function(json) {
 		/* will capture call below */
 	});
