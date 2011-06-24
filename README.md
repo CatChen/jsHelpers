@@ -2,4 +2,4 @@ jsHelpers is a set of tools help you write your AJAX application in a simpler wa
 
 What does jsHelpers do then? I apologize for not providing more details here. You can find it in [documentation](http://catchen.github.com/jsHelpers/). All documentation is in Chinese, and I think samples in it might help you understand what these helpers do. I will provide documentation in other languages in the future. 
 
-The latest release is [0.9.8](https://github.com/CatChen/jsHelpers/tree/0.9.8). In this release, all source code and unit tests are ready. I'm working on documentation now. I will release 1.0 when there is a stable version with complete docs. 
+The latest release is [0.9.9](https://github.com/CatChen/jsHelpers/tree/0.9.9). In this release, all source code and unit tests are ready. It also works with [Node.js](http://nodejs.org/) and [Node Package Manager](http://npmjs.org/). I'm working on documentation now. I will release 1.0 when there is a stable version with complete docs. 
