@@ -1,5 +1,12 @@
 (function() {
-    var GrandCentral = window.GrandCentral = {};
+    var GrandCentral = {};
+    if (module && module.exports) {
+        module.exports = GrandCentral;
+    } else if (window) {
+        window.GrandCentral = GrandCentral;
+    } else {
+        return;
+    }
     
     var operators = GrandCentral.Operators = {};
     

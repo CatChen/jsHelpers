@@ -1,5 +1,12 @@
 (function() {
-    var Central = window.Central = {};
+    var Central = {};
+    if (module && module.exports) {
+        module.exports = Central;
+    } else if (window) {
+        window.Central = Central;
+    } else {
+        return;
+    }
     
     var initiateCentralService = function(target) {
         var listeners = {};

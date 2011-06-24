@@ -1,5 +1,12 @@
 (function() {
-    var Async = window.Async = {};
+    var Async = {};
+    if (module && module.exports) {
+        module.exports = Async;
+    } else if (window) {
+        window.Async = Async;
+    } else {
+        return;
+    }
     
     var globalErrorCallbacks = [];
     

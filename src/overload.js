@@ -1,5 +1,12 @@
 (function() {
-    var Overload = window.Overload = {};
+    var Overload = {};
+    if (module && module.exports) {
+        module.exports = Overload;
+    } else if (window) {
+        window.Overload = Overload;
+    } else {
+        return;
+    }
 
     var copySignature = function(signature) {
         var copy = signature.slice(0);

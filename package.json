@@ -1,0 +1,17 @@
+{
+    "name": "jshelpers",
+    "description": "Helpers for JavaScript",
+    "homepage": "http://catchen.github.com/jsHelpers/",
+    "version": "0.9.9",
+    "author": {
+        "name": "Cat Chen",
+        "email": "catchen@catchen.me",
+        "web": "http://catchen.me"
+    },
+    "repositories": [
+        {
+            "type": "git",
+            "url": "git://github.com/CatChen/jsHelpers.git"
+        }
+    ]
+}

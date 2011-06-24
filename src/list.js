@@ -134,7 +134,7 @@
         };
     };
     
-    var List = window.List = function(source) {
+    var List = function(source) {
         var enumerator;
         var arrayCache = [];
         var lengthCache = -1;
@@ -825,10 +825,26 @@
         }
     };
 
+    if (module && module.exports) {
+        module.exports = List;
+    } else if (window) {
+        window.List = List;
+    } else {
+        return;
+    }
 })();
 
 (function() {
-    var ES5Array = window.List.ES5Array = function(source) {
+    var List;
+    if (module && module.exports) {
+        List = module.exports;
+    } else if (window) {
+        List = window.List;
+    } else {
+        return;
+    }
+    
+    var ES5Array = List.ES5Array = function(source) {
         List.apply(this, arguments);
         
         this.indexOf = function(searchElement, fromIndex) {
