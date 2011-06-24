@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-        <title>Async 功能列表</title>
+        <title>Async Features</title>
         <link rel="stylesheet" href="../../stylesheets/default.css" type="text/css" />
         <link rel="stylesheet" href="../../stylesheets/shCore.css" type="text/css" />
         <link rel="stylesheet" href="../../stylesheets/shThemeDefault.css" type="text/css" />
@@ -11,13 +11,13 @@
         <script src="../../javascripts/shCore.js" type="text/javascript"></script>
         <script src="../../javascripts/shBrushJScript.js" type="text/javascript"></script>
         <script id="content" type="text/x-markdown">
-# Async 功能列表
+# Async Features
 
-Async 是一个用于统一 JavaScript 异步编程模式的组件，通过让异步函数统一返回 Async.Operation 使得异步函数不再需要自行处理异步回调，其详细设计目标及实现机制请参考系列文章《写个 JavaScript 异步调用框架 (Part <a href="http://www.cnblogs.com/cathsfz/archive/2009/05/06/1450332.html">1</a>, <a href="http://www.cnblogs.com/cathsfz/archive/2009/05/07/1451200.html">2</a>, <a href="http://www.cnblogs.com/cathsfz/archive/2009/05/07/1451937.html">3</a>, <a href="http://www.cnblogs.com/cathsfz/archive/2009/05/09/1452875.html">4</a>, <a href="http://www.cnblogs.com/cathsfz/archive/2009/06/30/1514339.html">5</a>, <a href="http://www.cnblogs.com/cathsfz/archive/2009/07/01/1514983.html">6</a>)》，本文仅用作面向开发者用户的说明文档。
+Async is a component for the unification of JavaScript asynchronous programming style. It let all asynchronous functions return instances of Async.Operation and they don't have to handle callback functions themselves.
 
 ## Async.Operation
 
-表示异步操作的类，异步函数在每次调用时都应该实例化该类的一个新实例。
+A class represents an asynchronous operation. Every asynchronous operation should instantiate an Async.Operation object.
 
 	/* jQuery required for this sample */
 	
@@ -34,19 +34,19 @@ Async 是一个用于统一 JavaScript 异步编程模式的组件，通过让�
 
 * type: instance
 
-异步操作的结果。在 yield 执行之前，值一直为 undefined 。在 yield 执行之后，值为 yield 传入的值。
+Result of the asynchronous operation. It should be undefinied before yield is called. It should be the same value as the argument of yield after yield is called.
 
 ### Async.Operation.state
 
 * type: instance
 
-异步操作的状态。在 yield 执行之前，状态一直为 "running" 。在 yield 执行之后，状态为 "completed" 。
+State of the asynchronous operation. It should be "running" before yield is called. It should be "completed" after yield is called.
 
 ### Async.Operation.completed
 
 * type: instance
 
-异步操作是否已完成。在 yield 执行之前，已完成标志位一直为 false 。在 yield 执行之后，已完成标志位一直为 true 。
+Indicator of whether the asynchronous operation is completed. It should be false before yield is called. It should be true after yield is called.
 
 ### Async.Operation.yield()
 
@@ -55,7 +55,7 @@ Async 是一个用于统一 JavaScript 异步编程模式的组件，通过让�
 	* value (optional)
 * output: this : Operation
 
-为特定的异步操作返回结果。
+Return value for a specific asynchronous operation.
 
 	var waitAsync = function(delay) {
 		var operation = new Async.Operation();
@@ -73,7 +73,7 @@ Async 是一个用于统一 JavaScript 异步编程模式的组件，通过让�
 	* callback : Function
 * output: this : Operation
 
-为特定的异步操作添加回调函数。回调函数会在异步操作返回后逐一被调用，回调函数都会接收到一个参数，也就是异步操作的返回结果。
+Add callback function to a specific asynchronous operation. These callback functions will be executed one by one and they will receive one argument as the result of the asynchronous operation.
 
 	var waitOperation = wait(999);
 	waitOperation.addCallback(function(result) { alert(result); });
@@ -84,7 +84,7 @@ Async 是一个用于统一 JavaScript 异步编程模式的组件，通过让�
 * input: none
 * output: chain : Operation
 
-创建一个异步调用队列。
+Create an asynchronous execution queue.
 
 	Async
 		.chain()
@@ -97,19 +97,19 @@ Async 是一个用于统一 JavaScript 异步编程模式的组件，通过让�
 
 * type: instance
 
-异步操作的结果。在 go 执行之前，值一直为 undefined 。在 go 执行之后，值为 go 传入的值。随后队列中每一个函数执行完，这个值都会更新为最后执行完的函数的返回值。
+Result of the asynchronous operation. It should be undefined before go is called. It should be the result of the last executed function in the queue after go is called.
 
 ### Async.chain().state
 
 * type: instance
 
-异步操作的状态。在 go 执行之前，状态一直为 "waiting" 。在 go 执行之后，状态为 "chain running" 。当队列中的所有函数都执行完后，状态为 "completed" 。
+State of the asynchronous operation. It should be "waiting" before go is called. It should be "chain running" after go is called. It should be "completed" when all functions in the queue are executed.
 
 ### Async.chain().completed
 
 * type: instance
 
-异步操作是否已完成。在队列执行之前，已完成标志位一直为 false 。在队列执行完之后，已完成标志位改为 true 。
+Indicator of whether the asynchronous operation is completed. It should be false before all functions in the queue are executed. It should be true after that.
 
 ### Async.chain().next()
 
@@ -118,7 +118,7 @@ Async 是一个用于统一 JavaScript 异步编程模式的组件，通过让�
 	* function : Function
 * output: this : Operation
 
-向异步调用队列添加函数。如果该函数返回值类型为 Async.Operation ，队列会等待该异步操作结束后再执行下一个函数；否则队列在执行完该函数后立即执行下一个函数。无论是哪种情况，该函数都会接收到一个参数，该参数为 go 传入的初始值，或者是上一个的函数返回值。该函数的返回值会作为唯一一个参数传给下一个的函数。
+Append a function to the queue. If the function returns an instance of Async.Operation, the queue will wait for the asynchronous operation inside this function to be finished before moving on to next function in the queue. Otherwise, next function in the queue is executed right after this function. In both situations, the function will receive one argument when it's call. This argument will be the argument of go if the function is the first in the queue. Otherwise, it's result of the previous function in the queue. In both situations, the result of this function will be passed on to next function in the queue as an argument.
 
 	var plusOne = function(i) {
 		return i + 1;
@@ -144,7 +144,7 @@ Async 是一个用于统一 JavaScript 异步编程模式的组件，通过让�
 	* value (optional)
 * output: this : Operation
 
-启动函数队列。如果向 go 传入一个参数，该参数将会作为唯一参数传递给函数队列中的第一个函数。在执行 go 之后，仍可以通过next向函数队列追加函数，并且函数队列总会执行这些追加的函数。
+Start the functions queue. If go is called with one argument, this argument will be the argument of the first function in the queue. Appending more functions to the queue by calling next is still possible after go is called.
 
 	Async
 		.chain()
@@ -160,7 +160,7 @@ Async 是一个用于统一 JavaScript 异步编程模式的组件，通过让�
 	* delay : Number
 * output: this : Operation
 
-让函数队列等待指定的毫秒数。如果 wait 接收到一个参数，则它会原封不动地把这个参数返回，使得 wait 后面一个函数总能接收到 wait 前面一个函数的返回值。
+Let the functions queue wait in milliseconds. It will let the result of the previous function pass through and the next function will receive it as an argument.
 
 	Async
 		.chain()
@@ -171,7 +171,7 @@ Async 是一个用于统一 JavaScript 异步编程模式的组件，通过让�
 
 ## Helpers
 
-以下是 Async 主要功能以外的辅助函数
+Below are the helper functions besides Async's main functions.
 
 ### Async.go()
 
@@ -180,7 +180,7 @@ Async 是一个用于统一 JavaScript 异步编程模式的组件，通过让�
 	* value (optional)
 * output: operation : Operation
 
-创建一个异步调用队列，并立即启动该队列。如果传入一个参数，则该参数作为队列第一个函数的唯一参数。
+Create an asynchronous function queue and start the queue imidiately. If an argument is passed to go, it will be passed to the first function in the queue.
 
 	var plusOne = function(i) {
 		return i + 1;
@@ -206,7 +206,7 @@ Async 是一个用于统一 JavaScript 异步编程模式的组件，通过让�
 	* value (optional)
 * output: operation : Operation
 
-等待指定的毫秒数，然后开始执行回调函数。回调函数将要接收到的异步操作结果，可以在第二个参数指定。
+Wait in millisenconds as an asynchronous operation. If the second argument is assigned, callback functions will receive it as an argument.
 
 	var waitOperation = Async.wait(999, "predefined result");
 	waitOperation.addCallback(function(result) { alert(result); });
@@ -219,7 +219,7 @@ Async 是一个用于统一 JavaScript 异步编程模式的组件，通过让�
 	* values : Params (optional)
 * output: operation : Operation
 
-以异步方式调用同步函数，使用方式与 Function.prototype.call() 一致，返回类型为 Async.Operation 。
+Call function in an asynchronous manner. It works like Function.prototype.call() and returns an instance of Async.Operation.
 
 	var sayHello = function(name) { return "Hello, " + name; };
 	sayHello
@@ -234,7 +234,7 @@ Async 是一个用于统一 JavaScript 异步编程模式的组件，通过让�
 	* values : Array (optional)
 * output: operatoin : Operation
 
-以异步方式调用同步函数，使用方式与 Function.prototype.apply() 一致，返回类型为 Async.Operation 。
+Call function in an asynchronous manner. It works like Function.prototype.apply() and returns an instance of Async.Operation.
 
 	var sayHello = function(name) { return "Hello, " + name; };
 	sayHello

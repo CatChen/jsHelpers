@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-        <title>GrandCentral 说明文档</title>
+        <title>GrandCentral Features</title>
         <link rel="stylesheet" href="../../stylesheets/default.css" type="text/css" />
         <link rel="stylesheet" href="../../stylesheets/shCore.css" type="text/css" />
         <link rel="stylesheet" href="../../stylesheets/shThemeDefault.css" type="text/css" />
@@ -11,13 +11,13 @@
         <script src="../../javascripts/shCore.js" type="text/javascript"></script>
         <script src="../../javascripts/shBrushJScript.js" type="text/javascript"></script>
         <script id="content" type="text/x-markdown">
-# GrandCentral 说明文档
+# GrandCentral Features
 
-GrandCentral 是一个用于在 JavaScript 环境中快速创建 JSON 派发者的组件，关注 JSON 的组件可以通过模式匹配捕获符合特定条件的 JSON 。
+GrandCentral is a component for quick and easy JSON dispatcher in JavaScript. Any module observing these JSON packets can retrieve only those it needs by identifying there pattern.
 
 ## GrandCentral
 
-用于匹配 JSON 和派发 JSON 的静态类。
+A static class use to match and dispatch JSON.
 
 	GrandCentral.listen({
 		status: 200,
@@ -49,7 +49,7 @@ GrandCentral 是一个用于在 JavaScript 环境中快速创建 JSON 派发者�
 	* handler : Function
 * output: Central
 
-使用函数过滤 JSON 或使用模式匹配 JSON ，并使用处理函数处理符合条件的 JSON 。
+Use a test function or a JSON pattern to match JSON packets. The handler will only receive JSON packets passed the test function or matched with the JSON pattern.
 
 	GrandCentral.listen(function(json) {
 		return (json.status == 200 && json.command == "friendstatus")
@@ -66,7 +66,7 @@ GrandCentral 是一个用于在 JavaScript 环境中快速创建 JSON 派发者�
 
 #### Default Operator
 
-如果不使用任何的 Operator ，则视为 Default Operator 。如果值是 Array ，按照 in Operator 处理；如果值是 RegExp ，按照 re Operator 处理；如果值是 Function ，按照 f Operator 处理；否则，按照 eq Operator 处理。
+If no Operator is used, it will be considered as Default Operator in use. If the condition is an Array, Default Operator acts as in Operator; If the condition is a RegExp, Default Operator acts as re Operator; If the condition is a Function, Default Operator acts as f Operator. Otherwise, Default Operator acts as eq Operator.
 
 	GrandCentral.listen({
 		value1: 42,
@@ -83,7 +83,7 @@ GrandCentral 是一个用于在 JavaScript 环境中快速创建 JSON 派发者�
 
 #### eq Operator
 
-eq Operator 用于比较两个值是否相等。对于 String 、 Number 、 Boolean ，比较值是否全等；对于 Array ，对 Array 中的每一个元素使用 eq Operator 进行比较；对于 Object ，对 Object 中的每一个元素使用 Default Operator 进行比较。对于 null 和 undefined ，比较值是否全等。
+eq Operator is used to compare if two values are equal. For String, Number, and Boolean, the value is compared directly; For Array, every item in the Array is compared with eq Operator; For Obejct, every item in the Object is compared with Default Operator. For null and undefined, the value is compared directly.
 
 	GrandCentral.listen({
 		value1$eq: "hello world",
@@ -113,7 +113,7 @@ eq Operator 用于比较两个值是否相等。对于 String 、 Number 、 Boo
 
 #### ne Operator
 
-ne Operator 用于比较两个值是否不等。其比较结果相当于对 eq Operator 比较结果取反。
+eq Operator is used to compare if two values are not equal. It should equal to the opposite value of eq Operator.
 
 	GrandCentral.listen({
 		value1$ne: "hello world",
@@ -130,7 +130,7 @@ ne Operator 用于比较两个值是否不等。其比较结果相当于对 eq O
 
 #### lt Operator
 
-lt Operator 用于比较数值是否小于某个给定值。
+lt Operator is used to compae if the value is less than a specific value.
 
 	GrandCentral.listen({
 		value1$lt: 0
@@ -145,7 +145,7 @@ lt Operator 用于比较数值是否小于某个给定值。
 
 #### lte Operator
 
-lte Operator 用于比较数值是否小于或等于某个给定值。
+lte Operator is used to compae if the value is less than or equal to a specific value.
 
 	GrandCentral.listen({
 		value1$lte: 0,
@@ -162,7 +162,7 @@ lte Operator 用于比较数值是否小于或等于某个给定值。
 
 #### gt Operator
 
-gt Operator 用于比较数值是否小于某个给定值。
+gt Operator is used to compae if the value is greater than a specific value.
 
 	GrandCentral.listen({
 		value1$gt: 0
@@ -177,7 +177,7 @@ gt Operator 用于比较数值是否小于某个给定值。
 
 #### gte Operator
 
-gte Operator 用于比较数值是否小于或等于某个给定值。
+gte Operator is used to compae if the value is greater than or equal to a specific value.
 
 	GrandCentral.listen({
 		value1$gte: 0,
@@ -194,7 +194,7 @@ gte Operator 用于比较数值是否小于或等于某个给定值。
 
 #### in Operator
 
-in Operator 用于检测值是否等于 Array 中的任一值。其中等于指的是 eq Operator 。
+in Operator is used to test if any item in the Array is equal to a specific value. eq Operator is used in the test.
 
 	GrandCentral.listen({
 		value1$in: ["hello", "world"],
@@ -218,7 +218,7 @@ in Operator 用于检测值是否等于 Array 中的任一值。其中等于指�
 
 #### nin Operator
 
-nin Operator 用于检测是否不等于 Array 中的任一值。相对于对 in Operator 结果取反。
+nin Operator is used to test if none of the items in the Array is equal to a specific value. It should equal to the opposite value of in Operator.
 
 	GrandCentral.listen({
 		value1$nin: ["hello", "world"],
@@ -242,7 +242,7 @@ nin Operator 用于检测是否不等于 Array 中的任一值。相对于对 in
 
 #### all Operator
 
-all Operator 用于检查 Array 中的值是否都属于某个给定的 Array 。其中属于指的是 in Operator 。
+all Operator is used to test if all items in an Array are in a specific Array. in Operator is used to test if an item is in the Array.
 
 	GrandCentral.listen({
 		value1$all: ["hello", "world"]
@@ -257,7 +257,7 @@ all Operator 用于检查 Array 中的值是否都属于某个给定的 Array �
 
 #### ex Operator
 
-ex Operator 用于检测某个值是否存在，或者是某个值是否不存在。
+ex Operator is used to test if an item exists in a Object or not.
 
 	GrandCentral.listen({
 		value1$ex: true,
@@ -273,7 +273,7 @@ ex Operator 用于检测某个值是否存在，或者是某个值是否不存�
 
 #### re Operator
 
-re Operator 用于检测 String 是否匹配给定的 RegExp 。
+re Operator is used to test if a String match a specific pattern in RegExp.
 
 	GrandCentral.listen({
 		value1$re: /^A.*/
@@ -288,7 +288,7 @@ re Operator 用于检测 String 是否匹配给定的 RegExp 。
 
 #### f Operator
 
-f Operator 用于检测值是否能够通过给定的函数表达式。
+f Operator is used to test if the value can pass a specific testing function.
 
 	GrandCentral.listen({
 		value1$f: function(json) { return json.x > json.y; },
@@ -313,7 +313,7 @@ f Operator 用于检测值是否能够通过给定的函数表达式。
 	* json : Object
 * output: Central
 
-派发 JSON 。
+Send a JSON packet for dispatching.
 
 	GrandCentral.call({
 		status: 200,
@@ -336,7 +336,7 @@ f Operator 用于检测值是否能够通过给定的函数表达式。
 * input: target : Object
 * output: target : Object
 
-扩展指定对象，使其拥有 Central 功能。
+Extend an object and it will have the functionalities of GrandCentral.
 
 ### GrandCentral.extend().listen()
 
@@ -346,7 +346,8 @@ f Operator 用于检测值是否能够通过给定的函数表达式。
 	* handler : Function
 * output: this
 
-使用函数过滤 JSON 或使用模式匹配 JSON ，并使用处理函数处理符合条件的 JSON 。
+Use a test function or a JSON pattern to match JSON packets. The handler will only receive JSON packets passed the test function or matched with the JSON pattern.
+
 
 	var controller = new Controller();
 	
@@ -365,7 +366,7 @@ f Operator 用于检测值是否能够通过给定的函数表达式。
 	* json : Object
 * output: this
 
-派发指定名称的 JSON 。
+Send a JSON packet for dispatching.
 
 	var controller = new Controller();
 	

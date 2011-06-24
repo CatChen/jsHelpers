@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-        <title>Central 说明文档</title>
+        <title>Central Features</title>
         <link rel="stylesheet" href="../../stylesheets/default.css" type="text/css" />
         <link rel="stylesheet" href="../../stylesheets/shCore.css" type="text/css" />
         <link rel="stylesheet" href="../../stylesheets/shThemeDefault.css" type="text/css" />
@@ -11,13 +11,13 @@
         <script src="../../javascripts/shCore.js" type="text/javascript"></script>
         <script src="../../javascripts/shBrushJScript.js" type="text/javascript"></script>
         <script id="content" type="text/x-markdown">
-# Central 说明文档
+# Central Features
 
-Central 是一个用于在 JavaScript 环境中快速创建事件派发者的组件。
+Central is a JavaScript component for central event dispatcher.
 
 ## Central
 
-用于监听事件和派发事件的静态类。
+A static class for listening to and dispatching events.
 
 	Central.listen("move", function(e) {
 		element.style.left = parseInt(element.style.left) + e.x + "px";
@@ -37,7 +37,7 @@ Central 是一个用于在 JavaScript 环境中快速创建事件派发者的组
 	* handler : Function
 * output: Central
 
-监听指定名称的事件。
+Listen to an event by name.
 
 	Central.listen("move", function(e) {
 		element.style.left = parseInt(element.style.left) + e.x + "px";
@@ -52,7 +52,7 @@ Central 是一个用于在 JavaScript 环境中快速创建事件派发者的组
 	* argument : Object
 * output: Central
 
-派发指定名称的事件。
+Dispatch event by name.
 
 	Central.call("move", {
 		x: 10,
@@ -65,7 +65,7 @@ Central 是一个用于在 JavaScript 环境中快速创建事件派发者的组
 * input: target : Object
 * output: target : Object
 
-扩展指定对象，使其拥有 Central 功能。
+Extend an object and it will have the functionalities of Central.
 
 ### Central.extend().listen()
 
@@ -75,7 +75,7 @@ Central 是一个用于在 JavaScript 环境中快速创建事件派发者的组
 	* handler : Function
 * output: this
 
-监听指定名称的事件。
+Listen to an event by name.
 
 	var controller = new Controller();
 	
@@ -94,7 +94,7 @@ Central 是一个用于在 JavaScript 环境中快速创建事件派发者的组
 	* argument : Object
 * output: this
 
-派发指定名称的事件。
+Dispatch event by name.
 
 	var controller = new Controller();
 	
