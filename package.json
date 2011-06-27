@@ -8,6 +8,9 @@
         "email": "catchen@catchen.me",
         "web": "http://catchen.me"
     },
+    "devDependencies": {
+        "showdown": ">=0.0.1"
+    },
     "repositories": [
         {
             "type": "git",
