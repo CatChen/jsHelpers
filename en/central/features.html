@@ -1,114 +1,144 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-        <title>Central Features</title>
-        <link rel="stylesheet" href="../../stylesheets/default.css" type="text/css" />
-        <link rel="stylesheet" href="../../stylesheets/shCore.css" type="text/css" />
-        <link rel="stylesheet" href="../../stylesheets/shThemeDefault.css" type="text/css" />
-        <script src="../../javascripts/showdown.js" type="text/javascript"></script>
-        <script src="../../javascripts/xregexp.js" type="text/javascript"></script>
-        <script src="../../javascripts/shCore.js" type="text/javascript"></script>
-        <script src="../../javascripts/shBrushJScript.js" type="text/javascript"></script>
-        <script id="content" type="text/x-markdown">
-# Central Features
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<title>Central Features</title>
+		<link rel="stylesheet" type="text/css" href="./../../stylesheets/default.css" />
+		<link rel="stylesheet" type="text/css" href="./../../stylesheets/shCore.css" />
+		<link rel="stylesheet" type="text/css" href="./../../stylesheets/shThemeDefault.css" />
+		<script type="text/javascript" src="./../../javascripts/xregexp.js"></script>
+		<script type="text/javascript" src="./../../javascripts/shCore.js"></script>
+		<script type="text/javascript" src="./../../javascripts/shBrushJScript.js"></script>
+		<script type="text/javascript" src="./../../javascripts/page.js"></script>
+	</head>
+<body>
+    <div id="index" class="collapsed">
+        <a id="toggle" href="###" onclick="window.toggleTreeVisibility()">Show Index</a>
+        <ul><li><a href="#Central Features">Central Features</a><ul><li><a href="#Central">Central</a><ul><li><a href="#Central.listen()">Central.listen()</a></li><li><a href="#Central.call()">Central.call()</a></li></ul></li><li><a href="#Central.extend()">Central.extend()</a><ul><li><a href="#Central.extend().listen()">Central.extend().listen()</a></li><li><a href="#Central.extend().call()">Central.extend().call()</a></li></ul></li></ul></li></ul>
+    </div>
+    <div id="content">
+        <h1><a name="Central Features">Central Features</a></h1>
 
-Central is a JavaScript component for central event dispatcher.
+<p>Central is a JavaScript component for central event dispatcher.</p>
 
-## Central
+<h2><a name="Central">Central</a></h2>
 
-A static class for listening to and dispatching events.
+<p>A static class for listening to and dispatching events.</p>
 
-	Central.listen("move", function(e) {
-		element.style.left = parseInt(element.style.left) + e.x + "px";
-		element.style.top = parseInt(element.style.top) + e.y + "px";
-	});
-	
-	Central.call("move", {
-		x: 10,
-		y: -20
-	});
+<pre><code class="brush: js">Central.listen("move", function(e) {
+    element.style.left = parseInt(element.style.left) + e.x + "px";
+    element.style.top = parseInt(element.style.top) + e.y + "px";
+});
 
-### Central.listen()
+Central.call("move", {
+    x: 10,
+    y: -20
+});
+</code></pre>
 
-* type: static
-* input:
-	* command : String
-	* handler : Function
-* output: Central
+<h3><a name="Central.listen()">Central.listen()</a></h3>
 
-Listen to an event by name.
+<ul>
+<li>type: static</li>
+<li>input:
+<ul><li>command : String</li>
+<li>handler : Function</li></ul></li>
+<li>output: Central</li>
+</ul>
 
-	Central.listen("move", function(e) {
-		element.style.left = parseInt(element.style.left) + e.x + "px";
-		element.style.top = parseInt(element.style.top) + e.y + "px";
-	});
+<p>Listen to an event by name.</p>
 
-### Central.call()
+<pre><code class="brush: js">Central.listen("move", function(e) {
+    element.style.left = parseInt(element.style.left) + e.x + "px";
+    element.style.top = parseInt(element.style.top) + e.y + "px";
+});
+</code></pre>
 
-* type: static
-* input:
-	* command : String
-	* argument : Object
-* output: Central
+<h3><a name="Central.call()">Central.call()</a></h3>
 
-Dispatch event by name.
+<ul>
+<li>type: static</li>
+<li>input:
+<ul><li>command : String</li>
+<li>argument : Object</li></ul></li>
+<li>output: Central</li>
+</ul>
 
-	Central.call("move", {
-		x: 10,
-		y: -20
-	});
+<p>Dispatch event by name.</p>
 
-## Central.extend()
+<pre><code class="brush: js">Central.call("move", {
+    x: 10,
+    y: -20
+});
+</code></pre>
 
-* type: static
-* input: target : Object
-* output: target : Object
+<h2><a name="Central.extend()">Central.extend()</a></h2>
 
-Extend an object and it will have the functionalities of Central.
+<ul>
+<li>type: static</li>
+<li>input: target : Object</li>
+<li>output: target : Object</li>
+</ul>
 
-### Central.extend().listen()
+<p>Extend an object and it will have the functionalities of Central.</p>
 
-* type: instance
-* input:
-	* command : String
-	* handler : Function
-* output: this
+<h3><a name="Central.extend().listen()">Central.extend().listen()</a></h3>
 
-Listen to an event by name.
+<ul>
+<li>type: instance</li>
+<li>input:
+<ul><li>command : String</li>
+<li>handler : Function</li></ul></li>
+<li>output: this</li>
+</ul>
 
-	var controller = new Controller();
-	
-	Central.extend(controller);
-	
-	controller.listen("move", function(e) {
-		element.style.left = parseInt(element.style.left) + e.x + "px";
-		element.style.top = parseInt(element.style.top) + e.y + "px";
-	});
+<p>Listen to an event by name.</p>
 
-### Central.extend().call()
+<pre><code class="brush: js">var controller = new Controller();
 
-* type: instance
-* input:
-	* command : String
-	* argument : Object
-* output: this
+Central.extend(controller);
 
-Dispatch event by name.
+controller.listen("move", function(e) {
+    element.style.left = parseInt(element.style.left) + e.x + "px";
+    element.style.top = parseInt(element.style.top) + e.y + "px";
+});
+</code></pre>
 
-	var controller = new Controller();
-	
-	Central.extend(controller);
-	
-	controller.call("move", {
-		x: 10,
-		y: -20
-	});
-        </script>
-    </head>
-    <body>
-        <div id="container">
-        </div>
-        <script type="text/javascript" src="../../javascripts/page.js"></script>
-    </body>
+<h3><a name="Central.extend().call()">Central.extend().call()</a></h3>
+
+<ul>
+<li>type: instance</li>
+<li>input:
+<ul><li>command : String</li>
+<li>argument : Object</li></ul></li>
+<li>output: this</li>
+</ul>
+
+<p>Dispatch event by name.</p>
+
+<pre><code class="brush: js">var controller = new Controller();
+
+Central.extend(controller);
+
+controller.call("move", {
+    x: 10,
+    y: -20
+});
+</code></pre>
+    </div>
+    <script type="text/javascript">
+        SyntaxHighlighter.config.tagName = 'code';
+        SyntaxHighlighter.all()
+    </script>
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-347601-11']);
+        _gaq.push(['_trackPageview']);
+        (function() {
+          var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+          ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+</body>
 </html>

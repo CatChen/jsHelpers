@@ -1,13 +1,7 @@
 body {
     _text-align: center;
 }
-#container {
-    position: relative;
-    width: 800px;
-    margin: auto;
-    _text-align: left;
-}
-#tree {
+#index {
     position: fixed;
     _position: absolute;
     z-index: 999;
@@ -18,13 +12,19 @@ body {
     background-color: #fff;
     opacity: 0.9;
 }
-#tree #toggle {
+#index #toggle {
     display: block;
     text-align: right;
 }
-#tree.collapsed ul {
+#index.collapsed ul {
     display: none;
 }
-#tree.expanded ul {
+#index.expanded ul {
     display: block;
+}
+#content {
+    position: relative;
+    width: 800px;
+    margin: auto;
+    _text-align: left;
 }
