@@ -12,7 +12,7 @@ try {
     }
     fs.rmdirSync(destinationDirectory);
     console.log('removed build directory');
-} catch(e) {
+} catch (e) {
     if (e.code == 'ENOENT') {
         console.log('build directory doesn\'t exist');
     } else {
