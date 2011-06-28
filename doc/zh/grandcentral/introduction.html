@@ -1,0 +1,94 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<title>GrandCentral 快速入门</title>
+		<link rel="stylesheet" type="text/css" href="./../../stylesheets/default.css" />
+		<link rel="stylesheet" type="text/css" href="./../../stylesheets/shCore.css" />
+		<link rel="stylesheet" type="text/css" href="./../../stylesheets/shThemeDefault.css" />
+		<script type="text/javascript" src="./../../javascripts/xregexp.js"></script>
+		<script type="text/javascript" src="./../../javascripts/shCore.js"></script>
+		<script type="text/javascript" src="./../../javascripts/shBrushJScript.js"></script>
+		<script type="text/javascript" src="./../../javascripts/page.js"></script>
+	</head>
+<body>
+    <div id="index" class="collapsed">
+        <a id="toggle" href="###" onclick="window.toggleTreeVisibility()">Show Index</a>
+        <ul><li><a href="#GrandCentral 快速入门">GrandCentral 快速入门</a></li></ul>
+    </div>
+    <div id="content">
+        <h1><a name="GrandCentral 快速入门">GrandCentral 快速入门</a></h1>
+
+<p>如果需要捕捉指定属性等于指定值的 JSON ，我们可以使用 GrandCentral.listen 。</p>
+
+<pre><code class="brush: js">Central.listen({
+    status: 200,
+    command: "friendstatus"
+}, function(json) {
+    /* update friend status */
+});
+</code></pre>
+
+<p>如果需要派发一个 JSON ，我们可以使用 Central.call 。</p>
+
+<pre><code class="brush: js">Central.call({
+    status: 200,
+    command: "friendstatus",
+    content: [
+        {
+            username: "user0",
+            status: "online"
+        },
+        {
+            username: "user42",
+            status: "away"
+        }
+    ]
+});
+</code></pre>
+
+<p>如果单例的 GrandCentral 无法满足需求，可以使用 GrandCentral.extend 获取多个实例。</p>
+
+<pre><code class="brush: js">var controller = new Controller();
+
+GrandCentral.extend(controller);
+
+controller.listen({
+    status: 200,
+    command: "friendstatus"
+}, function(json) {
+    /* update friend status */
+});
+
+controller.call({
+    status: 200,
+    command: "friendstatus",
+    content: [
+        {
+            username: "user0",
+            status: "online"
+        },
+        {
+            username: "user42",
+            status: "away"
+        }
+    ]
+});
+</code></pre>
+    </div>
+    <script type="text/javascript">
+        SyntaxHighlighter.config.tagName = 'code';
+        SyntaxHighlighter.all()
+    </script>
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-347601-11']);
+        _gaq.push(['_trackPageview']);
+        (function() {
+          var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+          ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+</body>
+</html>
