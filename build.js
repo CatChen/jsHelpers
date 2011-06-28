@@ -28,17 +28,23 @@ var allFiles = [];
 
 for (var i = 0; i < fileNames.length; i++) {
     var sourceFileName = sourceDirectory + fileNames[i];
-    var destinationFileName = destinationDirectory + fileNames[i].replace(/.js$/, '-min.js');
+    var destinationFileName = destinationDirectory + fileNames[i];
+    var destinationCompressedFileName = destinationDirectory + fileNames[i].replace(/.js$/, '-min.js');
     
     var sourceFile = String(fs.readFileSync(sourceFileName));
     allFiles.push(sourceFile);
     
     var compressedFile = uglify(sourceFile);
     
-    fs.writeFileSync(destinationFileName, compressedFile);
-    console.log('compressed ' + sourceFileName + ' into ' + destinationFileName);
+    fs.writeFileSync(destinationFileName, sourceFile);
+    console.log('copied ' + sourceFileName + ' into ' + destinationFileName);
+    fs.writeFileSync(destinationCompressedFileName, compressedFile);
+    console.log('compressed ' + sourceFileName + ' into ' + destinationCompressedFileName);
 }
 
-var compressedAllFiles = uglify(allFiles.join(''));
-fs.writeFileSync(destinationDirectory + 'jshelpers-min.js', compressedAllFiles);
+var composedFile = allFiles.join('');
+var compressedComposedFile = uglify(composedFile);
+fs.writeFileSync(destinationDirectory + 'jshelpers.js', composedFile);
+console.log('composed all files into ' + destinationDirectory + 'jshelpers.js');
+fs.writeFileSync(destinationDirectory + 'jshelpers-min.js', compressedComposedFile);
 console.log('compressed all files into ' + destinationDirectory + 'jshelpers-min.js');
