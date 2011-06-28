@@ -8,6 +8,11 @@
         "email": "catchen@catchen.me",
         "web": "http://catchen.me"
     },
+    directories: {
+        'lib': './src',
+        'doc': './docs',
+        'example': './samples'
+    },
     "devDependencies": {
         "uglify-js": ">=1.0.3",
         "showdown": ">=0.0.1"
