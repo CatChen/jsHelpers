@@ -1,8 +1,16 @@
 const fs = require('fs');
 const uglify = require('uglify-js');
 
+const sourceDirectory = 'src/';
+const destinationDirectory = 'build/';
+
 try {
-    fs.rmdirSync('build');
+    var oldFileNames = fs.readdirSync(destinationDirectory);
+    for (var i = 0; i < oldFileNames.length; i++) {
+        var oldFileName = destinationDirectory + oldFileNames[i];
+        fs.unlinkSync(oldFileName);
+    }
+    fs.rmdirSync(destinationDirectory);
     console.log('removed build directory');
 } catch(e) {
     if (e.code == 'ENOENT') {
@@ -11,22 +19,26 @@ try {
         throw e;
     }
 }
-fs.mkdirSync('build', '755');
+
+fs.mkdirSync(destinationDirectory, '755');
 console.log('created build directory');
 
-var fileNames = fs.readdirSync('src');
-console.log('read src directory');
+var fileNames = fs.readdirSync(sourceDirectory);
+var allFiles = [];
 
 for (var i = 0; i < fileNames.length; i++) {
-    var sourceFileName = 'src/' + fileNames[i];
-    var destinationFileName = 'build/' + fileNames[i];
+    var sourceFileName = sourceDirectory + fileNames[i];
+    var destinationFileName = destinationDirectory + fileNames[i].replace(/.js$/, '-min.js');
     
     var sourceFile = String(fs.readFileSync(sourceFileName));
-    console.log('read ' + sourceFileName);
+    allFiles.push(sourceFile);
     
     var compressedFile = uglify(sourceFile);
-    console.log('compressed file');
     
     fs.writeFileSync(destinationFileName, compressedFile);
-    console.log('written ' + destinationFileName);
+    console.log('compressed ' + sourceFileName + ' into ' + destinationFileName);
 }
+
+var compressedAllFiles = uglify(allFiles.join(''));
+fs.writeFileSync(destinationDirectory + 'jshelpers-min.js', compressedAllFiles);
+console.log('compressed all files into ' + destinationDirectory + 'jshelpers-min.js');
