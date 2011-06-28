@@ -9,6 +9,7 @@
         "web": "http://catchen.me"
     },
     "devDependencies": {
+        "uglify-js": ">=1.0.3",
         "showdown": ">=0.0.1"
     },
     "repositories": [
