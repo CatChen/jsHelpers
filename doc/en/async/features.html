@@ -1,0 +1,308 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<title>Async Features</title>
+		<link rel="stylesheet" type="text/css" href="./../../stylesheets/default.css" />
+		<link rel="stylesheet" type="text/css" href="./../../stylesheets/shCore.css" />
+		<link rel="stylesheet" type="text/css" href="./../../stylesheets/shThemeDefault.css" />
+		<script type="text/javascript" src="./../../javascripts/xregexp.js"></script>
+		<script type="text/javascript" src="./../../javascripts/shCore.js"></script>
+		<script type="text/javascript" src="./../../javascripts/shBrushJScript.js"></script>
+		<script type="text/javascript" src="./../../javascripts/page.js"></script>
+	</head>
+<body>
+    <div id="index" class="collapsed">
+        <a id="toggle" href="###" onclick="window.toggleTreeVisibility()">Show Index</a>
+        <ul><li><a href="#Async Features">Async Features</a><ul><li><a href="#Async.Operation">Async.Operation</a><ul><li><a href="#Async.Operation.result">Async.Operation.result</a></li><li><a href="#Async.Operation.state">Async.Operation.state</a></li><li><a href="#Async.Operation.completed">Async.Operation.completed</a></li><li><a href="#Async.Operation.yield()">Async.Operation.yield()</a></li><li><a href="#Async.Operation.addCallback()">Async.Operation.addCallback()</a></li></ul></li><li><a href="#Async.chain()">Async.chain()</a><ul><li><a href="#Async.chain().result">Async.chain().result</a></li><li><a href="#Async.chain().state">Async.chain().state</a></li><li><a href="#Async.chain().completed">Async.chain().completed</a></li><li><a href="#Async.chain().next()">Async.chain().next()</a></li><li><a href="#Async.chain().go()">Async.chain().go()</a></li><li><a href="#Async.chain().wait()">Async.chain().wait()</a></li></ul></li><li><a href="#Helpers">Helpers</a><ul><li><a href="#Async.go()">Async.go()</a></li><li><a href="#Async.wait()">Async.wait()</a></li><li><a href="#Function.prototype.asyncCall()">Function.prototype.asyncCall()</a></li><li><a href="#Function.prototype.asyncApply()">Function.prototype.asyncApply()</a></li></ul></li></ul></li></ul>
+    </div>
+    <div id="content">
+        <h1><a name="Async Features">Async Features</a></h1>
+
+<p>Async is a component for the unification of JavaScript asynchronous programming style. It let all asynchronous functions return instances of Async.Operation and they don't have to handle callback functions themselves.</p>
+
+<h2><a name="Async.Operation">Async.Operation</a></h2>
+
+<p>A class represents an asynchronous operation. Every asynchronous operation should instantiate an Async.Operation object.</p>
+
+<pre><code class="brush: js">/* jQuery required for this sample */
+
+var getAsync = function(url, data) {
+    var operation = new Async.Operation();
+    $.get(url, data, function(result) { operation.yield(result); }, "json");
+    return operation;
+};
+
+var getOperation = getAsync("/ping", "")
+getOperation.addCallback(function(result) { alert("ping returns: " + result); });
+</code></pre>
+
+<h3><a name="Async.Operation.result">Async.Operation.result</a></h3>
+
+<ul>
+<li>type: instance</li>
+</ul>
+
+<p>Result of the asynchronous operation. It should be undefinied before yield is called. It should be the same value as the argument of yield after yield is called.</p>
+
+<h3><a name="Async.Operation.state">Async.Operation.state</a></h3>
+
+<ul>
+<li>type: instance</li>
+</ul>
+
+<p>State of the asynchronous operation. It should be "running" before yield is called. It should be "completed" after yield is called.</p>
+
+<h3><a name="Async.Operation.completed">Async.Operation.completed</a></h3>
+
+<ul>
+<li>type: instance</li>
+</ul>
+
+<p>Indicator of whether the asynchronous operation is completed. It should be false before yield is called. It should be true after yield is called.</p>
+
+<h3><a name="Async.Operation.yield()">Async.Operation.yield()</a></h3>
+
+<ul>
+<li>type: instance</li>
+<li>input:
+<ul><li>value (optional)</li></ul></li>
+<li>output: this : Operation</li>
+</ul>
+
+<p>Return value for a specific asynchronous operation.</p>
+
+<pre><code class="brush: js">var waitAsync = function(delay) {
+    var operation = new Async.Operation();
+    setTimeout(function() {
+        var result = "You have waited " + delay + " millisecond(s)."
+        operation.yield(result);
+    }, delay);
+    return operation;
+}
+</code></pre>
+
+<h3><a name="Async.Operation.addCallback()">Async.Operation.addCallback()</a></h3>
+
+<ul>
+<li>type: instance</li>
+<li>input:
+<ul><li>callback : Function</li></ul></li>
+<li>output: this : Operation</li>
+</ul>
+
+<p>Add callback function to a specific asynchronous operation. These callback functions will be executed one by one and they will receive one argument as the result of the asynchronous operation.</p>
+
+<pre><code class="brush: js">var waitOperation = wait(999);
+waitOperation.addCallback(function(result) { alert(result); });
+</code></pre>
+
+<h2><a name="Async.chain()">Async.chain()</a></h2>
+
+<ul>
+<li>type: static</li>
+<li>input: none</li>
+<li>output: chain : Operation</li>
+</ul>
+
+<p>Create an asynchronous execution queue.</p>
+
+<pre><code class="brush: js">Async
+    .chain()
+    .next(firstFunction)
+    .next(secondFunction)
+    .next(thirdFunction)
+    .go();
+</code></pre>
+
+<h3><a name="Async.chain().result">Async.chain().result</a></h3>
+
+<ul>
+<li>type: instance</li>
+</ul>
+
+<p>Result of the asynchronous operation. It should be undefined before go is called. It should be the result of the last executed function in the queue after go is called.</p>
+
+<h3><a name="Async.chain().state">Async.chain().state</a></h3>
+
+<ul>
+<li>type: instance</li>
+</ul>
+
+<p>State of the asynchronous operation. It should be "waiting" before go is called. It should be "chain running" after go is called. It should be "completed" when all functions in the queue are executed.</p>
+
+<h3><a name="Async.chain().completed">Async.chain().completed</a></h3>
+
+<ul>
+<li>type: instance</li>
+</ul>
+
+<p>Indicator of whether the asynchronous operation is completed. It should be false before all functions in the queue are executed. It should be true after that.</p>
+
+<h3><a name="Async.chain().next()">Async.chain().next()</a></h3>
+
+<ul>
+<li>type: instance</li>
+<li>input:
+<ul><li>function : Function</li></ul></li>
+<li>output: this : Operation</li>
+</ul>
+
+<p>Append a function to the queue. If the function returns an instance of Async.Operation, the queue will wait for the asynchronous operation inside this function to be finished before moving on to next function in the queue. Otherwise, next function in the queue is executed right after this function. In both situations, the function will receive one argument when it's call. This argument will be the argument of go if the function is the first in the queue. Otherwise, it's result of the previous function in the queue. In both situations, the result of this function will be passed on to next function in the queue as an argument.</p>
+
+<pre><code class="brush: js">var plusOne = function(i) {
+    return i + 1;
+};
+
+var plusOneAsync = function(i) {
+    var operation = new Async.Operation();
+    setTimeout(function() { operation.yield(i + 1); }, 1000);
+    return operation;
+};
+
+Async
+    .chain()
+    .next(plusOne)
+    .next(plusOneAsync)
+    .next(function(i) { alert(i); })
+    .go(0);
+</code></pre>
+
+<h3><a name="Async.chain().go()">Async.chain().go()</a></h3>
+
+<ul>
+<li>type: instance</li>
+<li>input:
+<ul><li>value (optional)</li></ul></li>
+<li>output: this : Operation</li>
+</ul>
+
+<p>Start the functions queue. If go is called with one argument, this argument will be the argument of the first function in the queue. Appending more functions to the queue by calling next is still possible after go is called.</p>
+
+<pre><code class="brush: js">Async
+    .chain()
+    .next(firstFunction)
+    .next(secondFunction)
+    .go()
+    .next(thirdFunction);
+</code></pre>
+
+<h3><a name="Async.chain().wait()">Async.chain().wait()</a></h3>
+
+<ul>
+<li>type: instance</li>
+<li>input:
+<ul><li>delay : Number</li></ul></li>
+<li>output: this : Operation</li>
+</ul>
+
+<p>Let the functions queue wait in milliseconds. It will let the result of the previous function pass through and the next function will receive it as an argument.</p>
+
+<pre><code class="brush: js">Async
+    .chain()
+    .next(firstFunction)
+    .wait(999)
+    .next(secondFunction)
+    .go();
+</code></pre>
+
+<h2><a name="Helpers">Helpers</a></h2>
+
+<p>Below are the helper functions besides Async's main functions.</p>
+
+<h3><a name="Async.go()">Async.go()</a></h3>
+
+<ul>
+<li>type: static</li>
+<li>input:
+<ul><li>value (optional)</li></ul></li>
+<li>output: operation : Operation</li>
+</ul>
+
+<p>Create an asynchronous function queue and start the queue imidiately. If an argument is passed to go, it will be passed to the first function in the queue.</p>
+
+<pre><code class="brush: js">var plusOne = function(i) {
+    return i + 1;
+};
+
+var plusOneAsync = function(i) {
+    var operation = new Async.Operation();
+    setTimeout(function() { operation.yield(i + 1); }, 1000);
+    return operation;
+};
+
+Async
+    .go(0)
+    .next(plusOne)
+    .next(plusOneAsync)
+    .next(function(i) { alert(i); });
+</code></pre>
+
+<h3><a name="Async.wait()">Async.wait()</a></h3>
+
+<ul>
+<li>type: static</li>
+<li>input:
+<ul><li>delay : Number</li>
+<li>value (optional)</li></ul></li>
+<li>output: operation : Operation</li>
+</ul>
+
+<p>Wait in millisenconds as an asynchronous operation. If the second argument is assigned, callback functions will receive it as an argument.</p>
+
+<pre><code class="brush: js">var waitOperation = Async.wait(999, "predefined result");
+waitOperation.addCallback(function(result) { alert(result); });
+</code></pre>
+
+<h3><a name="Function.prototype.asyncCall()">Function.prototype.asyncCall()</a></h3>
+
+<ul>
+<li>type: instance</li>
+<li>input:
+<ul><li>context</li>
+<li>values : Params (optional)</li></ul></li>
+<li>output: operation : Operation</li>
+</ul>
+
+<p>Call function in an asynchronous manner. It works like Function.prototype.call() and returns an instance of Async.Operation.</p>
+
+<pre><code class="brush: js">var sayHello = function(name) { return "Hello, " + name; };
+sayHello
+    .asyncCall(this, "Cat")
+    .addCallback(function(result) { alert(result); });
+</code></pre>
+
+<h3><a name="Function.prototype.asyncApply()">Function.prototype.asyncApply()</a></h3>
+
+<ul>
+<li>type: instance</li>
+<li>input:
+<ul><li>context</li>
+<li>values : Array (optional)</li></ul></li>
+<li>output: operatoin : Operation</li>
+</ul>
+
+<p>Call function in an asynchronous manner. It works like Function.prototype.apply() and returns an instance of Async.Operation.</p>
+
+<pre><code class="brush: js">var sayHello = function(name) { return "Hello, " + name; };
+sayHello
+    .asyncApple(this, ["Cat"])
+    .addCallback(function(result) { alert(result); });
+</code></pre>
+    </div>
+    <script type="text/javascript">
+        SyntaxHighlighter.config.tagName = 'code';
+        SyntaxHighlighter.all()
+    </script>
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-347601-11']);
+        _gaq.push(['_trackPageview']);
+        (function() {
+          var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+          ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+</body>
+</html>

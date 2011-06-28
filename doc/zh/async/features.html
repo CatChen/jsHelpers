@@ -1,0 +1,308 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<title>Async 功能列表</title>
+		<link rel="stylesheet" type="text/css" href="./../../stylesheets/default.css" />
+		<link rel="stylesheet" type="text/css" href="./../../stylesheets/shCore.css" />
+		<link rel="stylesheet" type="text/css" href="./../../stylesheets/shThemeDefault.css" />
+		<script type="text/javascript" src="./../../javascripts/xregexp.js"></script>
+		<script type="text/javascript" src="./../../javascripts/shCore.js"></script>
+		<script type="text/javascript" src="./../../javascripts/shBrushJScript.js"></script>
+		<script type="text/javascript" src="./../../javascripts/page.js"></script>
+	</head>
+<body>
+    <div id="index" class="collapsed">
+        <a id="toggle" href="###" onclick="window.toggleTreeVisibility()">Show Index</a>
+        <ul><li><a href="#Async 功能列表">Async 功能列表</a><ul><li><a href="#Async.Operation">Async.Operation</a><ul><li><a href="#Async.Operation.result">Async.Operation.result</a></li><li><a href="#Async.Operation.state">Async.Operation.state</a></li><li><a href="#Async.Operation.completed">Async.Operation.completed</a></li><li><a href="#Async.Operation.yield()">Async.Operation.yield()</a></li><li><a href="#Async.Operation.addCallback()">Async.Operation.addCallback()</a></li></ul></li><li><a href="#Async.chain()">Async.chain()</a><ul><li><a href="#Async.chain().result">Async.chain().result</a></li><li><a href="#Async.chain().state">Async.chain().state</a></li><li><a href="#Async.chain().completed">Async.chain().completed</a></li><li><a href="#Async.chain().next()">Async.chain().next()</a></li><li><a href="#Async.chain().go()">Async.chain().go()</a></li><li><a href="#Async.chain().wait()">Async.chain().wait()</a></li></ul></li><li><a href="#Helpers">Helpers</a><ul><li><a href="#Async.go()">Async.go()</a></li><li><a href="#Async.wait()">Async.wait()</a></li><li><a href="#Function.prototype.asyncCall()">Function.prototype.asyncCall()</a></li><li><a href="#Function.prototype.asyncApply()">Function.prototype.asyncApply()</a></li></ul></li></ul></li></ul>
+    </div>
+    <div id="content">
+        <h1><a name="Async 功能列表">Async 功能列表</a></h1>
+
+<p>Async 是一个用于统一 JavaScript 异步编程模式的组件，通过让异步函数统一返回 Async.Operation 使得异步函数不再需要自行处理异步回调，其详细设计目标及实现机制请参考系列文章《写个 JavaScript 异步调用框架 (Part <a href="http://www.cnblogs.com/cathsfz/archive/2009/05/06/1450332.html">1</a>, <a href="http://www.cnblogs.com/cathsfz/archive/2009/05/07/1451200.html">2</a>, <a href="http://www.cnblogs.com/cathsfz/archive/2009/05/07/1451937.html">3</a>, <a href="http://www.cnblogs.com/cathsfz/archive/2009/05/09/1452875.html">4</a>, <a href="http://www.cnblogs.com/cathsfz/archive/2009/06/30/1514339.html">5</a>, <a href="http://www.cnblogs.com/cathsfz/archive/2009/07/01/1514983.html">6</a>)》，本文仅用作面向开发者用户的说明文档。</p>
+
+<h2><a name="Async.Operation">Async.Operation</a></h2>
+
+<p>表示异步操作的类，异步函数在每次调用时都应该实例化该类的一个新实例。</p>
+
+<pre><code class="brush: js">/* jQuery required for this sample */
+
+var getAsync = function(url, data) {
+    var operation = new Async.Operation();
+    $.get(url, data, function(result) { operation.yield(result); }, "json");
+    return operation;
+};
+
+var getOperation = getAsync("/ping", "")
+getOperation.addCallback(function(result) { alert("ping returns: " + result); });
+</code></pre>
+
+<h3><a name="Async.Operation.result">Async.Operation.result</a></h3>
+
+<ul>
+<li>type: instance</li>
+</ul>
+
+<p>异步操作的结果。在 yield 执行之前，值一直为 undefined 。在 yield 执行之后，值为 yield 传入的值。</p>
+
+<h3><a name="Async.Operation.state">Async.Operation.state</a></h3>
+
+<ul>
+<li>type: instance</li>
+</ul>
+
+<p>异步操作的状态。在 yield 执行之前，状态一直为 "running" 。在 yield 执行之后，状态为 "completed" 。</p>
+
+<h3><a name="Async.Operation.completed">Async.Operation.completed</a></h3>
+
+<ul>
+<li>type: instance</li>
+</ul>
+
+<p>异步操作是否已完成。在 yield 执行之前，已完成标志位一直为 false 。在 yield 执行之后，已完成标志位一直为 true 。</p>
+
+<h3><a name="Async.Operation.yield()">Async.Operation.yield()</a></h3>
+
+<ul>
+<li>type: instance</li>
+<li>input:
+<ul><li>value (optional)</li></ul></li>
+<li>output: this : Operation</li>
+</ul>
+
+<p>为特定的异步操作返回结果。</p>
+
+<pre><code class="brush: js">var waitAsync = function(delay) {
+    var operation = new Async.Operation();
+    setTimeout(function() {
+        var result = "You have waited " + delay + " millisecond(s)."
+        operation.yield(result);
+    }, delay);
+    return operation;
+}
+</code></pre>
+
+<h3><a name="Async.Operation.addCallback()">Async.Operation.addCallback()</a></h3>
+
+<ul>
+<li>type: instance</li>
+<li>input:
+<ul><li>callback : Function</li></ul></li>
+<li>output: this : Operation</li>
+</ul>
+
+<p>为特定的异步操作添加回调函数。回调函数会在异步操作返回后逐一被调用，回调函数都会接收到一个参数，也就是异步操作的返回结果。</p>
+
+<pre><code class="brush: js">var waitOperation = wait(999);
+waitOperation.addCallback(function(result) { alert(result); });
+</code></pre>
+
+<h2><a name="Async.chain()">Async.chain()</a></h2>
+
+<ul>
+<li>type: static</li>
+<li>input: none</li>
+<li>output: chain : Operation</li>
+</ul>
+
+<p>创建一个异步调用队列。</p>
+
+<pre><code class="brush: js">Async
+    .chain()
+    .next(firstFunction)
+    .next(secondFunction)
+    .next(thirdFunction)
+    .go();
+</code></pre>
+
+<h3><a name="Async.chain().result">Async.chain().result</a></h3>
+
+<ul>
+<li>type: instance</li>
+</ul>
+
+<p>异步操作的结果。在 go 执行之前，值一直为 undefined 。在 go 执行之后，值为 go 传入的值。随后队列中每一个函数执行完，这个值都会更新为最后执行完的函数的返回值。</p>
+
+<h3><a name="Async.chain().state">Async.chain().state</a></h3>
+
+<ul>
+<li>type: instance</li>
+</ul>
+
+<p>异步操作的状态。在 go 执行之前，状态一直为 "waiting" 。在 go 执行之后，状态为 "chain running" 。当队列中的所有函数都执行完后，状态为 "completed" 。</p>
+
+<h3><a name="Async.chain().completed">Async.chain().completed</a></h3>
+
+<ul>
+<li>type: instance</li>
+</ul>
+
+<p>异步操作是否已完成。在队列执行之前，已完成标志位一直为 false 。在队列执行完之后，已完成标志位改为 true 。</p>
+
+<h3><a name="Async.chain().next()">Async.chain().next()</a></h3>
+
+<ul>
+<li>type: instance</li>
+<li>input:
+<ul><li>function : Function</li></ul></li>
+<li>output: this : Operation</li>
+</ul>
+
+<p>向异步调用队列添加函数。如果该函数返回值类型为 Async.Operation ，队列会等待该异步操作结束后再执行下一个函数；否则队列在执行完该函数后立即执行下一个函数。无论是哪种情况，该函数都会接收到一个参数，该参数为 go 传入的初始值，或者是上一个的函数返回值。该函数的返回值会作为唯一一个参数传给下一个的函数。</p>
+
+<pre><code class="brush: js">var plusOne = function(i) {
+    return i + 1;
+};
+
+var plusOneAsync = function(i) {
+    var operation = new Async.Operation();
+    setTimeout(function() { operation.yield(i + 1); }, 1000);
+    return operation;
+};
+
+Async
+    .chain()
+    .next(plusOne)
+    .next(plusOneAsync)
+    .next(function(i) { alert(i); })
+    .go(0);
+</code></pre>
+
+<h3><a name="Async.chain().go()">Async.chain().go()</a></h3>
+
+<ul>
+<li>type: instance</li>
+<li>input:
+<ul><li>value (optional)</li></ul></li>
+<li>output: this : Operation</li>
+</ul>
+
+<p>启动函数队列。如果向 go 传入一个参数，该参数将会作为唯一参数传递给函数队列中的第一个函数。在执行 go 之后，仍可以通过next向函数队列追加函数，并且函数队列总会执行这些追加的函数。</p>
+
+<pre><code class="brush: js">Async
+    .chain()
+    .next(firstFunction)
+    .next(secondFunction)
+    .go()
+    .next(thirdFunction);
+</code></pre>
+
+<h3><a name="Async.chain().wait()">Async.chain().wait()</a></h3>
+
+<ul>
+<li>type: instance</li>
+<li>input:
+<ul><li>delay : Number</li></ul></li>
+<li>output: this : Operation</li>
+</ul>
+
+<p>让函数队列等待指定的毫秒数。如果 wait 接收到一个参数，则它会原封不动地把这个参数返回，使得 wait 后面一个函数总能接收到 wait 前面一个函数的返回值。</p>
+
+<pre><code class="brush: js">Async
+    .chain()
+    .next(firstFunction)
+    .wait(999)
+    .next(secondFunction)
+    .go();
+</code></pre>
+
+<h2><a name="Helpers">Helpers</a></h2>
+
+<p>以下是 Async 主要功能以外的辅助函数</p>
+
+<h3><a name="Async.go()">Async.go()</a></h3>
+
+<ul>
+<li>type: static</li>
+<li>input:
+<ul><li>value (optional)</li></ul></li>
+<li>output: operation : Operation</li>
+</ul>
+
+<p>创建一个异步调用队列，并立即启动该队列。如果传入一个参数，则该参数作为队列第一个函数的唯一参数。</p>
+
+<pre><code class="brush: js">var plusOne = function(i) {
+    return i + 1;
+};
+
+var plusOneAsync = function(i) {
+    var operation = new Async.Operation();
+    setTimeout(function() { operation.yield(i + 1); }, 1000);
+    return operation;
+};
+
+Async
+    .go(0)
+    .next(plusOne)
+    .next(plusOneAsync)
+    .next(function(i) { alert(i); });
+</code></pre>
+
+<h3><a name="Async.wait()">Async.wait()</a></h3>
+
+<ul>
+<li>type: static</li>
+<li>input:
+<ul><li>delay : Number</li>
+<li>value (optional)</li></ul></li>
+<li>output: operation : Operation</li>
+</ul>
+
+<p>等待指定的毫秒数，然后开始执行回调函数。回调函数将要接收到的异步操作结果，可以在第二个参数指定。</p>
+
+<pre><code class="brush: js">var waitOperation = Async.wait(999, "predefined result");
+waitOperation.addCallback(function(result) { alert(result); });
+</code></pre>
+
+<h3><a name="Function.prototype.asyncCall()">Function.prototype.asyncCall()</a></h3>
+
+<ul>
+<li>type: instance</li>
+<li>input:
+<ul><li>context</li>
+<li>values : Params (optional)</li></ul></li>
+<li>output: operation : Operation</li>
+</ul>
+
+<p>以异步方式调用同步函数，使用方式与 Function.prototype.call() 一致，返回类型为 Async.Operation 。</p>
+
+<pre><code class="brush: js">var sayHello = function(name) { return "Hello, " + name; };
+sayHello
+    .asyncCall(this, "Cat")
+    .addCallback(function(result) { alert(result); });
+</code></pre>
+
+<h3><a name="Function.prototype.asyncApply()">Function.prototype.asyncApply()</a></h3>
+
+<ul>
+<li>type: instance</li>
+<li>input:
+<ul><li>context</li>
+<li>values : Array (optional)</li></ul></li>
+<li>output: operatoin : Operation</li>
+</ul>
+
+<p>以异步方式调用同步函数，使用方式与 Function.prototype.apply() 一致，返回类型为 Async.Operation 。</p>
+
+<pre><code class="brush: js">var sayHello = function(name) { return "Hello, " + name; };
+sayHello
+    .asyncApple(this, ["Cat"])
+    .addCallback(function(result) { alert(result); });
+</code></pre>
+    </div>
+    <script type="text/javascript">
+        SyntaxHighlighter.config.tagName = 'code';
+        SyntaxHighlighter.all()
+    </script>
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-347601-11']);
+        _gaq.push(['_trackPageview']);
+        (function() {
+          var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+          ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+</body>
+</html>

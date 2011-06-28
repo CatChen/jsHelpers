@@ -1,0 +1,518 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<title>List 说明文档</title>
+		<link rel="stylesheet" type="text/css" href="./../../stylesheets/default.css" />
+		<link rel="stylesheet" type="text/css" href="./../../stylesheets/shCore.css" />
+		<link rel="stylesheet" type="text/css" href="./../../stylesheets/shThemeDefault.css" />
+		<script type="text/javascript" src="./../../javascripts/xregexp.js"></script>
+		<script type="text/javascript" src="./../../javascripts/shCore.js"></script>
+		<script type="text/javascript" src="./../../javascripts/shBrushJScript.js"></script>
+		<script type="text/javascript" src="./../../javascripts/page.js"></script>
+	</head>
+<body>
+    <div id="index" class="collapsed">
+        <a id="toggle" href="###" onclick="window.toggleTreeVisibility()">Show Index</a>
+        <ul><li><a href="#List 说明文档">List 说明文档</a><ul><li><a href="#List">List</a><ul><li><a href="#List.at()">List.at()</a></li><li><a href="#List.length()">List.length()</a></li><li><a href="#List.each()">List.each()</a></li><li><a href="#List.reverse()">List.reverse()</a></li><li><a href="#List.map()">List.map()</a></li><li><a href="#List.filter()">List.filter()</a></li><li><a href="#List.fold()">List.fold()</a></li><li><a href="#List.scan()">List.scan()</a></li><li><a href="#List.takeWhile()">List.takeWhile()</a></li><li><a href="#List.take()">List.take()</a></li><li><a href="#List.dropWhile()">List.dropWhile()</a></li><li><a href="#List.drop()">List.drop()</a></li><li><a href="#List.cycle()">List.cycle()</a></li><li><a href="#List.generate()">List.generate()</a></li><li><a href="#List.iterate()">List.iterate()</a></li><li><a href="#List.count()">List.count()</a></li><li><a href="#List.repeat()">List.repeat()</a></li><li><a href="#List.concatenate()">List.concatenate()</a></li><li><a href="#List.zip()">List.zip()</a></li><li><a href="#List.all()">List.all()</a></li><li><a href="#List.any()">List.any()</a></li><li><a href="#List.sum()">List.sum()</a></li><li><a href="#List.average()">List.average()</a></li><li><a href="#List.maximum()">List.maximum()</a></li><li><a href="#List.minimum()">List.minimum()</a></li><li><a href="#List.head()">List.head()</a></li><li><a href="#List.tail()">List.tail()</a></li><li><a href="#List.init()">List.init()</a></li><li><a href="#List.last()">List.last()</a></li></ul></li></ul></li></ul>
+    </div>
+    <div id="content">
+        <h1><a name="List 说明文档">List 说明文档</a></h1>
+
+<p>List 是一个用于进行数据集合运算的组件，它提供类似于 Haskell List 或 Python List/Generator 的功能，同时支持无穷列表。</p>
+
+<p>List 与 Array 的主要区别在于， List 只计算和存储你访问的元素（及其依赖的元素）。对于你不访问的元素， List 并不进行计算或存储，这些运算仅存在于运算表达式中。因此，你可以使用类似 Python Generator 的形式创建无穷 List ，然后访问其中有穷的区间。</p>
+
+<h2><a name="List">List</a></h2>
+
+<ul>
+<li>type: constructor</li>
+<li>input:
+<ul><li>none | initialArray : arguments (length > 1) | intialArray : Array</li></ul></li>
+<li>output: this : List</li>
+</ul>
+
+<p>表示一维数据集合的类。类似于 Array ，每一个实例代表一组一维数据集合。</p>
+
+<pre><code class="brush: js">var originalArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+var originalList = new List(originalArray);
+
+var calculatedList = originalList
+    .map(function(i) { return i * (i + 1) / 2; })
+    .filter(function(i) { return i &gt; 10 &amp;&amp; i &lt; 50; })
+
+var calculatedArray = calculatedList.toArray();
+assert(calculatedArray == [15, 21, 28, 36, 45]);
+</code></pre>
+
+<h3><a name="List.at()">List.at()</a></h3>
+
+<ul>
+<li>type: instance</li>
+<li>input:
+<ul><li>index : Number</li></ul></li>
+<li>output: item</li>
+</ul>
+
+<p>根据给定的索引，获取对应的项。</p>
+
+<pre><code class="brush: js">var list = new List(1, 2, 3, 4, 5);
+alert(list.at(0));
+alert(list.at(4));
+</code></pre>
+
+<h3><a name="List.length()">List.length()</a></h3>
+
+<ul>
+<li>type: instance</li>
+<li>input: none</li>
+<li>output: length : Number</li>
+</ul>
+
+<p>返回列表长度。</p>
+
+<pre><code class="brush: js">var list = new List(1, 2, 3, 4, 5);
+alert(list.length());
+</code></pre>
+
+<h3><a name="List.each()">List.each()</a></h3>
+
+<ul>
+<li>type: instance</li>
+<li>input:
+<ul><li>iterator : Function</li></ul></li>
+<li>output: this : List</li>
+</ul>
+
+<p>迭代遍历列表，将每一项作为参数传递给迭代器函数。</p>
+
+<pre><code class="brush: js">var list = new List(1, 2, 3, 4, 5);
+list.each(function(object) { alert(object); });
+</code></pre>
+
+<h3><a name="List.reverse()">List.reverse()</a></h3>
+
+<ul>
+<li>type: instance</li>
+<li>input: none</li>
+<li>output: list : List</li>
+</ul>
+
+<p>返回逆序列表。</p>
+
+<pre><code class="brush: js">var list = new List(1, 2, 3, 4, 5);
+var reversedList = list.reversed();
+alert(reversedList.toArray().join(', '));
+</code></pre>
+
+<h3><a name="List.map()">List.map()</a></h3>
+
+<ul>
+<li>type: instance</li>
+<li>input:
+<ul><li>predicate : Function</li></ul></li>
+<li>output: list : List</li>
+</ul>
+
+<p>对列表进行投影运算，返回运算结果组成的列表。</p>
+
+<pre><code class="brush: js">var list = new List(1, 2, 3, 4, 5);
+var mappedList = list.map(function(i) { return i * i; });
+alert(mappedList.toArray().join(', '));
+</code></pre>
+
+<h3><a name="List.filter()">List.filter()</a></h3>
+
+<ul>
+<li>type: instance</li>
+<li>input:
+<ul><li>predicate : Function</li></ul></li>
+<li>output: list : List</li>
+</ul>
+
+<p>对列表进行筛选运算，返回运算结果组成的列表。</p>
+
+<pre><code class="brush: js">var list = new List(1, 2, 3, 4, 5);
+var filteredList = list.filter(function(i) { return i &gt; 1 &amp;&amp; i &lt; 5; });
+alert(filteredList.toArray().join(', '));
+</code></pre>
+
+<h3><a name="List.fold()">List.fold()</a></h3>
+
+<ul>
+<li>type: instance</li>
+<li>input:
+<ul><li>predicate : Function</li>
+<li>start</li></ul></li>
+<li>output: result</li>
+</ul>
+
+<p>对列表进行归并运算，返回运算结果。</p>
+
+<pre><code class="brush: js">var list = new List(1, 2, 3, 4, 5);
+var sum = List.fold(function(acc, i) { return acc + i; }, 0);
+alert(sum);
+</code></pre>
+
+<h3><a name="List.scan()">List.scan()</a></h3>
+
+<ul>
+<li>type: instance</li>
+<li>input:
+<ul><li>predicate : Function</li>
+<li>start</li></ul></li>
+<li>output: list : List</li>
+</ul>
+
+<p>对列表进行聚合操作，返回聚合操作每一步结果组成的列表。</p>
+
+<pre><code class="brush: js">var list = new List(1, 2, 3, 4, 5);
+var sums = List.scan(function(acc, i) { return acc + i; }, 0);
+alert(sums.toArray().join(', '));
+</code></pre>
+
+<h3><a name="List.takeWhile()">List.takeWhile()</a></h3>
+
+<ul>
+<li>type: instance</li>
+<li>input:
+<ul><li>predicate : Function</li></ul></li>
+<li>output: list : List</li>
+</ul>
+
+<p>从列表左侧开始获取项，直到检测函数返回 false 或到达列表末端为止，然后返回获取项组成的子列表。</p>
+
+<pre><code class="brush: js">var list = new List(1, 2, 3, 4, 5);
+var lessThanThree = List.takeWhile(function(i) { return i &lt; 3; });
+alert(lessThanThree.toArray().join(', '));
+</code></pre>
+
+<h3><a name="List.take()">List.take()</a></h3>
+
+<ul>
+<li>type: instance</li>
+<li>input:
+<ul><li>number : Number</li></ul></li>
+<li>output: list : List</li>
+</ul>
+
+<p>从列表左侧开始获取项，直到获取到指定数量的项或到达列表末端，然后返回获取项组成的子列表。</p>
+
+<pre><code class="brush: js">var list = new List(1, 2, 3, 4, 5);
+var firstThree = List.take(3);
+alert(firstThree.toArray().join(', '));
+</code></pre>
+
+<h3><a name="List.dropWhile()">List.dropWhile()</a></h3>
+
+<ul>
+<li>type: instance</li>
+<li>input:
+<ul><li>predicate : Function</li></ul></li>
+<li>output: list : List</li>
+</ul>
+
+<p>从列表左侧开始删除项，直到检测函数返回 false 或到达列表末端为止，然后返回原列表减去删除项后的子列表。</p>
+
+<pre><code class="brush: js">var list = new List(1, 2, 3, 4, 5);
+var noLessThanThree = List.dropWhile(function(i) { return i &lt; 3; });
+alert(noLessThanThree.toArray().join(', '));
+</code></pre>
+
+<h3><a name="List.drop()">List.drop()</a></h3>
+
+<ul>
+<li>type: instance</li>
+<li>input:
+<ul><li>number : Number</li></ul></li>
+<li>output: list : List</li>
+</ul>
+
+<p>从列表左侧开始删除项，直到删除了指定数量的项或到达列表末端为止，然后返回原列表减去删除项后的子列表。</p>
+
+<pre><code class="brush: js">var list = new List(1, 2, 3, 4, 5);
+var exceptForFirstThree = List.drop(3);
+alert(exceptForFirstThree.toArray().join(', '));
+</code></pre>
+
+<h3><a name="List.cycle()">List.cycle()</a></h3>
+
+<ul>
+<li>type: instance</li>
+<li>input: none</li>
+<li>output: list : List</li>
+</ul>
+
+<p>返回一个列表，该列表是原列表的无穷次循环结果。</p>
+
+<pre><code class="brush: js">var list = new List(1, 2, 3, 4, 5);
+var cycledList = list.cycle();
+alert(cycledList.take(20).toArray().join(', '));
+</code></pre>
+
+<h3><a name="List.generate()">List.generate()</a></h3>
+
+<ul>
+<li>type: static</li>
+<li>input:
+<ul><li>generator : Function</li></ul></li>
+<li>output: list : List</li>
+</ul>
+
+<p>使用类似 Python Generator 的方式生成一个列表。 generator 函数可以获取到一个 proxy 对象，通过调用该对象的 yield 方法生成下一个项，或通过 end 方法表示列表结束。 generator 函数会被不断调用，直到获取到足够的项或 end 方法被调用为止。</p>
+
+<pre><code class="brush: js">var a = 0, b = 1;
+var fibonacci = List
+    .generate(function(proxy) {
+        proxy.yield(a);
+        var aNext = b;
+        var bNext = a + b;
+        a = aNext;
+        b = bNext;
+    });
+alert(fibonacci.take(20).toArray().join(', '));
+</code></pre>
+
+<h3><a name="List.iterate()">List.iterate()</a></h3>
+
+<ul>
+<li>type: static</li>
+<li>input:
+<ul><li>generator : Function</li>
+<li>start</li></ul></li>
+<li>output: list : List</li>
+</ul>
+
+<p>将 start 作为列表的第一项，并且使用 generator 及列表的第 n 项生成第 n + 1 项，返回所生成无穷列表。</p>
+
+<pre><code class="brush: js">var list = List
+    .iterate(function() { return this * 2; }, 1);
+alert(list.take(20).toArray().join(', '));
+</code></pre>
+
+<h3><a name="List.count()">List.count()</a></h3>
+
+<ul>
+<li>type: static</li>
+<li>input:
+<ul><li>start = 0 (optional)</li>
+<li>step = 1 (optional)</li></ul></li>
+<li>output: list : List</li>
+</ul>
+
+<p>生成无穷列表，其第一项为 start （默认值为 0 ），然后每一项都比前一项增加 step （默认值为 1 ），返回所生成的无穷列表。</p>
+
+<pre><code class="brush: js">var list = List.count();
+alert(list.take(20).toArray().join(', '));
+</code></pre>
+
+<h3><a name="List.repeat()">List.repeat()</a></h3>
+
+<ul>
+<li>type: static</li>
+<li>input:
+<ul><li>object</li></ul></li>
+<li>output: list : List</li>
+</ul>
+
+<p>生成无穷列表，其中的每一项都是参数 object 指定的值，返回所生成的无穷列表。</p>
+
+<pre><code class="brush: js">var list = List.repeat(42);
+alert(list.take(20).toArray().join(', '));
+</code></pre>
+
+<h3><a name="List.concatenate()">List.concatenate()</a></h3>
+
+<ul>
+<li>type: static</li>
+<li>input:
+<ul><li>lists : arguments</li></ul></li>
+<li>output: list : List</li>
+</ul>
+
+<p>串联多个列表，返回串联的结果。</p>
+
+<pre><code class="brush: js">var list1 = new List(1, 2, 3, 4, 5);
+var list2 = new List(6, 7, 8, 9, 10);
+var concatenatedList = List.concatenate(list1, list2);
+alert(concatenatedList.toArray().join(', '));
+</code></pre>
+
+<h3><a name="List.zip()">List.zip()</a></h3>
+
+<ul>
+<li>type: static</li>
+<li>input:
+<ul><li>predicate : Function</li>
+<li>lists : arguments</li></ul></li>
+<li>output: list : List</li>
+</ul>
+
+<p>使用 predicate 参数指定的函数做归并，并联多个列表，返回并联结果。</p>
+
+<pre><code class="brush: js">var list1 = new List(1, 2, 3, 4, 5);
+var list2 = new List(6, 7, 8, 9, 10);
+var zippedList = List.zip(function(x, y) { return { x: x, y: y }; }, list1, list2);
+alert(zippedList.toArray().join(', '));
+</code></pre>
+
+<h3><a name="List.all()">List.all()</a></h3>
+
+<ul>
+<li>type: instance</li>
+<li>input:
+<ul><li>predicate : Function</li></ul></li>
+<li>output: result : Boolean</li>
+</ul>
+
+<p>检测列表是否每一项都满足特定条件。</p>
+
+<pre><code class="brush: js">var list = new List(1, 2, 3, 4, 5);
+alert(list.all(function(i) { return i &gt; 0; });
+</code></pre>
+
+<h3><a name="List.any()">List.any()</a></h3>
+
+<ul>
+<li>type: instance</li>
+<li>input:
+<ul><li>predicate : Function</li></ul></li>
+<li>output: result : Boolean</li>
+</ul>
+
+<p>检测列表是否至少有一项都满足特定条件。</p>
+
+<pre><code class="brush: js">var list = new List(1, 2, 3, 4, 5);
+alert(list.any(function(i) { return i &gt; 0; });
+</code></pre>
+
+<h3><a name="List.sum()">List.sum()</a></h3>
+
+<ul>
+<li>type: instance</li>
+<li>input: none</li>
+<li>output: result : Number</li>
+</ul>
+
+<p>计算列表项的总和。</p>
+
+<pre><code class="brush: js">var list = new List(1, 2, 3, 4, 5);
+alert(list.sum());
+</code></pre>
+
+<h3><a name="List.average()">List.average()</a></h3>
+
+<ul>
+<li>type: instance</li>
+<li>input: none</li>
+<li>output: result : Number</li>
+</ul>
+
+<p>计算列表项的平均值。</p>
+
+<pre><code class="brush: js">var list = new List(1, 2, 3, 4, 5);
+alert(list.sum());
+</code></pre>
+
+<h3><a name="List.maximum()">List.maximum()</a></h3>
+
+<ul>
+<li>type: instance</li>
+<li>input: none</li>
+<li>output: result : Number</li>
+</ul>
+
+<p>搜索列表项的最大值。</p>
+
+<pre><code class="brush: js">var list = new List(1, 2, 3, 4, 5);
+alert(list.maximum());
+</code></pre>
+
+<h3><a name="List.minimum()">List.minimum()</a></h3>
+
+<ul>
+<li>type: instance</li>
+<li>input: none</li>
+<li>output: result : Number</li>
+</ul>
+
+<p>搜索列表项的最小值。</p>
+
+<pre><code class="brush: js">var list = new List(1, 2, 3, 4, 5);
+alert(list.minimum());
+</code></pre>
+
+<h3><a name="List.head()">List.head()</a></h3>
+
+<ul>
+<li>type: instance</li>
+<li>input: none</li>
+<li>output: item</li>
+</ul>
+
+<p>返回列表的首项。</p>
+
+<pre><code class="brush: js">var list = new List(1, 2, 3, 4, 5);
+alert(list.head());
+</code></pre>
+
+<h3><a name="List.tail()">List.tail()</a></h3>
+
+<ul>
+<li>type: instance</li>
+<li>input: none</li>
+<li>output: list : List</li>
+</ul>
+
+<p>返回列表除去首项以外的子列表。</p>
+
+<pre><code class="brush: js">var list = new List(1, 2, 3, 4, 5);
+var tailList = list.tail();
+alert(tailList.toArray().join(', '));
+</code></pre>
+
+<h3><a name="List.init()">List.init()</a></h3>
+
+<ul>
+<li>type: instance</li>
+<li>input: none</li>
+<li>output: list : List</li>
+</ul>
+
+<p>返回列表除去末项以外的子列表。</p>
+
+<pre><code class="brush: js">var list = new List(1, 2, 3, 4, 5);
+var initList = list.init();
+alert(initList.toArray().join(', '));
+</code></pre>
+
+<h3><a name="List.last()">List.last()</a></h3>
+
+<ul>
+<li>type: instance</li>
+<li>input: none</li>
+<li>output: item</li>
+</ul>
+
+<p>返回列表的末项。</p>
+
+<pre><code class="brush: js">var list = new List(1, 2, 3, 4, 5);
+alert(list.last());
+</code></pre>
+    </div>
+    <script type="text/javascript">
+        SyntaxHighlighter.config.tagName = 'code';
+        SyntaxHighlighter.all()
+    </script>
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-347601-11']);
+        _gaq.push(['_trackPageview']);
+        (function() {
+          var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+          ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+</body>
+</html>

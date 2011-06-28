@@ -2,11 +2,21 @@
     "name": "jshelpers",
     "description": "Helpers for JavaScript",
     "homepage": "http://catchen.github.com/jsHelpers/",
-    "version": "0.9.9",
+    "version": "1.0.0",
     "author": {
         "name": "Cat Chen",
         "email": "catchen@catchen.me",
         "web": "http://catchen.me"
+    },
+    "directories": {
+        "lib": "./src",
+        "doc": "./doc",
+        "example": "./samples"
+    },
+    "devDependencies": {
+        "uglify-js": ">=1.0.3",
+        "showdown": ">=0.0.1",
+        "mustache": ">=0.3.1-dev",
     },
     "repositories": [
         {

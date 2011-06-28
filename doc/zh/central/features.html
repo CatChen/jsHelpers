@@ -1,0 +1,144 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<title>Central 说明文档</title>
+		<link rel="stylesheet" type="text/css" href="./../../stylesheets/default.css" />
+		<link rel="stylesheet" type="text/css" href="./../../stylesheets/shCore.css" />
+		<link rel="stylesheet" type="text/css" href="./../../stylesheets/shThemeDefault.css" />
+		<script type="text/javascript" src="./../../javascripts/xregexp.js"></script>
+		<script type="text/javascript" src="./../../javascripts/shCore.js"></script>
+		<script type="text/javascript" src="./../../javascripts/shBrushJScript.js"></script>
+		<script type="text/javascript" src="./../../javascripts/page.js"></script>
+	</head>
+<body>
+    <div id="index" class="collapsed">
+        <a id="toggle" href="###" onclick="window.toggleTreeVisibility()">Show Index</a>
+        <ul><li><a href="#Central 说明文档">Central 说明文档</a><ul><li><a href="#Central">Central</a><ul><li><a href="#Central.listen()">Central.listen()</a></li><li><a href="#Central.call()">Central.call()</a></li></ul></li><li><a href="#Central.extend()">Central.extend()</a><ul><li><a href="#Central.extend().listen()">Central.extend().listen()</a></li><li><a href="#Central.extend().call()">Central.extend().call()</a></li></ul></li></ul></li></ul>
+    </div>
+    <div id="content">
+        <h1><a name="Central 说明文档">Central 说明文档</a></h1>
+
+<p>Central 是一个用于在 JavaScript 环境中快速创建事件派发者的组件。</p>
+
+<h2><a name="Central">Central</a></h2>
+
+<p>用于监听事件和派发事件的静态类。</p>
+
+<pre><code class="brush: js">Central.listen("move", function(e) {
+    element.style.left = parseInt(element.style.left) + e.x + "px";
+    element.style.top = parseInt(element.style.top) + e.y + "px";
+});
+
+Central.call("move", {
+    x: 10,
+    y: -20
+});
+</code></pre>
+
+<h3><a name="Central.listen()">Central.listen()</a></h3>
+
+<ul>
+<li>type: static</li>
+<li>input:
+<ul><li>command : String</li>
+<li>handler : Function</li></ul></li>
+<li>output: Central</li>
+</ul>
+
+<p>监听指定名称的事件。</p>
+
+<pre><code class="brush: js">Central.listen("move", function(e) {
+    element.style.left = parseInt(element.style.left) + e.x + "px";
+    element.style.top = parseInt(element.style.top) + e.y + "px";
+});
+</code></pre>
+
+<h3><a name="Central.call()">Central.call()</a></h3>
+
+<ul>
+<li>type: static</li>
+<li>input:
+<ul><li>command : String</li>
+<li>argument : Object</li></ul></li>
+<li>output: Central</li>
+</ul>
+
+<p>派发指定名称的事件。</p>
+
+<pre><code class="brush: js">Central.call("move", {
+    x: 10,
+    y: -20
+});
+</code></pre>
+
+<h2><a name="Central.extend()">Central.extend()</a></h2>
+
+<ul>
+<li>type: static</li>
+<li>input: target : Object</li>
+<li>output: target : Object</li>
+</ul>
+
+<p>扩展指定对象，使其拥有 Central 功能。</p>
+
+<h3><a name="Central.extend().listen()">Central.extend().listen()</a></h3>
+
+<ul>
+<li>type: instance</li>
+<li>input:
+<ul><li>command : String</li>
+<li>handler : Function</li></ul></li>
+<li>output: this</li>
+</ul>
+
+<p>监听指定名称的事件。</p>
+
+<pre><code class="brush: js">var controller = new Controller();
+
+Central.extend(controller);
+
+controller.listen("move", function(e) {
+    element.style.left = parseInt(element.style.left) + e.x + "px";
+    element.style.top = parseInt(element.style.top) + e.y + "px";
+});
+</code></pre>
+
+<h3><a name="Central.extend().call()">Central.extend().call()</a></h3>
+
+<ul>
+<li>type: instance</li>
+<li>input:
+<ul><li>command : String</li>
+<li>argument : Object</li></ul></li>
+<li>output: this</li>
+</ul>
+
+<p>派发指定名称的事件。</p>
+
+<pre><code class="brush: js">var controller = new Controller();
+
+Central.extend(controller);
+
+controller.call("move", {
+    x: 10,
+    y: -20
+});
+</code></pre>
+    </div>
+    <script type="text/javascript">
+        SyntaxHighlighter.config.tagName = 'code';
+        SyntaxHighlighter.all()
+    </script>
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-347601-11']);
+        _gaq.push(['_trackPageview']);
+        (function() {
+          var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+          ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+</body>
+</html>

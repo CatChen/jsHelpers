@@ -1,0 +1,30 @@
+body {
+    _text-align: center;
+}
+#index {
+    position: fixed;
+    _position: absolute;
+    z-index: 999;
+    top: 20px;
+    right: 20px;
+    padding: 20px;
+    border: 1px solid #999;
+    background-color: #fff;
+    opacity: 0.9;
+}
+#index #toggle {
+    display: block;
+    text-align: right;
+}
+#index.collapsed ul {
+    display: none;
+}
+#index.expanded ul {
+    display: block;
+}
+#content {
+    position: relative;
+    width: 800px;
+    margin: auto;
+    _text-align: left;
+}
