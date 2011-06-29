@@ -24,3 +24,21 @@ Then you can use it in your node.js project.
 
     const jshelpers = require('jshelpers');
 
+# How to build
+
+If you edit the source code or documentation, you might want to rebuild them. You will need Node.js and NPM to do this.
+
+## Build code
+
+You will need uglify-js to rebuild the code.
+
+    npm install uglify-js
+    node build.js
+
+## Build documentations
+
+You will need showdown and mustache to rebuild the documentations.
+
+    npm install showdown mustache
+    cd doc
+    node build.js
