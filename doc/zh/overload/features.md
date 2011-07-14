@@ -33,7 +33,7 @@ Overload 是一个用于在 JavaScript 环境中快速创建函数重载的组�
 	
 	concatenate
 		.add("Array",
-			function(array) { return array.join(""); });
+			function(array) { return array.join(""); })
 		.add("Array, String",
 			function(array, separator) { return array.join(separator); });
 	
@@ -46,7 +46,7 @@ Overload 是一个用于在 JavaScript 环境中快速创建函数重载的组�
 
 	var add = Overload
 		.add("*, *",
-			function(x, y) { return x + y; });
+			function(x, y) { return x + y; })
 		.add("*, *, *",
 			function(x, y, z) { return x + y + z; });
 	
@@ -58,17 +58,15 @@ Overload 是一个用于在 JavaScript 环境中快速创建函数重载的组�
 如果重载的形参个数可以是 n 个到无数个，将第 n 个参数使用 "..." 表示。
 
 	var sum = Overload
+	    .add("Number",
+	        function(x) { return x; })
 		.add("Number, Number",
-			function(x, y) { return x + y; });
+			function(x, y) { return x + y; })
 		.add("Number, Number, Number",
-			function(x, y, z) { return x + y + z; });
+			function(x, y, z) { return x + y + z; })
 		.add("Number, Number, Number, ...",
-			function() {
-				var sum = 0;
-				for (var i = 0; i < arguments.length; i++) {
-					sum += arguments[i];
-				}
-				return sum;
+			function(x, y, z, more) {
+				return x + y + z + sum.apply(this, more);
 			});
 	
 	alert(sum(1, 2));
@@ -93,7 +91,7 @@ Overload 是一个用于在 JavaScript 环境中快速创建函数重载的组�
 		.add([Overload.Any],
 			function(object) { sayHello(object.toString()); })
 		.add([Overload.More],
-			function() { sayHello([].slice.call(arguments).join(" & ")); });
+			function(objects) { sayHello(objects.join(" & ")); });
 	
 	sayHello("World");
 	sayHello(new User("Cat"), new User("Erik"));

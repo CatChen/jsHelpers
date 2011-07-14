@@ -1520,11 +1520,11 @@
                 case 0:
                     return null;
                 case 1:
-                    return matches[0]["function"];
+                    return matches[0];
                 default:
                     matches = matches.sort(overloadComparator);
                     if (overloadComparator(matches[matches.length - 1], matches[matches.length - 2]) > 0) {
-                        return matches[matches.length - 1]["function"];
+                        return matches[matches.length - 1];
                     } else {
                         return null;
                     }
@@ -1534,7 +1534,12 @@
         var overloaded = function() {
             var overload = select(arguments);
             if (overload) {
-                return overload.apply(this, arguments);
+                var transformedArguments = Array.prototype.slice.call(arguments, 0);
+                if (transformedArguments.length > overload.signature.length) {
+                    var moreArguments = transformedArguments.splice(overload.signature.length);
+                    transformedArguments.push(moreArguments);
+                }
+                return overload['function'].apply(this, transformedArguments);
             } else {
                 throw "cannot select a proper overload";
             }

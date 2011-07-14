@@ -55,7 +55,7 @@ alert(sum(3, 4, 5));
 
 concatenate
     .add("Array",
-    function(array) { return array.join(""); });
+    function(array) { return array.join(""); })
     .add("Array, String",
         function(array, separator) { return array.join(separator); });
 
@@ -69,7 +69,7 @@ alert(concatenate([1, 2, 3], " + "));
 
 <pre><code class="brush: js">var add = Overload
     .add("*, *",
-        function(x, y) { return x + y; });
+        function(x, y) { return x + y; })
     .add("*, *, *",
         function(x, y, z) { return x + y + z; });
 
@@ -82,17 +82,15 @@ alert(add("hello", " ", "world"));
 <p>"..." represents arguments of any number.</p>
 
 <pre><code class="brush: js">var sum = Overload
+    .add("Number",
+        function(x) { return x; })
     .add("Number, Number",
-        function(x, y) { return x + y; });
+        function(x, y) { return x + y; })
     .add("Number, Number, Number",
-        function(x, y, z) { return x + y + z; });
+        function(x, y, z) { return x + y + z; })
     .add("Number, Number, Number, ...",
-        function() {
-            var sum = 0;
-            for (var i = 0; i &lt; arguments.length; i++) {
-                sum += arguments[i];
-            }
-            return sum;
+        function(x, y, z, more) {
+            return x + y + z + sum.apply(this, more);
         });
 
 alert(sum(1, 2));
@@ -118,7 +116,7 @@ var sayHello = Overload
     .add([Overload.Any],
         function(object) { sayHello(object.toString()); })
     .add([Overload.More],
-        function() { sayHello([].slice.call(arguments).join(" &amp; ")); });
+        function(objects) { sayHello(objects.join(" &amp; ")); });
 
 sayHello("World");
 sayHello(new User("Cat"), new User("Erik"));
