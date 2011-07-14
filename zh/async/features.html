@@ -3,18 +3,18 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Async 功能列表</title>
-		<link rel="stylesheet" type="text/css" href="./../../stylesheets/default.css" />
-		<link rel="stylesheet" type="text/css" href="./../../stylesheets/shCore.css" />
-		<link rel="stylesheet" type="text/css" href="./../../stylesheets/shThemeDefault.css" />
-		<script type="text/javascript" src="./../../javascripts/xregexp.js"></script>
-		<script type="text/javascript" src="./../../javascripts/shCore.js"></script>
-		<script type="text/javascript" src="./../../javascripts/shBrushJScript.js"></script>
-		<script type="text/javascript" src="./../../javascripts/page.js"></script>
+		<link rel="stylesheet" type="text/css" href="../../stylesheets/default.css" />
+		<link rel="stylesheet" type="text/css" href="../../stylesheets/shCore.css" />
+		<link rel="stylesheet" type="text/css" href="../../stylesheets/shThemeDefault.css" />
+		<script type="text/javascript" src="../../javascripts/xregexp.js"></script>
+		<script type="text/javascript" src="../../javascripts/shCore.js"></script>
+		<script type="text/javascript" src="../../javascripts/shBrushJScript.js"></script>
+		<script type="text/javascript" src="../../javascripts/page.js"></script>
 	</head>
 <body>
     <div id="index" class="collapsed">
         <a id="toggle" href="###" onclick="window.toggleTreeVisibility()">Show Index</a>
-        <ul><li><a href="#Async 功能列表">Async 功能列表</a><ul><li><a href="#Async.Operation">Async.Operation</a><ul><li><a href="#Async.Operation.result">Async.Operation.result</a></li><li><a href="#Async.Operation.state">Async.Operation.state</a></li><li><a href="#Async.Operation.completed">Async.Operation.completed</a></li><li><a href="#Async.Operation.yield()">Async.Operation.yield()</a></li><li><a href="#Async.Operation.addCallback()">Async.Operation.addCallback()</a></li></ul></li><li><a href="#Async.chain()">Async.chain()</a><ul><li><a href="#Async.chain().result">Async.chain().result</a></li><li><a href="#Async.chain().state">Async.chain().state</a></li><li><a href="#Async.chain().completed">Async.chain().completed</a></li><li><a href="#Async.chain().next()">Async.chain().next()</a></li><li><a href="#Async.chain().go()">Async.chain().go()</a></li><li><a href="#Async.chain().wait()">Async.chain().wait()</a></li></ul></li><li><a href="#Helpers">Helpers</a><ul><li><a href="#Async.go()">Async.go()</a></li><li><a href="#Async.wait()">Async.wait()</a></li><li><a href="#Function.prototype.asyncCall()">Function.prototype.asyncCall()</a></li><li><a href="#Function.prototype.asyncApply()">Function.prototype.asyncApply()</a></li></ul></li></ul></li></ul>
+        <ul><li><a href="#Async 功能列表">Async 功能列表</a><ul><li><a href="#Async.Operation">Async.Operation</a><ul><li><a href="#Async.Operation.result">Async.Operation.result</a></li><li><a href="#Async.Operation.state">Async.Operation.state</a></li><li><a href="#Async.Operation.completed">Async.Operation.completed</a></li><li><a href="#Async.Operation.yield()">Async.Operation.yield()</a></li><li><a href="#Async.Operation.addCallback()">Async.Operation.addCallback()</a></li></ul></li><li><a href="#Async.chain()">Async.chain()</a><ul><li><a href="#Async.chain().result">Async.chain().result</a></li><li><a href="#Async.chain().state">Async.chain().state</a></li><li><a href="#Async.chain().completed">Async.chain().completed</a></li><li><a href="#Async.chain().next()">Async.chain().next()</a></li><li><a href="#Async.chain().go()">Async.chain().go()</a></li><li><a href="#Async.chain().wait()">Async.chain().wait()</a></li></ul></li><li><a href="#Helpers">Helpers</a><ul><li><a href="#Async.go()">Async.go()</a></li><li><a href="#Async.wait()">Async.wait()</a></li><li><a href="#Async.instant()">Async.instant()</a></li><li><a href="#Function.prototype.asyncCall()">Function.prototype.asyncCall()</a></li><li><a href="#Function.prototype.asyncApply()">Function.prototype.asyncApply()</a></li></ul></li></ul></li></ul>
     </div>
     <div id="content">
         <h1><a name="Async 功能列表">Async 功能列表</a></h1>
@@ -252,6 +252,21 @@ Async
 
 <pre><code class="brush: js">var waitOperation = Async.wait(999, "predefined result");
 waitOperation.addCallback(function(result) { alert(result); });
+</code></pre>
+
+<h3><a name="Async.instant()">Async.instant()</a></h3>
+
+<ul>
+<li>type: static</li>
+<li>input:
+<ul><li>value (optional)</li></ul></li>
+<li>output: operation : Operation</li>
+</ul>
+
+<p>生成一个立即返回的异步函数。回调函数将要接收到的异步操作结果，可以在参数中指定。</p>
+
+<pre><code class="brush: js">var instantOperation = Async.instant("predefined result");
+instantOperation.addCallback(function(result) { alert(result); });
 </code></pre>
 
 <h3><a name="Function.prototype.asyncCall()">Function.prototype.asyncCall()</a></h3>
