@@ -1,9 +1,10 @@
 const fs = require('fs');
+const path = require('path');
 const showdown = new (require('showdown').converter)();
 const mustache = require('mustache');
 
 const docRoot = '.';
-const templateFileName = docRoot + '/template.mustache';
+const templateFileName = path.join(docRoot, '/template.mustache');
 
 var template = String(fs.readFileSync(templateFileName));
 
@@ -70,7 +71,7 @@ var processDirectory = function(directory) {
     var fileNames = fs.readdirSync(directory);
     for (var i = 0; i < fileNames.length; i++) {
         var fileName = fileNames[i];
-        var fileFullName = directory + '/' + fileName;
+        var fileFullName = path.join(directory, fileName);
         if (fileName.match(/^\./)) {
             continue;
         }
@@ -79,33 +80,29 @@ var processDirectory = function(directory) {
         } else if (fileName.match(/\.md$/)) {
             console.log('read file: ' + fileFullName);
             var fileContent = String(fs.readFileSync(fileFullName));
-            var relativePath = directory.replace(/\/([^\/]*)/g, '/..');
+            var relativePath = new Array(directory.split('/').length + 1).join('../');
             var htmlContent = processContent(showdown.makeHtml(fileContent));
             var indexContent = buildIndex(htmlContent);
             var convertedFileContent = mustache.to_html(template, {
                 title: fileContent.match(/# (.*)/) ? fileContent.match(/# (.*)/)[1] : 'jsHelpers',
                 stylesheets: [
-                    relativePath + '/stylesheets/default.css',
-                    relativePath + '/stylesheets/shCore.css',
-                    relativePath + '/stylesheets/shThemeDefault.css'
+                    path.join(relativePath, 'stylesheets/default.css'),
+                    path.join(relativePath, 'stylesheets/shCore.css'),
+                    path.join(relativePath, 'stylesheets/shThemeDefault.css')
                 ],
                 javascripts: [
-                    relativePath + '/javascripts/xregexp.js',
-                    relativePath + '/javascripts/shCore.js',
-                    relativePath + '/javascripts/shBrushJScript.js',
-                    relativePath + '/javascripts/page.js',
+                    path.join(relativePath, 'javascripts/xregexp.js'),
+                    path.join(relativePath, 'javascripts/shCore.js'),
+                    path.join(relativePath, 'javascripts/shBrushJScript.js'),
+                    path.join(relativePath, 'javascripts/page.js')
                 ],
                 index: indexContent,
                 content: htmlContent
             });
             var convertedFileFullName = fileFullName.replace(/\.md$/, '.html');
-            try {
+            if (path.existsSync(convertedFileFullName)) {
+                console.log('delete file: ' + convertedFileFullName);
                 fs.unlinkSync(convertedFileFullName);
-            } catch (e) {
-                if (e.code == 'ENOENT') {
-                } else {
-                    throw e;
-                }
             }
             console.log('write file: ' + convertedFileFullName);
             fs.writeFileSync(convertedFileFullName, convertedFileContent);
