@@ -94,7 +94,7 @@ function testOverload() {
 		
 		same(join(new Object()), [new Object()], 'join(new Object())');
 		same(join("hello", "world"), ["hello", "world"], 'join("hello", "world")');
-		same(join(1, 2, 3), [1, 2, 3], "join(1, 2, 3)");
+		same(join(1, 2, 3, 4), [1, 2, [3, 4]], "join(1, 2, 3, 4)");
 	});
 	
 	test("overload resolution for arguments in the same inheritance hierarchy", function() {
@@ -282,7 +282,7 @@ function testOverload() {
 		
 		same(join(new Object()), [new Object()], 'join(new Object())');
 		same(join("hello", "world"), ["hello", "world"], 'join("hello", "world")');
-		same(join(1, 2, 3), [1, 2, 3], "join(1, 2, 3)");
+		same(join(1, 2, 3, 4), [1, 2, [3, 4]], "join(1, 2, 3, 4)");
 	});
 	
 	test("overload resolution for arguments in the same inheritance hierarchy", function() {

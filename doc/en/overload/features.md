@@ -33,7 +33,7 @@ Create an overloaded function entrance and add the first function or add a funct
 	
 	concatenate
 		.add("Array",
-			function(array) { return array.join(""); });
+			function(array) { return array.join(""); })
 		.add("Array, String",
 			function(array, separator) { return array.join(separator); });
 	
@@ -46,7 +46,7 @@ Create an overloaded function entrance and add the first function or add a funct
 
 	var add = Overload
 		.add("*, *",
-			function(x, y) { return x + y; });
+			function(x, y) { return x + y; })
 		.add("*, *, *",
 			function(x, y, z) { return x + y + z; });
 	
@@ -58,18 +58,16 @@ Create an overloaded function entrance and add the first function or add a funct
 "..." represents arguments of any number.
 
 	var sum = Overload
+	    .add("Number",
+	        function(x) { return x; })
 		.add("Number, Number",
-			function(x, y) { return x + y; });
+			function(x, y) { return x + y; })
 		.add("Number, Number, Number",
-			function(x, y, z) { return x + y + z; });
+			function(x, y, z) { return x + y + z; })
 		.add("Number, Number, Number, ...",
-			function() {
-				var sum = 0;
-				for (var i = 0; i < arguments.length; i++) {
-					sum += arguments[i];
-				}
-				return sum;
-			});
+		    function(x, y, z, more) {
+				return x + y + z + sum.apply(this, more);
+		    });
 	
 	alert(sum(1, 2));
 	alert(sum(1, 2, 3));
@@ -93,7 +91,7 @@ If the signature of an overloaded function includes classes that can't be evalua
 		.add([Overload.Any],
 			function(object) { sayHello(object.toString()); })
 		.add([Overload.More],
-			function() { sayHello([].slice.call(arguments).join(" & ")); });
+			function(objects) { sayHello(objects.join(" & ")); });
 	
 	sayHello("World");
 	sayHello(new User("Cat"), new User("Erik"));
