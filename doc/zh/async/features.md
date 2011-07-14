@@ -198,6 +198,18 @@ Async 是一个用于统一 JavaScript 异步编程模式的组件，通过让�
 	var waitOperation = Async.wait(999, "predefined result");
 	waitOperation.addCallback(function(result) { alert(result); });
 
+### Async.instant()
+
+* type: static
+* input:
+	* value (optional)
+* output: operation : Operation
+
+生成一个立即返回的异步函数。回调函数将要接收到的异步操作结果，可以在参数中指定。
+
+	var instantOperation = Async.instant("predefined result");
+	instantOperation.addCallback(function(result) { alert(result); });
+
 ### Function.prototype.asyncCall()
 
 * type: instance

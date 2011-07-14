@@ -2,7 +2,7 @@ function testAsync() {
 	module("async");
 
 	test("async existence", function() {
-		expect(13);
+		expect(14);
 
 		ok(Async, "Async exists");
 		ok(Async.Operation, "Async.Operation exists");
@@ -17,6 +17,7 @@ function testAsync() {
 		ok(Async.chain, "Async.chain exists");
 		ok(Async.go, "Async.go exists");
 		ok(Async.wait, "Async.wait exists");
+		ok(Async.instant, "Async.instant exists");
 		ok(Async.onerror, "Async.onerror exists");
 
 		ok(Function.prototype.asyncCall, "Function.prototype.asyncCall exists");
@@ -939,5 +940,27 @@ function testAsync() {
 		setTimeout(function() {
 			start();
 		}, asyncFunctionDelay * 2)
+	});
+	
+	test("async instant short-cut", function() {
+		expect(3);
+		
+		var testValue = "-- this is the callback result --";
+		var syncFunctionDelay = 100;
+		
+		stop();
+		
+		Async.instant().addCallback(function() {
+			ok(true, "instant callback called");
+		});
+		
+		Async.instant(testValue).addCallback(function(context) {
+			ok(true, "instant callback with context called");
+			equals(context, testValue, "callback context");
+		});
+		
+		setTimeout(function() {
+			start();
+		}, syncFunctionDelay)
 	});
 }
