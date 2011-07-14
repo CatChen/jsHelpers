@@ -198,6 +198,18 @@ Wait in millisenconds as an asynchronous operation. If the second argument is as
 	var waitOperation = Async.wait(999, "predefined result");
 	waitOperation.addCallback(function(result) { alert(result); });
 
+### Async.instant()
+
+* type: static
+* input:
+	* value (optional)
+* output: operation : Operation
+
+Generate an instant yielded asynchronous operation. If an argument is given, it will be passed to the callback functions.
+
+	var instantOperation = Async.instant("predefined result");
+	instantOperation.addCallback(function(result) { alert(result); });
+
 ### Function.prototype.asyncCall()
 
 * type: instance
