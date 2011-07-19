@@ -185,6 +185,33 @@ Async 是一个用于统一 JavaScript 异步编程模式的组件，通过让�
 		.next(plusOneAsync)
 		.next(function(i) { alert(i); });
 
+### Async.collect()
+
+* type: static
+* input:
+	* functions : Array
+	* functionArguments : Array (optional)
+* output: operation : Operation
+
+创建一个异步操作，它包含若干个并行的同步或异步子操作，仅当所有子操作都完成后该异步操作进行回调。
+
+	var plusOne = function(i) {
+		return i + 1;
+	};
+	
+	var plusOneAsync = function(i) {
+		var operation = new Async.Operation();
+		setTimeout(function() { operation.yield(i + 1); }, 1000);
+		return operation;
+	};
+	
+	var parallelOperation = Async
+		.collect([
+			plusOne,
+			plusOneAsync
+		], [99, 100]);
+	parallelOperation(function(results) { alert(results); });
+
 ### Async.wait()
 
 * type: static
