@@ -963,4 +963,44 @@ function testAsync() {
 			start();
 		}, syncFunctionDelay)
 	});
+	
+	test("async collect composition", function() {
+	    expect(4);
+	    
+		var syncFunctionDelay = 100;
+		
+	    var functions = [
+	        function() { return 0; },
+	        function(i) { return i; },
+	        function() { return Async.instant(2); },
+	        function(i) { return Async.instant(i); }
+	    ];
+	    
+	    var functionArguments = [
+	        undefined,
+	        [1],
+	        undefined,
+	        [3]
+	    ];
+	    
+	    stop();
+	    
+	    Async
+	        .collect(functions)
+	        .addCallback(function(results) {
+	            ok(true, "callback called")
+	            same(results, [0, undefined, 2, undefined], "callback results from functions without arguments");
+	        });
+	    
+	    Async
+	        .collect(functions, functionArguments)
+	        .addCallback(function(results) {
+	            ok(true, "callback called")
+	            same(results, [0, 1, 2, 3], "callback results from functions with arguments");
+	        });
+	    
+		setTimeout(function() {
+			start();
+		}, syncFunctionDelay)
+	});
 }
