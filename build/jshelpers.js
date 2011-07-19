@@ -180,6 +180,42 @@
     Async.go = function(initialArgument) {
         return Async.chain().go(initialArgument);
     }
+    
+    Async.collect = function(functions, functionArguments) {
+        var operation = new Async.Operation()
+        var results = [];
+        var count = 0;
+        
+        var checkCount = function() {
+            if (count == functions.length) {
+                operation.yield(results);
+            }
+        };
+        
+        for (var i = 0; i < functions.length; i++) {
+            (function(i) {
+                var functionResult;
+                if (functionArguments && functionArguments[i]) {
+                    functionResult = functions[i].apply(this, functionArguments[i]);
+                } else {
+                    functionResult = functions[i].apply(this, []);
+                }
+                if (functionResult && functionResult instanceof Async.Operation) {
+                    functionResult.addCallback(function(result) {
+                        results[i] = result;
+                        count++
+                        checkCount();
+                    });
+                } else {
+                    results[i] = functionResult;
+                    count++;
+                    checkCount();
+                }
+            })(i);
+        }
+        
+        return operation;
+    };
 
     Async.wait = function(delay, context) {
         var operation = new Async.Operation();
