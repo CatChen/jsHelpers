@@ -68,7 +68,7 @@
                         var callback = callbackQueue.shift();
                         if (chain) {
                             try {
-                                var callbackResult = callback(self.result);
+                                var callbackResult = callback.call(self, self.result);
                             } catch (error) {
                                 self.error = error;
                                 self.state = "error";
@@ -105,7 +105,7 @@
                             }
                         } else {
                             try {
-                                callback(self.result);
+                                callback.call(self, self.result);
                             } catch (error) {
                                 self.error = error;
                                 self.state = "error";
