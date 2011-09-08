@@ -1,6 +1,6 @@
 (function() {
     var Central = {};
-    if (module && module.exports) {
+    if (typeof module != 'undefined' && module.exports) {
         module.exports = Central;
     } else if (window) {
         window.Central = Central;

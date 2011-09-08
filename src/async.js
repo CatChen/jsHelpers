@@ -1,6 +1,6 @@
 (function() {
     var Async = {};
-    if (module && module.exports) {
+    if (typeof module != 'undefined' && module.exports) {
         module.exports = Async;
     } else if (window) {
         window.Async = Async;
