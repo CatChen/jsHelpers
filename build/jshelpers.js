@@ -1,6 +1,6 @@
 (function() {
     var Async = {};
-    if (module && module.exports) {
+    if (typeof module != 'undefined' && module.exports) {
         module.exports = Async;
     } else if (window) {
         window.Async = Async;
@@ -68,7 +68,7 @@
                         var callback = callbackQueue.shift();
                         if (chain) {
                             try {
-                                var callbackResult = callback(self.result);
+                                var callbackResult = callback.call(self, self.result);
                             } catch (error) {
                                 self.error = error;
                                 self.state = "error";
@@ -105,7 +105,7 @@
                             }
                         } else {
                             try {
-                                callback(self.result);
+                                callback.call(self, self.result);
                             } catch (error) {
                                 self.error = error;
                                 self.state = "error";
@@ -256,7 +256,7 @@
 })();
 (function() {
     var Central = {};
-    if (module && module.exports) {
+    if (typeof module != 'undefined' && module.exports) {
         module.exports = Central;
     } else if (window) {
         window.Central = Central;
@@ -303,7 +303,7 @@
 })();
 (function() {
     var GrandCentral = {};
-    if (module && module.exports) {
+    if (typeof module != 'undefined' && module.exports) {
         module.exports = GrandCentral;
     } else if (window) {
         window.GrandCentral = GrandCentral;
@@ -1313,7 +1313,7 @@
         }
     };
 
-    if (module && module.exports) {
+    if (typeof module != 'undefined' && module.exports) {
         module.exports = List;
     } else if (window) {
         window.List = List;
@@ -1416,7 +1416,7 @@
 })();
 (function() {
     var Overload = {};
-    if (module && module.exports) {
+    if (typeof module != 'undefined' && module.exports) {
         module.exports = Overload;
     } else if (window) {
         window.Overload = Overload;

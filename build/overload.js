@@ -1,6 +1,6 @@
 (function() {
     var Overload = {};
-    if (module && module.exports) {
+    if (typeof module != 'undefined' && module.exports) {
         module.exports = Overload;
     } else if (window) {
         window.Overload = Overload;
