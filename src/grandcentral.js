@@ -1,6 +1,6 @@
 (function() {
     var GrandCentral = {};
-    if (module && module.exports) {
+    if (typeof module != 'undefined' && module.exports) {
         module.exports = GrandCentral;
     } else if (window) {
         window.GrandCentral = GrandCentral;

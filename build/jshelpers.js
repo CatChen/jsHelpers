@@ -1,6 +1,6 @@
 (function() {
     var Async = {};
-    if (module && module.exports) {
+    if (typeof module != 'undefined' && module.exports) {
         module.exports = Async;
     } else if (window) {
         window.Async = Async;
@@ -68,7 +68,7 @@
                         var callback = callbackQueue.shift();
                         if (chain) {
                             try {
-                                var callbackResult = callback(self.result);
+                                var callbackResult = callback.call(self, self.result);
                             } catch (error) {
                                 self.error = error;
                                 self.state = "error";
@@ -105,7 +105,7 @@
                             }
                         } else {
                             try {
-                                callback(self.result);
+                                callback.call(self, self.result);
                             } catch (error) {
                                 self.error = error;
                                 self.state = "error";
@@ -180,6 +180,42 @@
     Async.go = function(initialArgument) {
         return Async.chain().go(initialArgument);
     }
+    
+    Async.collect = function(functions, functionArguments) {
+        var operation = new Async.Operation()
+        var results = [];
+        var count = 0;
+        
+        var checkCount = function() {
+            if (count == functions.length) {
+                operation.yield(results);
+            }
+        };
+        
+        for (var i = 0; i < functions.length; i++) {
+            (function(i) {
+                var functionResult;
+                if (functionArguments && functionArguments[i]) {
+                    functionResult = functions[i].apply(this, functionArguments[i]);
+                } else {
+                    functionResult = functions[i].apply(this, []);
+                }
+                if (functionResult && functionResult instanceof Async.Operation) {
+                    functionResult.addCallback(function(result) {
+                        results[i] = result;
+                        count++
+                        checkCount();
+                    });
+                } else {
+                    results[i] = functionResult;
+                    count++;
+                    checkCount();
+                }
+            })(i);
+        }
+        
+        return operation;
+    };
 
     Async.wait = function(delay, context) {
         var operation = new Async.Operation();
@@ -220,7 +256,7 @@
 })();
 (function() {
     var Central = {};
-    if (module && module.exports) {
+    if (typeof module != 'undefined' && module.exports) {
         module.exports = Central;
     } else if (window) {
         window.Central = Central;
@@ -267,7 +303,7 @@
 })();
 (function() {
     var GrandCentral = {};
-    if (module && module.exports) {
+    if (typeof module != 'undefined' && module.exports) {
         module.exports = GrandCentral;
     } else if (window) {
         window.GrandCentral = GrandCentral;
@@ -1277,7 +1313,7 @@
         }
     };
 
-    if (module && module.exports) {
+    if (typeof module != 'undefined' && module.exports) {
         module.exports = List;
     } else if (window) {
         window.List = List;
@@ -1380,7 +1416,7 @@
 })();
 (function() {
     var Overload = {};
-    if (module && module.exports) {
+    if (typeof module != 'undefined' && module.exports) {
         module.exports = Overload;
     } else if (window) {
         window.Overload = Overload;

@@ -1,6 +1,6 @@
 (function() {
     var Overload = {};
-    if (module && module.exports) {
+    if (typeof module != 'undefined' && module.exports) {
         module.exports = Overload;
     } else if (window) {
         window.Overload = Overload;
@@ -17,7 +17,7 @@
     };
 
 	var parseSignature = function(signature) {
-		if (signature.replace(/(^\s+|\s+$)/ig, "") == "") {
+		if (signature.replace(/(^\s+|\s+$)/ig, "") === "") {
 			signature = [];
 		} else {
 			signature = signature.split(",");
@@ -204,10 +204,10 @@
     };
     
     Overload.Any = function any() {
-        throw "this type is only an identifier and should not be instantiated"
+        throw "this type is only an identifier and should not be instantiated";
     };
 
     Overload.More = function more() {
-        throw "this type is only an identifier and should not be instantiated"
+        throw "this type is only an identifier and should not be instantiated";
     };
 })();

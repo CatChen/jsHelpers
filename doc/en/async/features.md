@@ -185,6 +185,33 @@ Create an asynchronous function queue and start the queue imidiately. If an argu
 		.next(plusOneAsync)
 		.next(function(i) { alert(i); });
 
+### Async.collect()
+
+* type: static
+* input:
+	* functions : Array
+	* functionArguments : Array (optional)
+* output: operation : Operation
+
+Create an asynchronous operation containing a set of parallel child operations. The operation will call its callbacks when all child operations are completed.
+
+	var plusOne = function(i) {
+		return i + 1;
+	};
+	
+	var plusOneAsync = function(i) {
+		var operation = new Async.Operation();
+		setTimeout(function() { operation.yield(i + 1); }, 1000);
+		return operation;
+	};
+	
+	var parallelOperation = Async
+		.collect([
+			plusOne,
+			plusOneAsync
+		], [99, 100]);
+	parallelOperation(function(results) { alert(results); });
+
 ### Async.wait()
 
 * type: static

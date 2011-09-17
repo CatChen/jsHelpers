@@ -42,3 +42,7 @@ You will need showdown and mustache to rebuild the documentations.
     npm install showdown mustache
     cd doc
     node build.js
+
+# Changelog
+
+See the [changelog](https://github.com/CatChen/jsHelpers/blob/master/changelog.md) file.
