@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.6
+
+* Added support for exporting as YUI module.
+
 ## 1.0.5
 
 * Replaced all `.yield` in Async and List with `["yield"]` in order to avoid the use of reserved word.
