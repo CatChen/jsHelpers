@@ -41,7 +41,7 @@
             raiseGlobalError(operation);
         };
 
-        this.yield = function(result) {
+        this["yield"] = function(result) {
             var self = this;
             
             if (self.error) {
@@ -140,13 +140,13 @@
         };
 
         this.go = function(initialArgument) {
-            return this.yield(initialArgument);
-        }
+            return this["yield"](initialArgument);
+        };
 
         this.addCallback = function(callback) {
             callbackQueue.push(callback);
             if (this.completed || (chain && started)) {
-                this.yield(this.result);
+                this["yield"](this.result);
             }
             return this;
         };
@@ -179,16 +179,16 @@
 
     Async.go = function(initialArgument) {
         return Async.chain().go(initialArgument);
-    }
+    };
     
     Async.collect = function(functions, functionArguments) {
-        var operation = new Async.Operation()
+        var operation = new Async.Operation();
         var results = [];
         var count = 0;
         
         var checkCount = function() {
             if (count == functions.length) {
-                operation.yield(results);
+                operation["yield"](results);
             }
         };
         
@@ -203,7 +203,7 @@
                 if (functionResult && functionResult instanceof Async.Operation) {
                     functionResult.addCallback(function(result) {
                         results[i] = result;
-                        count++
+                        count++;
                         checkCount();
                     });
                 } else {
@@ -220,14 +220,14 @@
     Async.wait = function(delay, context) {
         var operation = new Async.Operation();
         setTimeout(function() {
-            operation.yield(context);
+            operation["yield"](context);
         }, delay);
         return operation;
-    }
+    };
     
     Async.instant = function(context) {
         return Async.wait(0, context);
-    }
+    };
     
     Async.onerror = function(callback) {
         globalErrorCallbacks.push(callback);
@@ -247,7 +247,7 @@
         var operation = new Async.Operation();
         var self = this;
         setTimeout(function() {
-            operation.yield(self.apply(thisReference, argumentsArray || []));
+            operation["yield"](self.apply(thisReference, argumentsArray || []));
             /* default value for argumentsArray is empty array */
             /* IE8 throws when argumentsArray is undefined */
         }, 1);
@@ -490,14 +490,13 @@
     var AbstractEnumerator = function() {
     };
     
-    AbstractEnumerator.prototype.item = function() { throw "abstract enumerator should not be instantiated"; }
-    AbstractEnumerator.prototype.next = function() { throw "abstract enumerator should not be instantiated"; }
-    AbstractEnumerator.prototype.reset = function() { throw "abstract enumerator should not be instantiated"; }
+    AbstractEnumerator.prototype.item = function() { throw "abstract enumerator should not be instantiated"; };
+    AbstractEnumerator.prototype.next = function() { throw "abstract enumerator should not be instantiated"; };
+    AbstractEnumerator.prototype.reset = function() { throw "abstract enumerator should not be instantiated"; };
     
     var ArrayEnumerator = function(array) {
         var BEFORE = 0, RUNNING = 1, AFTER = 2;
         var state = BEFORE;
-        var array = array;
         var index = 0;
         
         this.item = function() {
@@ -513,7 +512,7 @@
         this.next = function() {
             switch (state) {
                 case BEFORE:
-                    if (array.length == 0) {
+                    if (array.length === 0) {
                         state = AFTER;
                     } else {
                         state = RUNNING;
@@ -590,28 +589,28 @@
         if (extensions.item) {
             this.item = function() {
                 return extensions.item(innerEnumerator);
-            }
+            };
         }
         
         if (extensions.next) {
             this.next = function() {
                 return extensions.next(innerEnumerator);
-            }
+            };
         }
         
         if (extensions.reset) {
             this.reset = function() {
                 return extensions.reset(innerEnumerator);
-            }
+            };
         }
     };
     
     StackedEnumerator.prototype = new AbstractEnumerator();
     
     var GeneratorProxy = function(handlers) {
-        this.yield = function(object) {
-            if (handlers.yield) {
-                handlers.yield(object);
+        this["yield"] = function(object) {
+            if (handlers["yield"]) {
+                handlers["yield"](object);
             }
         };
         
@@ -661,7 +660,7 @@
             enumerator.reset();
             while (enumerator.next()) {
                 arrayCache[cacheIndex] = enumerator.item();
-                if (index == 0) {
+                if (index === 0) {
                     var item = arrayCache[cacheIndex];
                     return item;
                 } else {
@@ -994,7 +993,7 @@
         var index = NaN;
         
         var proxy = new GeneratorProxy({
-            yield: function(object) {
+            "yield": function(object) {
                 if (yieldState != AFTER) {
                     arrayCache[arrayCache.length] = object;
                 }
@@ -1080,8 +1079,8 @@
     };
     
     List.count = function(start, step) {
-        var start = start || 0;
-        var step = step || 1;
+        start = start || 0;
+        step = step || 1;
         return List.iterate(function(object) { return object + step; }, start);
     };
     
@@ -1106,7 +1105,6 @@
                         lists[listsIndex].enumerator().reset();
                         state = RUNNING;
                         return enumerator.next();
-                        break;
                     case RUNNING:
                         if (!lists[listsIndex].enumerator().next()) {
                             listsIndex++;
@@ -1138,7 +1136,7 @@
         var lists = [].slice.call(arguments, 1);
         var state = RUNNING;
         
-        if (lists.length == 0) {
+        if (lists.length === 0) {
             return new List([]);
         }
         
@@ -1217,7 +1215,7 @@
                 return accumulation > object ? accumulation : object;
             }, first);
         } else {
-            throw "cannot process empty list"
+            throw "cannot process empty list";
         }
     };
 
@@ -1228,7 +1226,7 @@
                 return accumulation < object ? accumulation : object;
             }, first);
         } else {
-            throw "cannot process empty list"
+            throw "cannot process empty list";
         }
     };
 
@@ -1395,7 +1393,7 @@
             });
         };
 
-        this.reduce = function(callbackfn, initialValue) {
+        var reduce = this.reduce = function(callbackfn, initialValue) {
             if (arguments.length > 1) {
                 return this.fold(function(accumulation, object) {
                     return callbackfn.call(undefined, accumulation, object);
@@ -1411,8 +1409,6 @@
     };
     
     ES5Array.prototype = new List();
-    
-    var reduce = new ES5Array(0).reduce;    
 })();
 (function() {
     var Overload = {};
@@ -1433,7 +1429,7 @@
     };
 
 	var parseSignature = function(signature) {
-		if (signature.replace(/(^\s+|\s+$)/ig, "") == "") {
+		if (signature.replace(/(^\s+|\s+$)/ig, "") === "") {
 			signature = [];
 		} else {
 			signature = signature.split(",");
@@ -1620,10 +1616,10 @@
     };
     
     Overload.Any = function any() {
-        throw "this type is only an identifier and should not be instantiated"
+        throw "this type is only an identifier and should not be instantiated";
     };
 
     Overload.More = function more() {
-        throw "this type is only an identifier and should not be instantiated"
+        throw "this type is only an identifier and should not be instantiated";
     };
 })();
