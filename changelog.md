@@ -1,17 +1,26 @@
 # Changelog
 
+## 1.0.5
+
+* Replaced all `.yield` in Async and List with `["yield"]` in order to avoid the use of reserved word.
+* Minor code tweak.
+
+## 1.0.4
+
+* Fixed the misuse of module causing all scripts stop working for browsers.
+
 ## 1.0.3
 
-Added `Async.collect` for parallel operations.
+* Added `Async.collect` for parallel operations.
 
 ## 1.0.2
 
-Redesign `...` (aka `Overload.More`) usage to make it work like CoffeeScript's.
+* Redesign `...` (aka `Overload.More`) usage to make it work like CoffeeScript's.
 
 ## 1.0.1
 
-Added `Async.instant` as a short-cut to `Async.wait(0, content)`.
+* Added `Async.instant` as a short-cut to `Async.wait(0, content)`.
 
 ## 1.0
 
-First stable release.
+* First stable release.

@@ -41,7 +41,7 @@
             raiseGlobalError(operation);
         };
 
-        this.yield = function(result) {
+        this["yield"] = function(result) {
             var self = this;
             
             if (self.error) {
@@ -140,13 +140,13 @@
         };
 
         this.go = function(initialArgument) {
-            return this.yield(initialArgument);
-        }
+            return this["yield"](initialArgument);
+        };
 
         this.addCallback = function(callback) {
             callbackQueue.push(callback);
             if (this.completed || (chain && started)) {
-                this.yield(this.result);
+                this["yield"](this.result);
             }
             return this;
         };
@@ -179,16 +179,16 @@
 
     Async.go = function(initialArgument) {
         return Async.chain().go(initialArgument);
-    }
+    };
     
     Async.collect = function(functions, functionArguments) {
-        var operation = new Async.Operation()
+        var operation = new Async.Operation();
         var results = [];
         var count = 0;
         
         var checkCount = function() {
             if (count == functions.length) {
-                operation.yield(results);
+                operation["yield"](results);
             }
         };
         
@@ -203,7 +203,7 @@
                 if (functionResult && functionResult instanceof Async.Operation) {
                     functionResult.addCallback(function(result) {
                         results[i] = result;
-                        count++
+                        count++;
                         checkCount();
                     });
                 } else {
@@ -220,14 +220,14 @@
     Async.wait = function(delay, context) {
         var operation = new Async.Operation();
         setTimeout(function() {
-            operation.yield(context);
+            operation["yield"](context);
         }, delay);
         return operation;
-    }
+    };
     
     Async.instant = function(context) {
         return Async.wait(0, context);
-    }
+    };
     
     Async.onerror = function(callback) {
         globalErrorCallbacks.push(callback);
@@ -247,7 +247,7 @@
         var operation = new Async.Operation();
         var self = this;
         setTimeout(function() {
-            operation.yield(self.apply(thisReference, argumentsArray || []));
+            operation["yield"](self.apply(thisReference, argumentsArray || []));
             /* default value for argumentsArray is empty array */
             /* IE8 throws when argumentsArray is undefined */
         }, 1);
