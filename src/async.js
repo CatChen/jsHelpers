@@ -2,7 +2,13 @@
     var Async = {};
     if (typeof module != 'undefined' && module.exports) {
         module.exports = Async;
-    } else if (window) {
+    } else if (typeof YUI != 'undefined' && YUI.add) {
+        YUI.add('async', function(Y) {
+            Y.Async = Async;
+        }, '1.0.6', {
+            requires: []
+        })
+    } else if (typeof window == 'object') {
         window.Async = Async;
     } else {
         return;
