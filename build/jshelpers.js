@@ -2,7 +2,13 @@
     var Async = {};
     if (typeof module != 'undefined' && module.exports) {
         module.exports = Async;
-    } else if (window) {
+    } else if (typeof YUI != 'undefined' && YUI.add) {
+        YUI.add('async', function(Y) {
+            Y.Async = Async;
+        }, '1.0.6', {
+            requires: []
+        })
+    } else if (typeof window == 'object') {
         window.Async = Async;
     } else {
         return;
@@ -258,7 +264,13 @@
     var Central = {};
     if (typeof module != 'undefined' && module.exports) {
         module.exports = Central;
-    } else if (window) {
+    } else if (typeof YUI != 'undefined' && YUI.add) {
+        YUI.add('central', function(Y) {
+            Y.Central = Central;
+        }, '1.0.6', {
+            requires: []
+        })
+    } else if (typeof window == 'object') {
         window.Central = Central;
     } else {
         return;
@@ -305,7 +317,13 @@
     var GrandCentral = {};
     if (typeof module != 'undefined' && module.exports) {
         module.exports = GrandCentral;
-    } else if (window) {
+    } else if (typeof YUI != 'undefined' && YUI.add) {
+        YUI.add('grandcentral', function(Y) {
+            Y.GrandCentral = GrandCentral;
+        }, '1.0.6', {
+            requires: []
+        })
+    } else if (typeof window == 'object') {
         window.GrandCentral = GrandCentral;
     } else {
         return;
@@ -1313,7 +1331,13 @@
 
     if (typeof module != 'undefined' && module.exports) {
         module.exports = List;
-    } else if (window) {
+    } else if (typeof YUI != 'undefined' && YUI.add) {
+        YUI.add('list', function(Y) {
+            Y.List = List;
+        }, '1.0.6', {
+            requires: []
+        })
+    } else if (typeof window == 'object') {
         window.List = List;
     } else {
         return;
@@ -1414,7 +1438,13 @@
     var Overload = {};
     if (typeof module != 'undefined' && module.exports) {
         module.exports = Overload;
-    } else if (window) {
+    } else if (typeof YUI != 'undefined' && YUI.add) {
+        YUI.add('overload', function(Y) {
+            Y.Overload = Overload;
+        }, '1.0.6', {
+            requires: []
+        })
+    } else if (typeof window == 'object') {
         window.Overload = Overload;
     } else {
         return;
