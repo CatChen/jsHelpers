@@ -14,7 +14,7 @@
 <body>
     <div id="index" class="collapsed">
         <a id="toggle" href="###" onclick="window.toggleTreeVisibility()">Show Index</a>
-        <ul><li><a href="#Async 功能列表">Async 功能列表</a><ul><li><a href="#Async.Operation">Async.Operation</a><ul><li><a href="#Async.Operation.result">Async.Operation.result</a></li><li><a href="#Async.Operation.state">Async.Operation.state</a></li><li><a href="#Async.Operation.completed">Async.Operation.completed</a></li><li><a href="#Async.Operation.yield()">Async.Operation.yield()</a></li><li><a href="#Async.Operation.addCallback()">Async.Operation.addCallback()</a></li></ul></li><li><a href="#Async.chain()">Async.chain()</a><ul><li><a href="#Async.chain().result">Async.chain().result</a></li><li><a href="#Async.chain().state">Async.chain().state</a></li><li><a href="#Async.chain().completed">Async.chain().completed</a></li><li><a href="#Async.chain().next()">Async.chain().next()</a></li><li><a href="#Async.chain().go()">Async.chain().go()</a></li><li><a href="#Async.chain().wait()">Async.chain().wait()</a></li></ul></li><li><a href="#Helpers">Helpers</a><ul><li><a href="#Async.go()">Async.go()</a></li><li><a href="#Async.wait()">Async.wait()</a></li><li><a href="#Async.instant()">Async.instant()</a></li><li><a href="#Function.prototype.asyncCall()">Function.prototype.asyncCall()</a></li><li><a href="#Function.prototype.asyncApply()">Function.prototype.asyncApply()</a></li></ul></li></ul></li></ul>
+        <ul><li><a href="#Async 功能列表">Async 功能列表</a><ul><li><a href="#Async.Operation">Async.Operation</a><ul><li><a href="#Async.Operation.result">Async.Operation.result</a></li><li><a href="#Async.Operation.state">Async.Operation.state</a></li><li><a href="#Async.Operation.completed">Async.Operation.completed</a></li><li><a href="#Async.Operation.yield()">Async.Operation.yield()</a></li><li><a href="#Async.Operation.addCallback()">Async.Operation.addCallback()</a></li></ul></li><li><a href="#Async.chain()">Async.chain()</a><ul><li><a href="#Async.chain().result">Async.chain().result</a></li><li><a href="#Async.chain().state">Async.chain().state</a></li><li><a href="#Async.chain().completed">Async.chain().completed</a></li><li><a href="#Async.chain().next()">Async.chain().next()</a></li><li><a href="#Async.chain().go()">Async.chain().go()</a></li><li><a href="#Async.chain().wait()">Async.chain().wait()</a></li></ul></li><li><a href="#Helpers">Helpers</a><ul><li><a href="#Async.go()">Async.go()</a></li><li><a href="#Async.collect()">Async.collect()</a></li><li><a href="#Async.wait()">Async.wait()</a></li><li><a href="#Async.instant()">Async.instant()</a></li><li><a href="#Function.prototype.asyncCall()">Function.prototype.asyncCall()</a></li><li><a href="#Function.prototype.asyncApply()">Function.prototype.asyncApply()</a></li></ul></li></ul></li></ul>
     </div>
     <div id="content">
         <h1><a name="Async 功能列表">Async 功能列表</a></h1>
@@ -236,6 +236,36 @@ Async
     .next(plusOne)
     .next(plusOneAsync)
     .next(function(i) { alert(i); });
+</code></pre>
+
+<h3><a name="Async.collect()">Async.collect()</a></h3>
+
+<ul>
+<li>type: static</li>
+<li>input:
+<ul><li>functions : Array</li>
+<li>functionArguments : Array (optional)</li></ul></li>
+<li>output: operation : Operation</li>
+</ul>
+
+<p>创建一个异步操作，它包含若干个并行的同步或异步子操作，仅当所有子操作都完成后该异步操作进行回调。</p>
+
+<pre><code class="brush: js">var plusOne = function(i) {
+    return i + 1;
+};
+
+var plusOneAsync = function(i) {
+    var operation = new Async.Operation();
+    setTimeout(function() { operation.yield(i + 1); }, 1000);
+    return operation;
+};
+
+var parallelOperation = Async
+    .collect([
+        plusOne,
+        plusOneAsync
+    ], [99, 100]);
+parallelOperation(function(results) { alert(results); });
 </code></pre>
 
 <h3><a name="Async.wait()">Async.wait()</a></h3>
