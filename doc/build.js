@@ -80,7 +80,8 @@ var processDirectory = function(directory) {
         } else if (fileName.match(/\.md$/)) {
             console.log('read file: ' + fileFullName);
             var fileContent = String(fs.readFileSync(fileFullName));
-            var relativePath = new Array(directory.split('/').length + 1).join('../');
+            var directoryDepth = (directory == '.') ? 0 : directory.split('/').length + 1;
+            var relativePath = new Array(directoryDepth).join('../');
             var htmlContent = processContent(showdown.makeHtml(fileContent));
             var indexContent = buildIndex(htmlContent);
             var convertedFileContent = mustache.to_html(template, {
