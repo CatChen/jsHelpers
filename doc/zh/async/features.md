@@ -210,7 +210,7 @@ Async 是一个用于统一 JavaScript 异步编程模式的组件，通过让�
 			plusOne,
 			plusOneAsync
 		], [99, 100]);
-	parallelOperation(function(results) { alert(results); });
+	parallelOperation.addCallback(function(results) { alert(results); });
 
 ### Async.wait()
 

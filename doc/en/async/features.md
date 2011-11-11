@@ -210,7 +210,7 @@ Create an asynchronous operation containing a set of parallel child operations. 
 			plusOne,
 			plusOneAsync
 		], [99, 100]);
-	parallelOperation(function(results) { alert(results); });
+	parallelOperation.addCallback(function(results) { alert(results); });
 
 ### Async.wait()
 

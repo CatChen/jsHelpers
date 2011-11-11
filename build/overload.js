@@ -2,7 +2,13 @@
     var Overload = {};
     if (typeof module != 'undefined' && module.exports) {
         module.exports = Overload;
-    } else if (window) {
+    } else if (typeof YUI != 'undefined' && YUI.add) {
+        YUI.add('overload', function(Y) {
+            Y.Overload = Overload;
+        }, '1.0.6', {
+            requires: []
+        })
+    } else if (typeof window == 'object') {
         window.Overload = Overload;
     } else {
         return;
@@ -17,7 +23,7 @@
     };
 
 	var parseSignature = function(signature) {
-		if (signature.replace(/(^\s+|\s+$)/ig, "") == "") {
+		if (signature.replace(/(^\s+|\s+$)/ig, "") === "") {
 			signature = [];
 		} else {
 			signature = signature.split(",");
@@ -204,10 +210,10 @@
     };
     
     Overload.Any = function any() {
-        throw "this type is only an identifier and should not be instantiated"
+        throw "this type is only an identifier and should not be instantiated";
     };
 
     Overload.More = function more() {
-        throw "this type is only an identifier and should not be instantiated"
+        throw "this type is only an identifier and should not be instantiated";
     };
 })();

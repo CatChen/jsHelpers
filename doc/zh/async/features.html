@@ -265,7 +265,7 @@ var parallelOperation = Async
         plusOne,
         plusOneAsync
     ], [99, 100]);
-parallelOperation(function(results) { alert(results); });
+parallelOperation.addCallback(function(results) { alert(results); });
 </code></pre>
 
 <h3><a name="Async.wait()">Async.wait()</a></h3>
