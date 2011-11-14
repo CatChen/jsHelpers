@@ -76,7 +76,7 @@ function testOverload() {
 	});
 	
 	test("overload support for more arguments after argument list", function() {
-		expect(3);
+		expect(5);
 		
 		var join = Overload
 			.add("*",
@@ -85,16 +85,22 @@ function testOverload() {
 				function(x, y) { return [x, y]; })
 			.add("*, *, ...", 
 				function() {
-					var result = [];
-					for (var i = 0; i < arguments.length; i++) {
-						result.push(arguments[i]);
-					}
-					return result;
-				});
+					return [].slice.call(arguments, 0);
+				})
+			.add("*, *, *, *", 
+			    function() {
+					return [].slice.call(arguments, 0);
+				})
+			.add("*, *, *, *, *, ...", 
+			    function() {
+					return [].slice.call(arguments, 0);
+				})
 		
 		same(join(new Object()), [new Object()], 'join(new Object())');
 		same(join("hello", "world"), ["hello", "world"], 'join("hello", "world")');
-		same(join(1, 2, 3, 4), [1, 2, [3, 4]], "join(1, 2, 3, 4)");
+		same(join(1, 2, 3), [1, 2, [3]], "join(1, 2, 3)");
+		same(join(1, 2, 3, 4), [1, 2, 3, 4], "join(1, 2, 3, 4)");
+		same(join(1, 2, 3, 4, 5), [1, 2, 3, 4, 5, []], "join(1, 2, 3, 4, 5)");
 	});
 	
 	test("overload resolution for arguments in the same inheritance hierarchy", function() {
