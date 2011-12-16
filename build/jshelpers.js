@@ -1517,15 +1517,13 @@
         } else if(signature1.more && signature2.more) {
             /* Function.more exisits in both signature */
             if (signature1.length > signature2.length) {
-                signature2 = copySignature(signature2);
-                while (signature2.length < signature1.length) {
-                    signature2[signature2.length] = Overload.Any;
-                }
-            } else if (signature1.length < signature2.length) {
+                signature1Better = true;
                 signature1 = copySignature(signature1);
-                while (signature1.length < signature2.length) {
-                    signature1[signature1.length] = Overload.Any;
-                }
+                signature1.length = signature2.length;
+            } else if (signature1.length < signature2.length) {
+                signature2Better = true;
+                signature2 = copySignature(signature2);
+                signature2.length = signature1.length;
             }
         }
         for (var i = 0; i < signature1.length; i++) {
@@ -1541,6 +1539,7 @@
         } else if (!signature1Better && signature2Better) {
             return -1;
         } else {
+            /* if both signatures are better in some way it means a conflict */
             return 0;
         }
     };
@@ -1597,7 +1596,7 @@
             var overload = select(arguments);
             if (overload) {
                 var transformedArguments = Array.prototype.slice.call(arguments, 0);
-                if (transformedArguments.length > overload.signature.length) {
+                if (overload.signature.more) {
                     var moreArguments = transformedArguments.splice(overload.signature.length);
                     transformedArguments.push(moreArguments);
                 }
