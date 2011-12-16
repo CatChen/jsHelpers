@@ -2,12 +2,13 @@
     "name": "jshelpers",
     "description": "Helpers for JavaScript",
     "homepage": "http://catchen.github.com/jsHelpers/",
-    "version": "1.0.7",
+    "version": "1.0.8",
     "author": {
         "name": "Cat Chen",
         "email": "catchen@catchen.me",
         "web": "http://catchen.me"
     },
+    "main": "./index.js",
     "directories": {
         "lib": "./src",
         "doc": "./doc",
